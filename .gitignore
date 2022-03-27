@@ -1,0 +1,7 @@
+./tmp/
+**.DS_Store
+*.swp
+*.swo
+*.o
+*.a
+minishell
