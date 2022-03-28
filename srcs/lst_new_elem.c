@@ -1,31 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   lst_new_elem.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/26 17:23:05 by vismaily          #+#    #+#             */
-/*   Updated: 2022/03/28 11:09:08 by vismaily         ###   ########.fr       */
+/*   Created: 2022/03/28 10:48:39 by vismaily          #+#    #+#             */
+/*   Updated: 2022/03/28 11:11:14 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "minishell.h"
 
-# include <stdio.h>
-# include "libft.h"
-
-typedef struct s_env
+t_env	*lst_new_elem(char *name, char *value)
 {
-	char			*name;
-	char			*value;
-	struct s_env	*next;
-}			t_env;
+	t_env	*new_elem;
 
-t_env		**env_to_list(char **envp);
-t_env		*lst_last(t_env *lst);
-void		lst_add_back(t_env **lst, t_env *new_node);
-t_env		*lst_new_elem(char *name, char *value);
-
-#endif
+	new_elem = (t_env *)malloc(sizeof(t_env));
+	if (!new_elem)
+		return (0);
+	new_elem->name = name;
+	new_elem->value = value;
+	new_elem->next = 0;
+	return (new_elem);
+}
