@@ -6,17 +6,17 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 10:48:39 by vismaily          #+#    #+#             */
-/*   Updated: 2022/03/28 11:11:14 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/03/29 19:04:41 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_env	*lst_new_elem(char *name, char *value)
+t_var	*lst_new_elem(char *name, char *value)
 {
-	t_env	*new_elem;
+	t_var	*new_elem;
 
-	new_elem = (t_env *)malloc(sizeof(t_env));
+	new_elem = (t_var *)malloc(sizeof(t_var));
 	if (!new_elem)
 		return (0);
 	new_elem->name = name;

@@ -6,17 +6,17 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 17:22:35 by vismaily          #+#    #+#             */
-/*   Updated: 2022/03/28 11:33:38 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/03/29 19:02:02 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_env	*env_content(char *before_eq, char *after_eq)
+static t_var	*env_content(char *before_eq, char *after_eq)
 {
 	char	*name;
 	char	*value;
-	t_env	*node;
+	t_var	*node;
 
 	name = ft_strdup(before_eq);
 	value = ft_strdup(after_eq);
@@ -24,17 +24,17 @@ static t_env	*env_content(char *before_eq, char *after_eq)
 	return (node);
 }
 
-t_env	**env_to_list(char **envp)
+t_var	**env_to_list(char **envp)
 {
 	int		i;
 	char	*eq;
-	t_env	**env_lst;
-	t_env	*node;
+	t_var	**env_lst;
+	t_var	*node;
 
 	i = 0;
 	while (envp[i] != 0)
 		i++;
-	env_lst = (t_env **)ft_calloc(sizeof(t_env *), i + 1);
+	env_lst = (t_var **)ft_calloc(sizeof(t_var *), i + 1);
 	i = 0;
 	while (envp[i] != 0)
 	{

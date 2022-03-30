@@ -1,24 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lst_last.c                                         :+:      :+:    :+:   */
+/*   parsing_line.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/28 10:46:46 by vismaily          #+#    #+#             */
-/*   Updated: 2022/03/29 19:04:22 by vismaily         ###   ########.fr       */
+/*   Created: 2022/03/29 19:06:22 by vismaily          #+#    #+#             */
+/*   Updated: 2022/03/29 21:11:30 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_var	*lst_last(t_var *lst)
+void	parsing_line(char *line)
 {
-	if (lst)
-	{
-		while (lst->next)
-			lst = lst->next;
-		return (lst);
-	}
-	return (0);
+//	char	*tokens;
+	int		count;
+
+	count = tokens_count(line);
 }

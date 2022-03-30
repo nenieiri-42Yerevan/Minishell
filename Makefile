@@ -14,7 +14,11 @@ LIB			= ./libs
 
 LIBFT		= $(LIB)/libft
 
-LINKERS		= -lft -L$(LIBFT)
+LINKERS		= -lft -L$(LIBFT) -lreadline
+
+#LDGLAGS 	= -L /Users/vismaily/lib
+
+#CPPFLAGS	= -I /Users/vismaily/include
 
 INCLUDES	= -I ./includes
 
@@ -24,6 +28,7 @@ RM			= rm -rf
 
 ./tmp/%.o:	./srcs/%.c ./includes/minishell.h
 			@$(CC) $(CFALGS) $(INCLUDES) -o $@ -c $<
+#			@$(CC) $(CFALGS) $(INCLUDES) $(CPPFLAGS) -o $@ -c $<
 
 all:		$(NAME)
 
@@ -33,6 +38,7 @@ $(TMP):
 $(NAME):	$(TMP) $(OBJS)
 			@$(MAKE) -C $(LIBFT) all
 			@$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) $(LINKERS) -o $(NAME)
+#			@$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) $(LINKERS) $(LDFLAGS) -o $(NAME)
 
 clean:
 			@$(MAKE) -C $(LIBFT) clean
