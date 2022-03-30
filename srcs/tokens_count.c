@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 21:06:03 by vismaily          #+#    #+#             */
-/*   Updated: 2022/03/29 21:07:50 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/03/30 16:23:37 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	quotes(char *line, int *i, int *count, char c)
 		if (line[*i] == '\0')
 		{
 			printf("Error: found not closed quote\n");
-			exit (0);
+			(*count) = -300;
 		}
 		(*count)++;
 		(*i)++;
@@ -37,7 +37,7 @@ static void	words_and_ops(char *line, char *metachars, int *i, int *count)
 			(*i)++;
 		(*count)++;
 	}
-	else if (line[*i] != ' ')
+	else if (line[*i] != ' ' && line[*i] != '\'' && line[*i] != '\"')
 	{
 		while (ft_strchr(metachars, line[*i]) == 0 && \
 				line[*i] != '\0' && line[*i] != ' ')
