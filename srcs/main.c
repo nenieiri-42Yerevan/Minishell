@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 16:14:31 by vismaily          #+#    #+#             */
-/*   Updated: 2022/03/29 21:10:46 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/02 18:46:38 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		line = readline("Minishell$ ");
 		parsing_line(line);
+		free(line);
 	}
 	return (0);
 }

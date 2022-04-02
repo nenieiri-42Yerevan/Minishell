@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 21:06:03 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/02 16:56:33 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/02 20:44:45 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,13 @@ static void	words_and_ops(char *line, char *metachars, int *i, int *count)
 	}
 }
 
-int	tokens_count(char *line)
+int	tokens_count(char *line, char *metachars)
 {
 	int		i;
-	char	metachars[4];
 	int		count;
 
 	i = 0;
 	count = 0;
-	ft_strlcpy(metachars, "<>|", 4);
 	while (line[i] != '\0')
 	{
 		while (line[i] == ' ')
