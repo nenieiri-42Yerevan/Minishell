@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 21:06:03 by vismaily          #+#    #+#             */
-/*   Updated: 2022/03/30 16:23:37 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/02 15:57:57 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ static void	words_and_ops(char *line, char *metachars, int *i, int *count)
 	else if (line[*i] != ' ' && line[*i] != '\'' && line[*i] != '\"')
 	{
 		while (ft_strchr(metachars, line[*i]) == 0 && \
-				line[*i] != '\0' && line[*i] != ' ')
+				line[*i] != '\0' && line[*i] != ' ' && line[*i] != '\'' && \
+				line[*i] != '\"')
 			(*i)++;
 		(*count)++;
 	}
