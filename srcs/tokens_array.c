@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 17:23:59 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/02 20:43:12 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/03 15:58:48 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,17 +66,26 @@ static size_t	spaces(char *line, int *i)
 	return (word_len);
 }
 
-static void	word_malloc(char **tokens, int *j, size_t word_len, char *line)
+static void	word_malloc(t_token **tokens, int *j, size_t word_len, char *line)
 {
 	if (word_len != 0)
 	{
-		tokens[*j] = malloc(sizeof(char) * (word_len + 1));
-		ft_strlcpy(tokens[*j], line, word_len + 1);
+		tokens[*j] = malloc(sizeof(t_token));
+		tokens[*j]->value = malloc(sizeof(char) * (word_len + 1));
+		ft_strlcpy(tokens[*j]->value, line, word_len + 1);
+		if (tokens[*j]->value[0] == '\'')
+			tokens[*j]->type = 's';
+		else if (tokens[*j]->value[0] == '\"')
+			tokens[*j]->type = 'd';
+		else if (ft_strchr("<>|", tokens[*j]->value[0]) != 0)
+			tokens[*j]->type = 'o';
+		else
+			tokens[*j]->type = 'w';
 		(*j)++;
 	}
 }
 
-void	tokens_array(char *line, char **tokens, char *metachars)
+void	tokens_array(char *line, t_token **tokens, char *metachars)
 {
 	int		i;
 	int		j;
@@ -87,7 +96,6 @@ void	tokens_array(char *line, char **tokens, char *metachars)
 	while (line[i] != '\0')
 	{
 		word_len = spaces(line, &i);
-		word_malloc(tokens, &j, word_len, line + i - word_len);
 		word_len = quotes(line, &i, '\'');
 		word_malloc(tokens, &j, word_len, line + i - word_len);
 		word_len = quotes(line, &i, '\"');
