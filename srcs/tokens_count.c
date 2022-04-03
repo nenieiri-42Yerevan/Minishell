@@ -6,44 +6,63 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 21:06:03 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/03 15:02:12 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/03 20:57:34 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	quotes(char *line, int *i, int *count, char c)
+static void	single_quotes(char *line, int *i, int *count, char *metachars)
 {
-	if (line[*i] == c)
+	if (line[*i] == '\'')
 	{
 		(*i)++;
-		while (line[*i] != c && line[*i] != '\0')
+		while (line[*i] != '\'' && line[*i] != '\0')
 			(*i)++;
 		if (line[*i] == '\0')
 		{
 			printf("Error: found not closed quote\n");
 			(*count) = -300;
 		}
-		(*count)++;
 		(*i)++;
+		if (line[*i] == '\0' || ft_strchr(metachars, line[*i]) != 0)
+			(*count)++;
 	}
 }
 
-static void	words_and_ops(char *line, char *metachars, int *i, int *count)
+static void	double_quotes(char *line, int *i, int *count, char *metachars)
 {
-	if (ft_strchr(metachars, line[*i]) != 0)
+	if (line[*i] == '\"')
+	{
+		(*i)++;
+		while (line[*i] != '\"' && line[*i] != '\0')
+			(*i)++;
+		if (line[*i] == '\0')
+		{
+			printf("Error: found not closed quote\n");
+			(*count) = -300;
+		}
+		(*i)++;
+		if (line[*i] == '\0' || ft_strchr(metachars, line[*i]) != 0)
+			(*count)++;
+	}
+}
+
+static void	words_and_ops(char *line, int *i, int *count, char *metachars)
+{
+	if (ft_strchr(metachars, line[*i]) != 0 && line[*i] != '\0')
 	{	
 		while (ft_strchr(metachars, line[*i]) != 0 && line[*i] != '\0')
 			(*i)++;
 		(*count)++;
 	}
-	else if (line[*i] != ' ' && line[*i] != '\'' && line[*i] != '\"')
+	else if (line[*i] != '\'' && line[*i] != '\"' && line[*i] != '\0')
 	{
 		while (ft_strchr(metachars, line[*i]) == 0 && \
-				line[*i] != '\0' && line[*i] != ' ' && line[*i] != '\'' && \
-				line[*i] != '\"')
+				line[*i] != '\0' && line[*i] != '\'' && line[*i] != '\"')
 			(*i)++;
-		(*count)++;
+		if ((line[*i] != '\'' && line[*i] != '\"') || line[*i] == '\0')
+			(*count)++;
 	}
 }
 
@@ -56,13 +75,9 @@ int	tokens_count(char *line, char *metachars)
 	count = 0;
 	while (line[i] != '\0')
 	{
-		while (line[i] == ' ')
-			i++;
-		quotes(line, &i, &count, '\'');
-		quotes(line, &i, &count, '\"');
-		if (line[i] == '\0')
-			break ;
-		words_and_ops(line, metachars, &i, &count);
+		single_quotes(line, &i, &count, metachars);
+		double_quotes(line, &i, &count, metachars);
+		words_and_ops(line, &i, &count, metachars);
 	}
 	return (count);
 }
