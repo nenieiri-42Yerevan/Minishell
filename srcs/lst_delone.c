@@ -1,36 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_line.c                                     :+:      :+:    :+:   */
+/*   lst_delone.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/29 19:06:22 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/05 17:18:28 by vismaily         ###   ########.fr       */
+/*   Created: 2022/04/04 20:44:38 by vismaily          #+#    #+#             */
+/*   Updated: 2022/04/04 20:50:47 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	parsing_line(char *line)
+void	lst_delone(t_var *lst, void (*del)(void *))
 {
-	int		count;
-	char	metachars[7];
-	t_token	*tokens;
-
-	tokens = 0;
-	ft_strlcpy(metachars, "<>| \t\n", 7);
-	count = tokens_count(line, metachars);
-	if (count > 0)
+	if (lst)
 	{
-		tokens_array(line, metachars, &tokens);
-		while (1) ;
-	
-		while (tokens != 0)
-		{
-			printf("%c %s\n", tokens->type, tokens->value);
-			tokens=tokens->next;
-		}
+		del(lst->name);
+		del(lst->value);
+		free (lst);
 	}
-	return (1);
+}
+
+void	lst_delone_token(t_token *lst, void (*del)(void *))
+{
+	if (lst)
+	{
+		del(lst->value);
+		free (lst);
+	}
 }
