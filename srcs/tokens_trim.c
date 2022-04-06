@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 20:19:31 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/05 17:17:33 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/05 18:07:39 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void	tokens_trim(t_token **tokens)
 			tmp1->next = tmp1->next->next;
 			lst_delone_token(tmp2, &free);
 		}
-		tmp1 = tmp1->next;
+		if (tmp1 != 0)
+			tmp1 = tmp1->next;
 	}
 }

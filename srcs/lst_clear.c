@@ -1,37 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_line.c                                     :+:      :+:    :+:   */
+/*   lst_clear.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/29 19:06:22 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/05 18:23:49 by vismaily         ###   ########.fr       */
+/*   Created: 2022/04/05 17:44:01 by vismaily          #+#    #+#             */
+/*   Updated: 2022/04/05 17:57:19 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	parsing_line(char *line)
+void	lst_clear(t_var **lst, void (*del)(void *))
 {
-	int		count;
-	char	metachars[7];
-	t_token	*tokens;
+	t_var	*tmp;
 
-	tokens = 0;
-	ft_strlcpy(metachars, "<>| \t\n", 7);
-	count = tokens_count(line, metachars);
-	if (count > 0)
+	if (lst != 0 && *lst != 0)
 	{
-		tokens_array(line, metachars, &tokens);
-	
-	/*	while (tokens != 0)
+		while (*lst != 0)
 		{
-			printf("%c %s\n", tokens->type, tokens->value);
-			tokens=tokens->next;
+			tmp = (*lst)->next;
+			lst_delone(*lst, del);
+			*lst = tmp;
 		}
-*/
-		lst_clear_token(&tokens, &free);
 	}
-	return (1);
+}
+
+void	lst_clear_token(t_token **lst, void (*del)(void *))
+{
+	t_token	*tmp;
+
+	if (lst != 0 && *lst != 0)
+	{
+		while (*lst != 0)
+		{
+			tmp = (*lst)->next;
+			lst_delone_token(*lst, del);
+			*lst = tmp;
+		}
+	}
 }

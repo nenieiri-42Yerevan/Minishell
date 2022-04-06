@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 17:22:35 by vismaily          #+#    #+#             */
-/*   Updated: 2022/03/29 19:02:02 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/06 15:12:25 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,20 @@ static t_var	*env_content(char *before_eq, char *after_eq)
 	name = ft_strdup(before_eq);
 	value = ft_strdup(after_eq);
 	node = lst_new_elem(name, value);
+	node->next = 0;
 	return (node);
 }
 
-t_var	**env_to_list(char **envp)
+void	env_to_list(char **envp, t_var **env_lst)
 {
 	int		i;
 	char	*eq;
-	t_var	**env_lst;
 	t_var	*node;
 
 	i = 0;
+	*env_lst = 0;
 	while (envp[i] != 0)
 		i++;
-	env_lst = (t_var **)ft_calloc(sizeof(t_var *), i + 1);
 	i = 0;
 	while (envp[i] != 0)
 	{
@@ -44,5 +44,4 @@ t_var	**env_to_list(char **envp)
 		lst_add_back(env_lst, node);
 		i++;
 	}
-	return (env_lst);
 }
