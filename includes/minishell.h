@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 17:23:05 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/06 15:08:03 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/07 11:26:14 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,17 @@ typedef struct s_token
 	struct s_token	*next;
 }					t_token;
 
+typedef struct s_command
+{
+	char	**args;
+	char	*oper;
+	char	*oper_value;
+	int		std_in;
+	int		std_out;
+	int		std_err;
+	t_token	*balance;
+}				t_command;
+
 t_var		*lst_new_elem(char *name, char *value);
 t_var		*lst_last(t_var *lst);
 void		lst_add_back(t_var **lst, t_var *new_node);
@@ -46,9 +57,10 @@ void		lst_delone_token(t_token *lst, void (*del)(void *));
 void		lst_clear_token(t_token **lst, void (*del)(void *));
 
 void		env_to_list(char **envp, t_var **env_lst);
-int			parsing_line(char *line);
+int			parsing_line(char *line, t_token **tokens);
 int			tokens_count(char *line, char *metachars);
 void		tokens_array(char *line, char *metachars, t_token **tokens);
 void		tokens_trim(t_token **tokens);
+void		parsing_command(t_token **tokens, t_command *command);
 
 #endif

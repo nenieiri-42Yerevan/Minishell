@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 16:14:31 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/06 15:12:18 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/06 15:14:49 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
 	t_var	*env_lst;
+	t_token	*tokens;
 
 	(void)argv;
 	if (argc > 1)
@@ -27,7 +28,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		line = readline("Minishell$ ");
-		parsing_line(line);
+		parsing_line(line, &tokens);
 		free(line);
 	}
 	lst_clear(&env_lst, free);
