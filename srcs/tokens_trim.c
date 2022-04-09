@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 20:19:31 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/05 18:07:39 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/08 20:39:14 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static t_token	*split_into_new_elem(char *str, t_token *tmp)
 {
 	t_token	*new_elem;
-	
+
 	new_elem = lst_new_elem_token('o', str);
 	new_elem->next = tmp->next;
 	return (new_elem);
@@ -70,7 +70,7 @@ void	tokens_trim(t_token **tokens)
 	tokens_split(tokens);
 	while (tmp1 != 0)
 	{
-		if ((ft_strlen(tmp1->value) == 0) || tmp1->type == 'd')
+		if (((ft_strlen(tmp1->value) == 0) || tmp1->type == 'd') && tmp1 == *tokens)
 		{
 			*tokens = tmp1->next;
 			lst_delone_token(tmp1, &free);
@@ -83,7 +83,7 @@ void	tokens_trim(t_token **tokens)
 			tmp1->next = tmp1->next->next;
 			lst_delone_token(tmp2, &free);
 		}
-		if (tmp1 != 0)
+		else if (tmp1 != 0)
 			tmp1 = tmp1->next;
 	}
 }

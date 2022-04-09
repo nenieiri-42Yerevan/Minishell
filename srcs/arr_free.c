@@ -1,36 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   arr_free.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/26 16:14:31 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/08 18:46:33 by vismaily         ###   ########.fr       */
+/*   Created: 2022/04/09 15:33:18 by vismaily          #+#    #+#             */
+/*   Updated: 2022/04/09 16:30:57 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int argc, char **argv, char **envp)
+void	arr_free(char **arr)
 {
-	char	*line;
-	t_var	*env_lst;
-	t_token	*tokens;
+	int	i;
 
-	(void)argv;
-	if (argc > 1)
+	i = -1;
+	if (arr != 0)
 	{
-		printf("The program no needs to arguments\n");
-		return (0);
+		while (arr[++i] != 0)
+			free(arr[i]);
+		free(arr);
 	}
-	env_to_list(envp, &env_lst);
-	while (1)
-	{
-		line = readline("Minishell$ ");
-		parsing_line(line, &tokens, &env_lst);
-		free(line);
-	}
-	lst_clear(&env_lst, free);
-	return (0);
 }

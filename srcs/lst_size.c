@@ -1,36 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   lst_size.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/26 16:14:31 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/08 18:46:33 by vismaily         ###   ########.fr       */
+/*   Created: 2022/04/08 19:24:31 by vismaily          #+#    #+#             */
+/*   Updated: 2022/04/08 19:28:08 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int argc, char **argv, char **envp)
+int	lst_size(t_var *lst)
 {
-	char	*line;
-	t_var	*env_lst;
-	t_token	*tokens;
+	int	count;
 
-	(void)argv;
-	if (argc > 1)
+	count = 0;
+	while (lst != 0)
 	{
-		printf("The program no needs to arguments\n");
-		return (0);
+		lst = lst->next;
+		count++;
 	}
-	env_to_list(envp, &env_lst);
-	while (1)
+	return (count);
+}
+
+int	lst_size_token(t_token *lst)
+{
+	int	count;
+
+	count = 0;
+	while (lst != 0)
 	{
-		line = readline("Minishell$ ");
-		parsing_line(line, &tokens, &env_lst);
-		free(line);
+		lst = lst->next;
+		count++;
 	}
-	lst_clear(&env_lst, free);
-	return (0);
+	return (count);
 }
