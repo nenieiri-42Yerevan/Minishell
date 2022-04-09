@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 19:06:22 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/09 16:29:44 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/09 23:53:12 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,19 +36,20 @@ static void	command_free(t_command **command)
 int	parsing_line(char *line, t_token **tokens, t_var **env_lst)
 {
 	int			count;
-	char		metachars[7];
-	t_command	*command;
+	char		metachars[11];
+//	t_command	*command;
 
 	*tokens = 0;
-	ft_strlcpy(metachars, "<>| \t\n", 7);
+	ft_strlcpy(metachars, "<>|&;() \t\n", 11);
 	count = tokens_count(line, metachars);
 	if (count > 0)
 	{
-		tokens_array(line, metachars, tokens);
-		parsing_command(tokens, &command);
-		exec(command, tokens, env_lst);
+		tokens_array(line, metachars, tokens, *env_lst);
+	//	parsing_command(tokens, &command);
+		//exec(command, tokens, env_lst);
 		lst_clear_token(tokens, &free);
-		command_free(&command);
+		(void)command_free;
+	//	command_free(&command);
 	}
 	return (1);
 }

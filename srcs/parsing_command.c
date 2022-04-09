@@ -6,22 +6,22 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 15:30:05 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/07 15:41:05 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/09 22:49:44 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	command_init(t_command **command)
+static void	command_init(t_command *command)
 {
-	(*command) = (t_command *)malloc(sizeof(t_command));
-	(*command)->args = 0;
-	(*command)->oper = 0;
-	(*command)->oper_value = 0;
-	(*command)->std_in = 0;
-	(*command)->std_out = 1;
-	(*command)->std_err = 2;
-	(*command)->balance = 0;
+	command = (t_command *)malloc(sizeof(t_command));
+	command->args = 0;
+	command->oper = 0;
+	command->oper_value = 0;
+	command->std_in = 0;
+	command->std_out = 1;
+	command->next = 0;
+	command->balance = 0;
 }
 
 static void	arg_to_array(t_token **tokens, t_command *command, int i)
@@ -49,13 +49,24 @@ static void	arg_to_array(t_token **tokens, t_command *command, int i)
 
 void	parsing_command(t_token **tokens, t_command **command)
 {
-	int		i;
-	t_token	*tmp;
+	int			i;
+	t_token		*tmp;
+	t_command	com;
 
 	i = -1;
-	command_init(command);
+	command_init(*command);
 	while (*tokens != 0 && (*tokens)->type != 'o')
 		arg_to_array(tokens, *command, ++i);
+	if (*tokens != 0 && (*tokens)->type == 'o' && \
+			ft_memcmp((*tokens)->value, "|", 2) == 0)
+	{
+		command_init(&com);
+		tmp = *tokens;
+		*tokens = (*tokens)->next;
+		lst_delone_token(tmp, &free);
+		while (*tokens != 0 && (*tokens)->type != 'o')
+			arg_to_array(tokens, *command, ++i);
+	}
 	if (*tokens != 0)
 	{
 		(*command)->oper = ft_strdup((*tokens)->value);

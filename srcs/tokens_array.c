@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 17:23:59 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/07 11:53:34 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/09 23:55:05 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,8 @@ static char	*words_and_ops(char	*line, int *i, size_t *word, char *metachars)
 	return (0);
 }
 
-void	tokens_array(char *line, char *metachars, t_token **tokens)
+void	tokens_array(char *line, char *metachars, t_token **tokens, \
+		t_var *env_lst)
 {
 	int		i;
 	int		j;
@@ -114,5 +115,13 @@ void	tokens_array(char *line, char *metachars, t_token **tokens)
 		start = words_and_ops(line, &i, &word_len, metachars);
 		word_malloc(tokens, &j, &word_len, start);
 	}
+	(void)env_lst;
 	tokens_trim(tokens);
+	//tokens_unquote(*tokens, env_lst);
+	//tokens_trim(tokens);
+	while (*tokens != 0)
+	{
+		printf("%c %s\n", (*tokens)->type, (*tokens)->value);
+		*tokens = (*tokens)->next;
+	}
 }

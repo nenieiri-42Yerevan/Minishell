@@ -1,33 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_lst_to_arr.c                                   :+:      :+:    :+:   */
+/*   strjoin_base.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/08 19:18:41 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/09 16:38:46 by vismaily         ###   ########.fr       */
+/*   Created: 2022/04/09 16:37:58 by vismaily          #+#    #+#             */
+/*   Updated: 2022/04/09 16:38:25 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**env_lst_to_arr(t_var *env_lst)
+char	*strjoin_base(char const *s1, char const *s2, char c)
 {
-	int		size;
-	int		i;
-	char	**arr;
+	char			*newstr;
+	size_t			i;
+	size_t			j;
 
-	i = 0;
-	size = lst_size(env_lst);
-	arr = (char **)malloc(sizeof(char *) * (size + 1));
-	if (arr == 0)
+	newstr = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2)) + 2);
+	if (!newstr)
 		return (0);
-	arr[size] = 0;
-	while (env_lst != 0)
+	i = 0;
+	while (s1[i] != '\0')
 	{
-		arr[i++] = strjoin_base(env_lst->name, env_lst->value, '=');
-		env_lst = env_lst->next;
+		newstr[i] = s1[i];
+		i++;
 	}
-	return (arr);
+	newstr[i] = c;
+	j = 0;
+	while (s2[j] != '\0')
+	{
+		newstr[i + 1 + j] = s2[j];
+		j++;
+	}
+	newstr[i + j + 1] = '\0';
+	return (newstr);
 }
