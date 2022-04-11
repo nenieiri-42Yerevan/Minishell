@@ -1,62 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokens_unquote.c                                   :+:      :+:    :+:   */
+/*   p_expansion.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/09 22:11:34 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/10 20:41:24 by vismaily         ###   ########.fr       */
+/*   Created: 2022/04/11 17:00:36 by vismaily          #+#    #+#             */
+/*   Updated: 2022/04/11 18:18:09 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*static void	double_quote(char *str, int *i, t_var *env_lst)
-{
-	char	*new_str;
-	int		j;
-
-	str[*i] = '\0';
-	new_str = ft_strjoin(str, str + *i + 1);
-	free(str);
-	str = new_str;
-	j = *i;
-	while (str[j] != '\"')
-	{
-		if (str[j] == '$')
-		{
-			expansion(str, i, env_lst);
-			printf("AAA %d\n", j);
-		}
-		j++;
-	}
-	str[j] = '\0';
-	new_str = ft_strjoin(str, str + j + 1);
-	free(str);
-	str = new_str;
-	*i = j - 1;
-}
-
-static void	single_quote(char *str, int *i)
-{
-	char	*new_str;
-	int		j;
-
-	str[*i] = '\0';
-	new_str = ft_strjoin(str, str + *i + 1);
-	free(str);
-	str = new_str;
-	j = *i;
-	while (str[j] != '\'')
-		j++;
-	str[j] = '\0';
-	new_str = ft_strjoin(str, str + j + 1);
-	free(str);
-	str = new_str;
-	*i = j - 1;
-}
-*/
 static int	my_replace(t_token *tokens, int i, int j, t_var *env_lst)
 {
 	char	*new_value;
@@ -86,7 +41,7 @@ static int	my_replace(t_token *tokens, int i, int j, t_var *env_lst)
 	return (0);
 }
 
-static void	search_and_replace(t_token *tokens, int i, t_var *env_lst)
+static int	search_and_replace(t_token *tokens, int i, t_var *env_lst)
 {
 	char	*new_str;
 	int		j;
@@ -104,11 +59,15 @@ static void	search_and_replace(t_token *tokens, int i, t_var *env_lst)
 		env_lst = env_lst->next;
 	}
 	if (env_lst != 0)
+	{
 		my_replace(tokens, i, j, env_lst);
+		return (1);
+	}
 	free(new_str);
+	return (0);
 }
 
-static void	expansion(t_token *tokens, t_var *env_lst)
+void	p_expansion(t_token *tokens, t_var *env_lst)
 {
 	int		i;
 	int		j;
@@ -118,39 +77,19 @@ static void	expansion(t_token *tokens, t_var *env_lst)
 	while (tokens->value[++i] != '\0')
 	{
 		if (tokens->value[i] == '\'')
-			while (tokens->value[i] != '\'')
-				i++;
+			while (tokens->value[++i] != '\'')
+				;
 		else if (tokens->value[i] == '\"')
 		{
-			while (tokens->value[i] != '\"')
-			{
+			while (tokens->value[++i] != '\"')
 				if (tokens->value[i] == '$')
-					search_and_replace(tokens, i, env_lst);
-				i++;
-			}
+					if (search_and_replace(tokens, i, env_lst) == 1)
+						--i;
 		}
 		else if (tokens->value[i] == '$')
-			search_and_replace(tokens, i, env_lst);
-	}
-}
-
-void	tokens_unquote(t_token *tokens, t_var *env_lst)
-{
-	t_token	*tmp;
-	int		i;
-
-	i = -1;
-	tmp = tokens;
-	while (tmp != 0)
-	{
-		while (tmp->value[++i] != '\0')
 		{
-			if (tmp->value[i] == '\'' || tmp->value[i] == '\"')
-				tmp->quote[i] = '1';
-			else
-				tmp->quote[i] = '0';
+			if (search_and_replace(tokens, i, env_lst) == 1)
+				--i;
 		}
-		tmp = tmp->next;
 	}
-	expansion(tokens, env_lst);
 }

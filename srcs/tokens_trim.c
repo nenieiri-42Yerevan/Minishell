@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 20:19:31 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/10 16:26:54 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/11 18:28:39 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ void	tokens_trim(t_token **tokens)
 	tokens_split(tokens);
 	while (tmp1 != 0)
 	{
-		if (((ft_strlen(tmp1->value) == 0) || tmp1->type == 'd') && tmp1 == *tokens)
+		if (((ft_strlen(tmp1->value) == 0) || tmp1->type == 'd') && \
+				tmp1 == *tokens)
 		{
 			*tokens = tmp1->next;
 			lst_delone_token(tmp1, &free);
