@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 17:23:05 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/11 20:20:46 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/11 20:48:46 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ typedef struct s_command
 	int					std_out;
 	int					std_err;
 	struct s_command	*next;
-	t_token				*balance;
 }						t_command;
 
 t_var		*lst_new_elem(char *name, char *value);
@@ -77,7 +76,7 @@ void		parsing_command(t_token **tokens, t_command **command, \
 void		quote_counting(t_token *tokens);
 void		p_expansion(t_token *tokens, t_var *env_lst);
 void		quote_removal(t_token *tokens);
-void		word_splitting(t_token **tokens);
+void		word_splitting(t_token **tokens, t_var *env_lst);
 
 void		exec(t_command *command, t_token **tokens, t_var **env_lst);
 

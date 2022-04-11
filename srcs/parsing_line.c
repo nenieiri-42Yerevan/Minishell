@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 19:06:22 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/11 16:36:51 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/11 20:46:41 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ static void	command_init(t_command **command)
 	(*command)->std_out = 1;
 	(*command)->std_err = 2;
 	(*command)->next = 0;
-	(*command)->balance = 0;
 }
 
 static void	command_free(t_command **command)

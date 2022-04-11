@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 15:30:05 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/11 20:17:45 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/11 20:48:34 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	parsing_final(t_token **tokens, t_var *env_lst)
 		p_expansion(tmp, env_lst);
 		tmp = tmp->next;
 	}
-	word_splitting(tokens);
+	word_splitting(tokens, env_lst);
 	tmp = *tokens;
 	while (tmp != 0 && tmp->type != 'o')
 	{
