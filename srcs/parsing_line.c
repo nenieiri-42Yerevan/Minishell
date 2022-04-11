@@ -6,11 +6,24 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 19:06:22 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/09 23:53:12 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/10 20:24:18 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	command_init(t_command **command)
+{
+	(*command) = (t_command *)malloc(sizeof(t_command));
+	(*command)->args = 0;
+	(*command)->oper = 0;
+	(*command)->oper_value = 0;
+	(*command)->std_in = 0;
+	(*command)->std_out = 1;
+	(*command)->std_err = 2;
+	(*command)->next = 0;
+	(*command)->balance = 0;
+}
 
 static void	command_free(t_command **command)
 {
@@ -37,19 +50,28 @@ int	parsing_line(char *line, t_token **tokens, t_var **env_lst)
 {
 	int			count;
 	char		metachars[11];
-//	t_command	*command;
+	t_command	*command;
 
 	*tokens = 0;
+	command = 0;
 	ft_strlcpy(metachars, "<>|&;() \t\n", 11);
 	count = tokens_count(line, metachars);
 	if (count > 0)
 	{
-		tokens_array(line, metachars, tokens, *env_lst);
-	//	parsing_command(tokens, &command);
-		//exec(command, tokens, env_lst);
-		lst_clear_token(tokens, &free);
+		tokens_array(line, metachars, tokens);
+		command_init(&command);
+		parsing_command(tokens, &command, env_lst);
+//		exec(command, tokens, env_lst);
+//		lst_clear_token(tokens, &free);
 		(void)command_free;
 	//	command_free(&command);
+	//	tokens_unquote(**tokens, env_lst);
+	//	tokens_trim(tokens);
+		while (*tokens != 0)
+		{
+			printf("%c %s\n", (*tokens)->type, (*tokens)->value);
+			*tokens = (*tokens)->next;
+		}
 	}
 	return (1);
 }

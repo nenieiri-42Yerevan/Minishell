@@ -6,44 +6,13 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/09 22:11:34 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/09 23:50:17 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/10 20:41:24 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*expansion(char *str, int *i, t_var *env_lst)
-{
-	char	*new_str;
-	char	*ret_str;
-	int		j;
-	int		count;
-	int		flag;
-
-	count = *i;
-	j = *i;
-	flag = 0;
-	while (str[j] != ' ' && str[j] != '\0' && str[j] != '\t' && str[j] != '\"')
-		j++;
-	new_str = ft_substr(str, *i + 1, j - count - 1);
-	while (env_lst != 0)
-	{
-		if (ft_strncmp(env_lst->name, new_str, ft_strlen(new_str) + 1) == 0)
-		{
-			flag = 1;
-			break ;
-		}
-		env_lst = env_lst->next;
-	}
-	if (flag == 1)
-		ret_str = ft_strdup(env_lst->value);
-	else
-		ret_str = ft_strjoin("$", new_str);
-	free(new_str);
-	return (ret_str);
-}
-
-static void	double_quote(char *str, int *i, t_var *env_lst)
+/*static void	double_quote(char *str, int *i, t_var *env_lst)
 {
 	char	*new_str;
 	int		j;
@@ -87,36 +56,101 @@ static void	single_quote(char *str, int *i)
 	str = new_str;
 	*i = j - 1;
 }
+*/
+static int	my_replace(t_token *tokens, int i, int j, t_var *env_lst)
+{
+	char	*new_value;
+	char	*new_blank;
+	char	*new_str;
 
-static char	*str_unquote(char *str, t_var *env_lst)
+	new_value = ft_strdup(env_lst->value);
+	tokens->value[i] = '\0';
+	new_str = ft_strjoin(tokens->value, new_value);
+	free(new_value);
+	new_value = ft_strjoin(new_str, tokens->value + j);
+	free(new_str);
+	free(tokens->value);
+	tokens->value = new_value;
+	new_blank = (char *)malloc(sizeof(char) * (ft_strlen(env_lst->value) + 1));
+	if (new_blank == 0)
+		return (-1);
+	new_blank[ft_strlen(env_lst->value)] = '\0';
+	ft_memset(new_blank, '0', ft_strlen(env_lst->value));
+	tokens->quote[i] = '\0';
+	new_str = ft_strjoin(tokens->quote, new_blank);
+	free(new_blank);
+	new_blank = ft_strjoin(new_str, tokens->quote + j);
+	free(new_str);
+	free(tokens->quote);
+	tokens->quote = new_blank;
+	return (0);
+}
+
+static void	search_and_replace(t_token *tokens, int i, t_var *env_lst)
+{
+	char	*new_str;
+	int		j;
+
+	j = i;
+	while (tokens->value[j] != ' ' && tokens->value[j] != '\0' && \
+			tokens->value[j] != '\t' && tokens->value[j] != '\"' && \
+			tokens->value[j] != '\'')
+		j++;
+	new_str = ft_substr(tokens->value, i + 1, j - i - 1);
+	while (env_lst != 0)
+	{
+		if (ft_strncmp(env_lst->name, new_str, ft_strlen(new_str) + 1) == 0)
+			break ;
+		env_lst = env_lst->next;
+	}
+	if (env_lst != 0)
+		my_replace(tokens, i, j, env_lst);
+	free(new_str);
+}
+
+static void	expansion(t_token *tokens, t_var *env_lst)
 {
 	int		i;
+	int		j;
 
 	i = -1;
-	while (str[++i] != 0)
+	j = -1;
+	while (tokens->value[++i] != '\0')
 	{
-		if (str[i] == '\'')
-			single_quote(str, &i);
-		else if (str[i] == '\"')
-			double_quote(str, &i, env_lst);
-		else if (str[i] == '$')
-			expansion(str, &i, env_lst);
+		if (tokens->value[i] == '\'')
+			while (tokens->value[i] != '\'')
+				i++;
+		else if (tokens->value[i] == '\"')
+		{
+			while (tokens->value[i] != '\"')
+			{
+				if (tokens->value[i] == '$')
+					search_and_replace(tokens, i, env_lst);
+				i++;
+			}
+		}
+		else if (tokens->value[i] == '$')
+			search_and_replace(tokens, i, env_lst);
 	}
-	return (str);
 }
 
 void	tokens_unquote(t_token *tokens, t_var *env_lst)
 {
-	char	*new_str;
+	t_token	*tmp;
+	int		i;
 
-	while (tokens != 0)
+	i = -1;
+	tmp = tokens;
+	while (tmp != 0)
 	{
-		if (tokens->type == 'w')
+		while (tmp->value[++i] != '\0')
 		{
-			new_str = str_unquote(tokens->value, env_lst);
-			free(tokens->value);
-			tokens->value = new_str;
+			if (tmp->value[i] == '\'' || tmp->value[i] == '\"')
+				tmp->quote[i] = '1';
+			else
+				tmp->quote[i] = '0';
 		}
-		tokens = tokens->next;
+		tmp = tmp->next;
 	}
+	expansion(tokens, env_lst);
 }

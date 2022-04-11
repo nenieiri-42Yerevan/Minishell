@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 17:23:05 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/09 23:29:40 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/10 17:49:41 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_token
 {
 	char			type;
 	char			*value;
+	char			*quote;
 	struct s_token	*next;
 }					t_token;
 
@@ -43,6 +44,7 @@ typedef struct s_command
 	char				*oper_value;
 	int					std_in;
 	int					std_out;
+	int					std_err;
 	struct s_command	*next;
 	t_token				*balance;
 }						t_command;
@@ -68,11 +70,11 @@ void		arr_free(char **arr);
 
 int			parsing_line(char *line, t_token **tokens, t_var **env_lst);
 int			tokens_count(char *line, char *metachars);
-void		tokens_array(char *line, char *metachars, t_token **tokens, \
-			t_var *env_lst);
+void		tokens_array(char *line, char *metachars, t_token **tokens);
 void		tokens_trim(t_token **tokens);
 void		tokens_unquote(t_token *tokens, t_var *env_lst);
-void		parsing_command(t_token **tokens, t_command **command);
+void		parsing_command(t_token **tokens, t_command **command, \
+			t_var **env_lst);
 
 void		exec(t_command *command, t_token **tokens, t_var **env_lst);
 

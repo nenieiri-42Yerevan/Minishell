@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 17:23:59 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/09 23:55:05 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/10 17:09:57 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	word_malloc(t_token **tokens, int *j, size_t *word_len, char *line)
 	{
 		str = (char *)malloc(sizeof(char) * (*word_len + 1));
 		ft_strlcpy(str, line, *word_len + 1);
-		if (ft_strchr("<>| \t\n", str[0]) != 0)
+		if (ft_strchr("<>|&;() \t\n", str[0]) != 0)
 			token_elem = lst_new_elem_token('o', str);
 		else
 			token_elem = lst_new_elem_token('w', str);
@@ -95,8 +95,7 @@ static char	*words_and_ops(char	*line, int *i, size_t *word, char *metachars)
 	return (0);
 }
 
-void	tokens_array(char *line, char *metachars, t_token **tokens, \
-		t_var *env_lst)
+void	tokens_array(char *line, char *metachars, t_token **tokens)
 {
 	int		i;
 	int		j;
@@ -115,13 +114,5 @@ void	tokens_array(char *line, char *metachars, t_token **tokens, \
 		start = words_and_ops(line, &i, &word_len, metachars);
 		word_malloc(tokens, &j, &word_len, start);
 	}
-	(void)env_lst;
 	tokens_trim(tokens);
-	//tokens_unquote(*tokens, env_lst);
-	//tokens_trim(tokens);
-	while (*tokens != 0)
-	{
-		printf("%c %s\n", (*tokens)->type, (*tokens)->value);
-		*tokens = (*tokens)->next;
-	}
 }

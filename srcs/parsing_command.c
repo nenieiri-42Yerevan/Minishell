@@ -6,25 +6,14 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 15:30:05 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/09 22:49:44 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/10 20:40:23 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	command_init(t_command *command)
-{
-	command = (t_command *)malloc(sizeof(t_command));
-	command->args = 0;
-	command->oper = 0;
-	command->oper_value = 0;
-	command->std_in = 0;
-	command->std_out = 1;
-	command->next = 0;
-	command->balance = 0;
-}
-
-static void	arg_to_array(t_token **tokens, t_command *command, int i)
+static int	arg_to_array(t_token **tokens, t_command *command, int i, \
+		t_var *env_lst)
 {
 	int		count;
 	t_token	*tmp;
@@ -39,28 +28,29 @@ static void	arg_to_array(t_token **tokens, t_command *command, int i)
 			tmp = tmp->next;
 		}
 		command->args = (char **)malloc(sizeof(char *) * (count + 1));
+		if (command->args == 0)
+			return (-1);
 		command->args[count] = 0;
 	}
+	tokens_unquote(*tokens, env_lst);
 	command->args[i] = ft_strdup((*tokens)->value);
 	tmp = *tokens;
 	*tokens = (*tokens)->next;
 	lst_delone_token(tmp, &free);
+	return (0);
 }
 
-void	parsing_command(t_token **tokens, t_command **command)
+void	parsing_command(t_token **tokens, t_command **command, t_var **env_lst)
 {
 	int			i;
-	t_token		*tmp;
-	t_command	com;
+//	t_token		*tmp;
 
 	i = -1;
-	command_init(*command);
 	while (*tokens != 0 && (*tokens)->type != 'o')
-		arg_to_array(tokens, *command, ++i);
-	if (*tokens != 0 && (*tokens)->type == 'o' && \
+		arg_to_array(tokens, *command, ++i, *env_lst);
+/*	if (*tokens != 0 && (*tokens)->type == 'o' && \
 			ft_memcmp((*tokens)->value, "|", 2) == 0)
 	{
-		command_init(&com);
 		tmp = *tokens;
 		*tokens = (*tokens)->next;
 		lst_delone_token(tmp, &free);
@@ -81,5 +71,5 @@ void	parsing_command(t_token **tokens, t_command **command)
 		*tokens = (*tokens)->next;
 		lst_delone_token(tmp, &free);
 		(*command)->balance = *tokens;
-	}
+	}*/
 }
