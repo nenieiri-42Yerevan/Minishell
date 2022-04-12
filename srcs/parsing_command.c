@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 15:30:05 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/12 11:23:36 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/12 17:11:33 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,37 +58,33 @@ static int	arg_to_array(t_token **tokens, t_command *command, int i)
 	return (0);
 }
 
+void	parsing_opers(t_token **tokens, t_command **command)
+{
+	t_token	*tmp;
+
+	if ((ft_strncmp((*tokens)->value, ">>" 3) == 0) || \
+			(ft_strncmp((*tokens)->value, ">" 2) == 0))
+	{
+		(*command)->oper = ft_strdup((*tokens)->value);
+		if (ft_strncmp((*tokens)->value, ">" 2) == 0)
+		{
+			open();
+		}
+		tmp = *tokens;
+		*tokens = (*tokens)->next->next;
+		lst_delone_token(tmp->next, &free);
+		lst_delone_token(tmp, &free);
+	}
+}
+
 void	parsing_command(t_token **tokens, t_command **command, t_var **env_lst)
 {
 	int			i;
-//	t_token		*tmp;
 
 	i = -1;
 	parsing_final(tokens, *env_lst);
 	while (*tokens != 0 && (*tokens)->type != 'o')
 		arg_to_array(tokens, *command, ++i);
-/*	if (*tokens != 0 && (*tokens)->type == 'o' && \
-			ft_memcmp((*tokens)->value, "|", 2) == 0)
-	{
-		tmp = *tokens;
-		*tokens = (*tokens)->next;
-		lst_delone_token(tmp, &free);
-		while (*tokens != 0 && (*tokens)->type != 'o')
-			arg_to_array(tokens, *command, ++i);
-	}
-	if (*tokens != 0)
-	{
-		(*command)->oper = ft_strdup((*tokens)->value);
-		tmp = *tokens;
-		*tokens = (*tokens)->next;
-		lst_delone_token(tmp, &free);
-	}
-	if (*tokens != 0)
-	{
-		(*command)->oper_value = ft_strdup((*tokens)->value);
-		tmp = *tokens;
-		*tokens = (*tokens)->next;
-		lst_delone_token(tmp, &free);
-		(*command)->balance = *tokens;
-	}*/
+	if (*tokens != 0 && (*tokens)->type == 'o')
+		parsing_opers(tokens, *command);
 }
