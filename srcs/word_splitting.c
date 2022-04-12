@@ -6,18 +6,32 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 20:07:23 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/11 21:11:43 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/12 11:34:18 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	split_ifs(t_token **tokens, t_token *tmp, char *ifs, int *i)
+static void	split_ifs(t_token *tmp, char *ifs, int *i)
 {
 	char	*new_str;
+	t_token	*new_elem;
+	int		j;
 
+	j = *i;
 	tmp->value[*i] = '\0';
 	tmp->quote[*i] = '\0';
+	while (ft_strchr(ifs, tmp->value[++j]) != 0 && tmp->value[j] != '\0')
+		;
+	new_elem = lst_new_elem_token('w', ft_strdup(&(tmp->value[j])));
+	new_elem->quote = ft_strdup(&(tmp->value[j]));
+	new_elem->next = tmp->next;
+	tmp->next = new_elem;
+	new_str = ft_strdup(tmp->value);
+	free(tmp->value);
+	tmp->value = new_str;
+	new_str = ft_strdup(tmp->quote);
+	tmp->quote = new_str;
 }
 
 static void	search_ifs(t_token **tokens, char *ifs)
@@ -39,7 +53,7 @@ static void	search_ifs(t_token **tokens, char *ifs)
 					;
 			else if (ft_strchr(ifs, tmp->value[i]) != 0)
 			{
-				split_ifs(tokens, tmp, ifs, &i);
+				split_ifs(tmp, ifs, &i);
 				break ;
 			}
 		}
@@ -49,7 +63,6 @@ static void	search_ifs(t_token **tokens, char *ifs)
 
 void	word_splitting(t_token **tokens, t_var *env_lst)
 {
-
 	while (env_lst != 0)
 	{
 		if (ft_strncmp(env_lst->name, "IFS", 4) == 0)
