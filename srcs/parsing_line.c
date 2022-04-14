@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 19:06:22 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/12 11:51:13 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/14 16:50:15 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,11 @@ int	parsing_line(char *line, t_token **tokens, t_var **env_lst)
 	if (count > 0)
 	{
 		tokens_array(line, metachars, tokens);
+		if (operators(*tokens) == -1)
+		{
+			lst_clear_token(tokens, &free);
+			return (-1);
+		}
 		command_init(&command);
 		parsing_command(tokens, &command, env_lst);
 //		exec(command, tokens, env_lst);
@@ -69,11 +74,12 @@ int	parsing_line(char *line, t_token **tokens, t_var **env_lst)
 		int j = -1;
 		while (command->args[++j] != 0)
 			printf("%s\n", command->args[j]);
-/*		while (*tokens != 0)
+		printf("________________\n");
+		while (*tokens != 0)
 		{
 			printf("%c %s\n", (*tokens)->type, (*tokens)->value);
 			*tokens = (*tokens)->next;
 		}
-*/	}
+	}
 	return (1);
 }

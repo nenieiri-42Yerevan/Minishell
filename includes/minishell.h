@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 17:23:05 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/11 20:48:46 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/14 18:55:09 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ void		quote_counting(t_token *tokens);
 void		p_expansion(t_token *tokens, t_var *env_lst);
 void		quote_removal(t_token *tokens);
 void		word_splitting(t_token **tokens, t_var *env_lst);
+int			operators(t_token *tokens);
+int			arg_count(t_token **tokens, t_command *command);
 
 void		exec(t_command *command, t_token **tokens, t_var **env_lst);
 

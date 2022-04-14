@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 20:07:23 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/12 11:34:18 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/14 14:30:07 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,21 +40,24 @@ static void	search_ifs(t_token **tokens, char *ifs)
 	int		i;
 
 	tmp = *tokens;
-	while (tmp != 0)
+	while (tmp != 0 && tmp->type != 'c')
 	{
 		i = -1;
-		while (tmp->value[++i] != '\0')
+		if (tmp->type != 'r')
 		{
-			if (tmp->value[i] == '\'' && tmp->quote[i] == '1')
-				while (!(tmp->value[++i] == '\'' && tmp->quote[i] == '1'))
-					;
-			else if (tmp->value[i] == '\"' && tmp->quote[i] == '1')
-				while (!(tmp->value[++i] == '\"' && tmp->quote[i] == '1'))
-					;
-			else if (ft_strchr(ifs, tmp->value[i]) != 0)
+			while (tmp->value[++i] != '\0')
 			{
-				split_ifs(tmp, ifs, &i);
-				break ;
+				if (tmp->value[i] == '\'' && tmp->quote[i] == '1')
+					while (!(tmp->value[++i] == '\'' && tmp->quote[i] == '1'))
+						;
+				else if (tmp->value[i] == '\"' && tmp->quote[i] == '1')
+					while (!(tmp->value[++i] == '\"' && tmp->quote[i] == '1'))
+						;
+				else if (ft_strchr(ifs, tmp->value[i]) != 0)
+				{
+					split_ifs(tmp, ifs, &i);
+					break ;
+				}
 			}
 		}
 		tmp = tmp->next;
