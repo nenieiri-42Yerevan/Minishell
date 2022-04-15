@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 16:18:39 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/14 16:34:14 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/15 20:47:10 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,25 @@ static char	*find_path(t_var *env_lst, char *command)
 	return (0);
 }
 
+void	child(char *path, t_command *command, char **envp)
+{
+	int		i;
+
+	if (command->std_in != 0)
+		dup2(command->std_in, 0);
+	if (command->std_out != 1)
+		dup2(command->std_out, 1);
+	i = execve(path, command->args, envp);
+	if (i == -1)
+		printf("Minishell$ command not found: %s\n", command->args[0]);
+}
+
 void	exec(t_command *command, t_token **tokens, t_var **env_lst)
 {
 	char	**envp;
 	char	*path;
-	int		i;
 	int		my_pid;
 	int		exit_status;
-	int		fd;
 
 	(void)tokens;
 	envp = env_lst_to_arr(*env_lst);
@@ -59,27 +70,19 @@ void	exec(t_command *command, t_token **tokens, t_var **env_lst)
 	else
 	{
 		path = find_path(*env_lst, command->args[0]);
-		command->args[0] = ft_strdup(path);
+		if (path != 0)
+			command->args[0] = ft_strdup(path);
 	}
 	my_pid = fork();
 	if (my_pid == 0)
-	{
-		if (ft_strncmp(command->oper, ">", 1) == 0)
-		{
-			printf("%s\n", command->oper_value);
-			fd = open(command->oper_value, O_CREAT | O_TRUNC | O_WRONLY, 0644);
-			printf("%d\n", fd);
-			if (fd != -1)
-			{
-				dup2(fd, 1);
-				close(fd);
-			}
-		}
-		i = execve(path, command->args, envp);
-	}
+		child(path, command, envp);
 	else
 	{
 		wait(&exit_status);
+		if (command->std_in != 0)
+			close(command->std_in);
+		if (command->std_out != 1)
+			close(command->std_out);
 		free(path);
 		arr_free(envp);
 	}

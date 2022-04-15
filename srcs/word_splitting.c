@@ -6,13 +6,13 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 20:07:23 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/14 14:30:07 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/15 16:25:21 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	split_ifs(t_token *tmp, char *ifs, int *i)
+static int	split_ifs(t_token *tmp, char *ifs, int *i)
 {
 	char	*new_str;
 	t_token	*new_elem;
@@ -32,6 +32,7 @@ static void	split_ifs(t_token *tmp, char *ifs, int *i)
 	tmp->value = new_str;
 	new_str = ft_strdup(tmp->quote);
 	tmp->quote = new_str;
+	return (1);
 }
 
 static void	search_ifs(t_token **tokens, char *ifs)
@@ -53,11 +54,9 @@ static void	search_ifs(t_token **tokens, char *ifs)
 				else if (tmp->value[i] == '\"' && tmp->quote[i] == '1')
 					while (!(tmp->value[++i] == '\"' && tmp->quote[i] == '1'))
 						;
-				else if (ft_strchr(ifs, tmp->value[i]) != 0)
-				{
-					split_ifs(tmp, ifs, &i);
+				else if (ft_strchr(ifs, tmp->value[i]) != 0 && \
+						split_ifs(tmp, ifs, &i))
 					break ;
-				}
 			}
 		}
 		tmp = tmp->next;

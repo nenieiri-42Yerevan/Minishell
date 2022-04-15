@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 15:30:05 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/14 18:55:27 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/15 17:29:03 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,29 +33,9 @@ static void	parsing_final(t_token **tokens, t_var *env_lst)
 	}
 }
 
-/*void	parsing_opers(t_token **tokens, t_command **command)
-{
-	t_token	*tmp;
-
-	if ((ft_strncmp((*tokens)->value, ">>", 3) == 0) || \
-			(ft_strncmp((*tokens)->value, ">", 2) == 0))
-	{
-		(*command)->oper = ft_strdup((*tokens)->value);
-		if (ft_strncmp((*tokens)->value, ">", 2) == 0)
-		{
-		//	open();
-		}
-		tmp = *tokens;
-		*tokens = (*tokens)->next->next;
-		lst_delone_token(tmp->next, &free);
-		lst_delone_token(tmp, &free);
-	}
-}*/
-
 void	parsing_command(t_token **tokens, t_command **command, t_var **env_lst)
 {
 	parsing_final(tokens, *env_lst);
 	arg_count(tokens, *command);
-//	if (*tokens != 0 && (*tokens)->type == 'o')
-//		parsing_opers(tokens, command);
+	parsing_opers(tokens, command);
 }
