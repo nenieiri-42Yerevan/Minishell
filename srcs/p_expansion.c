@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 17:00:36 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/11 18:18:09 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/17 16:29:04 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,30 +41,54 @@ static int	my_replace(t_token *tokens, int i, int j, t_var *env_lst)
 	return (0);
 }
 
-static int	search_and_replace(t_token *tokens, int i, t_var *env_lst)
+static int	not_found(t_token *tokens, int *i, int j)
+{
+	t_var	*tmp;
+	int		res;
+
+	tmp = (t_var *)malloc(sizeof(t_var) * 1);
+	if (tmp == 0)
+		return (-1);
+	tmp->name = (char *)malloc(sizeof(char) * 1);
+	if (tmp->name == 0)
+		return (-1);
+	tmp->name[0] = '\0';
+	tmp->value = (char *)malloc(sizeof(char) * 1);
+	if (tmp->value == 0)
+		return (-1);
+	tmp->value[0] = '\0';
+	tmp->next = 0;
+	res = my_replace(tokens, *i, j, tmp);
+	*i = *i - 1;
+	lst_delone(tmp, &free);
+	return (res);
+}
+
+static int	search_and_replace(t_token *tokens, int *i, t_var *env_lst)
 {
 	char	*new_str;
 	int		j;
 
-	j = i;
+	j = *i;
 	while (tokens->value[j] != ' ' && tokens->value[j] != '\0' && \
 			tokens->value[j] != '\t' && tokens->value[j] != '\"' && \
 			tokens->value[j] != '\'')
 		j++;
-	new_str = ft_substr(tokens->value, i + 1, j - i - 1);
+	new_str = ft_substr(tokens->value, *i + 1, j - *i - 1);
 	while (env_lst != 0)
 	{
 		if (ft_strncmp(env_lst->name, new_str, ft_strlen(new_str) + 1) == 0)
 			break ;
 		env_lst = env_lst->next;
 	}
+	free(new_str);
 	if (env_lst != 0)
 	{
-		my_replace(tokens, i, j, env_lst);
-		return (1);
+		*i = *i + ft_strlen(env_lst->value) - 1;
+		return (my_replace(tokens, *i, j, env_lst));
 	}
-	free(new_str);
-	return (0);
+	else
+		return (not_found(tokens, i, j));
 }
 
 void	p_expansion(t_token *tokens, t_var *env_lst)
@@ -83,13 +107,9 @@ void	p_expansion(t_token *tokens, t_var *env_lst)
 		{
 			while (tokens->value[++i] != '\"')
 				if (tokens->value[i] == '$')
-					if (search_and_replace(tokens, i, env_lst) == 1)
-						--i;
+					search_and_replace(tokens, &i, env_lst);
 		}
 		else if (tokens->value[i] == '$')
-		{
-			if (search_and_replace(tokens, i, env_lst) == 1)
-				--i;
-		}
+			search_and_replace(tokens, &i, env_lst);
 	}
 }

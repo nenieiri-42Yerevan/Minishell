@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 15:30:05 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/15 17:29:03 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/16 18:49:53 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,11 @@ static void	parsing_final(t_token **tokens, t_var *env_lst)
 	}
 }
 
-void	parsing_command(t_token **tokens, t_command **command, t_var **env_lst)
+int	parsing_command(t_token **tokens, t_command *command, t_var **env_lst)
 {
 	parsing_final(tokens, *env_lst);
-	arg_count(tokens, *command);
-	parsing_opers(tokens, command);
+	arg_count(tokens, command);
+	if (parsing_opers(tokens, command) == -1)
+		return (-1);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 17:23:05 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/15 17:39:24 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/17 15:35:01 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int			parsing_line(char *line, t_token **tokens, t_var **env_lst);
 int			tokens_count(char *line, char *metachars);
 void		tokens_array(char *line, char *metachars, t_token **tokens);
 void		tokens_trim(t_token **tokens);
-void		parsing_command(t_token **tokens, t_command **command, \
+int			parsing_command(t_token **tokens, t_command *command, \
 			t_var **env_lst);
 void		quote_counting(t_token *tokens);
 void		p_expansion(t_token *tokens, t_var *env_lst);
@@ -79,7 +79,9 @@ void		quote_removal(t_token *tokens);
 void		word_splitting(t_token **tokens, t_var *env_lst);
 int			operators(t_token *tokens);
 int			arg_count(t_token **tokens, t_command *command);
-int			parsing_opers(t_token **tokens, t_command **command);
+int			parsing_opers(t_token **tokens, t_command *command);
+void		tokens_to_struct(t_token **tokens, t_command **command, \
+		t_var **env_lst);
 
 void		exec(t_command *command, t_token **tokens, t_var **env_lst);
 
