@@ -6,13 +6,54 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 16:05:52 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/16 17:28:35 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/17 18:56:52 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	parsing_ins(t_token **tokens, t_command *command)
+static char	*get_line(char *tmp, char *line)
+{
+	char	*res;
+
+	if (tmp == 0)
+	{
+		tmp = ft_calloc(sizeof(char), 1);
+		if (tmp == 0)
+			return (0);
+		res = ft_strjoin(tmp, line);
+	}
+	else
+		res = strjoin_base(tmp, line, '\n');
+	free(tmp);
+	free(line);
+	return (res);
+}
+
+static char	*heredoc(t_command *command)
+{
+	char	*line;
+	char	*tmp;
+	char	*res;
+
+	tmp = 0;
+	while (1)
+	{
+		line = readline("> ");
+		if (ft_strncmp(line, command->oper_value, \
+					ft_strlen(command->oper_value) + 1) == 0)
+			break ;
+		res = get_line(tmp, line);
+		tmp = res;
+	}
+	if (line != 0)
+		free(line);
+	if (tmp != 0)
+		free(tmp);
+	return (res);
+}
+
+static int	parsing_ins(t_token **tokens, t_command *command)
 {
 	int	fd;
 
@@ -26,6 +67,8 @@ int	parsing_ins(t_token **tokens, t_command *command)
 			close(command->std_in);
 		command->std_in = fd;
 	}
+	else if (ft_strncmp(command->oper, "<<", 3) == 0)
+		command->heredoc = heredoc(command);
 	return (0);
 }
 
@@ -70,12 +113,6 @@ int	parsing_opers(t_token **tokens, t_command *command)
 		lst_delone_token(tmp, &free);
 		if (*tokens != 0 && (*tokens)->type == 'v')
 			status = parsing_redirs(tokens, command, &tmp);
-		else if (*tokens != 0 && (*tokens)->type != 'v')
-		{
-			printf("Minishell$ Syntax error: Unexpected token '%s'\n", \
-					(*tokens)->value);
-			return (-1);
-		}
 		else
 		{
 			printf("Minishell$ Syntax error: Undefined value after operator\n");

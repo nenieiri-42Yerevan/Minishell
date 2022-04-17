@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_pipe.c                                     :+:      :+:    :+:   */
+/*   tokens_to_struct.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 15:24:28 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/17 15:40:29 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/17 18:51:06 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static void	command_init(t_command **command)
 	(*command)->args = 0;
 	(*command)->oper = 0;
 	(*command)->oper_value = 0;
+	(*command)->heredoc = 0;
 	(*command)->std_in = 0;
 	(*command)->std_out = 1;
 	(*command)->std_err = 2;

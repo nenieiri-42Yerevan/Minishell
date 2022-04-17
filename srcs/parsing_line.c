@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 19:06:22 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/17 15:33:50 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/17 18:51:34 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ static void	command_free(t_command **command)
 			free((*command)->oper);
 		if ((*command)->oper_value != 0)
 			free((*command)->oper_value);
+		if ((*command)->heredoc != 0)
+			free((*command)->heredoc);
 		free(*command);
 	}
 }
@@ -53,11 +55,9 @@ int	parsing_line(char *line, t_token **tokens, t_var **env_lst)
 		}
 		tokens_to_struct(tokens, &command, env_lst);
 		//exec(command, tokens, env_lst);
-//		lst_clear_token(tokens, &free);
+		lst_clear_token(tokens, &free);
 		(void)command_free;
-	//	command_free(&command);
-	//	tokens_unquote(**tokens, env_lst);
-	//	tokens_trim(tokens);
+		//command_free(&command);
 		while (command != 0)
 		{
 			int j = -1;

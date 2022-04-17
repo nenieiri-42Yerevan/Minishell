@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 14:02:02 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/14 16:34:48 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/17 17:43:15 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ int	operators(t_token *tokens)
 				tokens->type = 'c';
 			else
 			{
-				printf("Syntax error: unexpected token '%s'", tokens->value);
+				printf("Miniahell$ Syntax error: unexpected token '%s'\n", \
+						tokens->value);
 				return (-1);
 			}
 		}
