@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 17:00:36 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/17 16:29:04 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/18 18:15:06 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,30 +41,53 @@ static int	my_replace(t_token *tokens, int i, int j, t_var *env_lst)
 	return (0);
 }
 
-static int	not_found(t_token *tokens, int *i, int j)
+static int	not_found_2(t_token *tokens, int *i, int j, t_var *tmp)
+{
+	if ((j - *i) == 1 && (tmp->name[0] == '1' || \
+			(tokens->value[j] != '\"' && tokens->value[j] != '\'')))
+		tmp->value = (char *)malloc(sizeof(char) * 2);
+	else
+		tmp->value = (char *)malloc(sizeof(char) * 1);
+	if (tmp->value == 0)
+		return (-1);
+	if ((j - *i) == 1 && (tmp->name[0] == '1' || \
+			(tokens->value[j] != '\"' && tokens->value[j] != '\'')))
+	{
+		tmp->value[0] = '$';
+		tmp->value[1] = '\0';
+	}
+	else
+		tmp->value[0] = '\0';
+	tmp->next = 0;
+	return (1);
+}
+
+static int	not_found(t_token *tokens, int *i, int j, int quote)
 {
 	t_var	*tmp;
 	int		res;
 
 	tmp = (t_var *)malloc(sizeof(t_var) * 1);
-	if (tmp == 0)
-		return (-1);
-	tmp->name = (char *)malloc(sizeof(char) * 1);
+	tmp->name = (char *)malloc(sizeof(char) * 2);
 	if (tmp->name == 0)
 		return (-1);
-	tmp->name[0] = '\0';
-	tmp->value = (char *)malloc(sizeof(char) * 1);
-	if (tmp->value == 0)
+	if (quote == 1)
+		tmp->name[0] = '1';
+	else
+		tmp->name[0] = '0';
+	if (tmp == 0)
 		return (-1);
-	tmp->value[0] = '\0';
-	tmp->next = 0;
+	tmp->name[1] = '\0';
+	not_found_2(tokens, i, j, tmp);
 	res = my_replace(tokens, *i, j, tmp);
-	*i = *i - 1;
+	if (!((j - *i) == 1 && (tmp->name[0] == '1' || \
+			(tokens->value[j] != '\"' && tokens->value[j] != '\''))))
+		*i = *i - 1;
 	lst_delone(tmp, &free);
 	return (res);
 }
 
-static int	search_and_replace(t_token *tokens, int *i, t_var *env_lst)
+static int	search_and_replace(t_token *tokens, int *i, t_var *env_lst, int q)
 {
 	char	*new_str;
 	int		j;
@@ -88,7 +111,7 @@ static int	search_and_replace(t_token *tokens, int *i, t_var *env_lst)
 		return (my_replace(tokens, *i, j, env_lst));
 	}
 	else
-		return (not_found(tokens, i, j));
+		return (not_found(tokens, i, j, q));
 }
 
 void	p_expansion(t_token *tokens, t_var *env_lst)
@@ -107,9 +130,9 @@ void	p_expansion(t_token *tokens, t_var *env_lst)
 		{
 			while (tokens->value[++i] != '\"')
 				if (tokens->value[i] == '$')
-					search_and_replace(tokens, &i, env_lst);
+					search_and_replace(tokens, &i, env_lst, 1);
 		}
 		else if (tokens->value[i] == '$')
-			search_and_replace(tokens, &i, env_lst);
+			search_and_replace(tokens, &i, env_lst, 0);
 	}
 }

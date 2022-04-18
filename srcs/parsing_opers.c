@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 16:05:52 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/17 18:56:52 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/18 16:53:10 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,11 @@ static char	*get_line(char *tmp, char *line)
 
 	if (tmp == 0)
 	{
-		tmp = ft_calloc(sizeof(char), 1);
+		tmp = ft_calloc(1, sizeof(char));
 		if (tmp == 0)
 			return (0);
 		res = ft_strjoin(tmp, line);
+		printf("%p\n", res);
 	}
 	else
 		res = strjoin_base(tmp, line, '\n');
@@ -37,6 +38,7 @@ static char	*heredoc(t_command *command)
 	char	*res;
 
 	tmp = 0;
+	res = 0;
 	while (1)
 	{
 		line = readline("> ");
@@ -48,8 +50,6 @@ static char	*heredoc(t_command *command)
 	}
 	if (line != 0)
 		free(line);
-	if (tmp != 0)
-		free(tmp);
 	return (res);
 }
 
@@ -68,7 +68,11 @@ static int	parsing_ins(t_token **tokens, t_command *command)
 		command->std_in = fd;
 	}
 	else if (ft_strncmp(command->oper, "<<", 3) == 0)
+	{
+		if (command->heredoc != 0)
+			free(command->heredoc);
 		command->heredoc = heredoc(command);
+	}
 	return (0);
 }
 
@@ -76,6 +80,8 @@ static int	parsing_redirs(t_token **tokens, t_command *command, t_token **tmp)
 {
 	int	fd;
 
+	if (command->oper_value != 0)
+		free(command->oper_value);
 	command->oper_value = ft_strdup((*tokens)->value);
 	*tmp = *tokens;
 	*tokens = (*tokens)->next;
@@ -107,6 +113,8 @@ int	parsing_opers(t_token **tokens, t_command *command)
 	status = 0;
 	while (*tokens != 0 && (*tokens)->type != 'c')
 	{
+		if (command->oper != 0)
+			free(command->oper);
 		command->oper = ft_strdup((*tokens)->value);
 		tmp = *tokens;
 		*tokens = (*tokens)->next;
