@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 18:21:33 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/11 18:29:15 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/18 21:21:08 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void	quote_removal(t_token *tokens)
 			free(tokens->quote);
 			tokens->quote = new_quote;
 			--i;
+			if (tokens->type == 'h')
+				tokens->type = 'H';
 		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 20:07:23 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/15 16:25:21 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/19 15:48:41 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	search_ifs(t_token **tokens, char *ifs)
 	while (tmp != 0 && tmp->type != 'c')
 	{
 		i = -1;
-		if (tmp->type != 'r')
+		if (tmp->type != 'r' && tmp->type != 'h')
 		{
 			while (tmp->value[++i] != '\0')
 			{

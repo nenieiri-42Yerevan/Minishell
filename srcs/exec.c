@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 16:18:39 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/16 20:30:06 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/18 19:09:18 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,10 @@ void	exec(t_command *command, t_token **tokens, t_var **env_lst)
 	{
 		path = find_path(*env_lst, command->args[0]);
 		if (path != 0)
+		{
+			free(command->args[0]);
 			command->args[0] = ft_strdup(path);
+		}
 	}
 	my_pid = fork();
 	if (my_pid == 0)

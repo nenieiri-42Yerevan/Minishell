@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 17:00:36 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/18 18:15:06 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/19 16:06:41 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,10 +106,7 @@ static int	search_and_replace(t_token *tokens, int *i, t_var *env_lst, int q)
 	}
 	free(new_str);
 	if (env_lst != 0)
-	{
-		*i = *i + ft_strlen(env_lst->value) - 1;
 		return (my_replace(tokens, *i, j, env_lst));
-	}
 	else
 		return (not_found(tokens, i, j, q));
 }
