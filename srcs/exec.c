@@ -6,13 +6,18 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 16:18:39 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/20 11:56:53 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/20 12:56:41 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	child(char *path, t_command *command, char **envp)
+static void	exec_builtin()
+{
+
+}
+
+static void	child(char *path, t_command *command, char **envp)
 {
 	int		i;
 	int		heredoc[2];
@@ -39,6 +44,8 @@ void	child(char *path, t_command *command, char **envp)
 		if (i == -1)
 			printf("Minishell$ command not found: %s\n", command->args[0]);
 	}
+	else
+		exec_builtin();
 }
 
 void	exec(t_command **command, t_token **tokens, t_var **env_lst)
