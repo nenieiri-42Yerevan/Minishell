@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 16:18:39 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/19 20:05:34 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/20 11:56:53 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void	child(char *path, t_command *command, char **envp)
 		dup2(command->std_in, 0);
 	if (command->std_out != 1)
 		dup2(command->std_out, 1);
-	if (ft_strncmp(command->oper, "<<", 3) == 0 && command->heredoc != 0)
+	if (command->oper != 0 && \
+			ft_strncmp(command->oper, "<<", 3) == 0 && command->heredoc != 0)
 	{
 		i = pipe(heredoc);
 		if (i == -1)
@@ -32,12 +33,15 @@ void	child(char *path, t_command *command, char **envp)
 		close(heredoc[0]);
 		close(heredoc[1]);
 	}
-	i = execve(path, command->args, envp);
-	if (i == -1)
-		printf("Minishell$ command not found: %s\n", command->args[0]);
+	if (command->builtin != 1)
+	{
+		i = execve(path, command->args, envp);
+		if (i == -1)
+			printf("Minishell$ command not found: %s\n", command->args[0]);
+	}
 }
 
-void	exec(t_command *command, t_token **tokens, t_var **env_lst)
+void	exec(t_command **command, t_token **tokens, t_var **env_lst)
 {
 	char	**envp;
 	char	*path;
@@ -45,18 +49,18 @@ void	exec(t_command *command, t_token **tokens, t_var **env_lst)
 	int		exit_status;
 
 	(void)tokens;
-	path = find_command(command, *env_lst);
+	path = find_command(*command, *env_lst);
 	envp = env_lst_to_arr(*env_lst);
 	my_pid = fork();
 	if (my_pid == 0)
-		child(path, command, envp);
+		child(path, *command, envp);
 	else
 	{
 		wait(&exit_status);
-		if (command->std_in != 0)
-			close(command->std_in);
-		if (command->std_out != 1)
-			close(command->std_out);
+		if ((*command)->std_in != 0)
+			close((*command)->std_in);
+		if ((*command)->std_out != 1)
+			close((*command)->std_out);
 		free(path);
 		arr_free(envp);
 	}

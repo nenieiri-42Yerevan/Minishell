@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 17:36:04 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/19 18:08:55 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/20 12:01:12 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,38 @@ static char	*find_path(t_var *env_lst, char *command)
 	return (0);
 }
 
+static int	builtin(t_command *command)
+{
+	int	i;
+
+	i = 0;
+	if (command->args != 0)
+	{
+		if (ft_strncmp(command->args[0], "echo", 5) == 0)
+			i = 1;
+		else if (ft_strncmp(command->args[0], "cd", 3) == 0)
+			i = 1;
+		else if (ft_strncmp(command->args[0], "pwd", 4) == 0)
+			i = 1;
+		else if (ft_strncmp(command->args[0], "export", 7) == 0)
+			i = 1;
+		else if (ft_strncmp(command->args[0], "unset", 6) == 0)
+			i = 1;
+		else if (ft_strncmp(command->args[0], "env", 4) == 0)
+			i = 1;
+		else if (ft_strncmp(command->args[0], "exit", 5) == 0)
+			i = 1;
+		command->builtin = i;
+	}
+	return (i);
+}
+
 char	*find_command(t_command *command, t_var *env_lst)
 {
 	char	*path;
 
 	path = 0;
-	if (ft_strchr(command->args[0], '/') != 0)
+	if ((builtin(command) == 1) || (ft_strchr(command->args[0], '/') != 0))
 		path = ft_strdup(command->args[0]);
 	else
 	{

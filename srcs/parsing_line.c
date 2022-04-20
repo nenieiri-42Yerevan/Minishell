@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 19:06:22 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/19 17:33:40 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/20 11:54:32 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	parsing_line(char *line, t_token **tokens, t_var **env_lst)
 			return (-1);
 		}
 		tokens_to_struct(tokens, &command, env_lst);
-		exec(command, tokens, env_lst);
+		exec(&command, tokens, env_lst);
 		lst_clear_token(tokens, &free);
 	}
 	return (1);

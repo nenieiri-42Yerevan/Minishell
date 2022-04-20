@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 15:24:28 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/18 16:04:53 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/20 11:05:30 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static void	command_init(t_command **command)
 	(*command)->oper = 0;
 	(*command)->oper_value = 0;
 	(*command)->heredoc = 0;
+	(*command)->builtin = 0;
 	(*command)->std_in = 0;
 	(*command)->std_out = 1;
 	(*command)->std_err = 2;

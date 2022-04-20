@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 17:23:05 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/19 18:05:26 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/20 11:54:42 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_command
 	char				*oper_value;
 	char				*heredoc;
 	char				delimitor;
+	int					builtin;
 	int					std_in;
 	int					std_out;
 	int					std_err;
@@ -86,7 +87,7 @@ void		tokens_to_struct(t_token **tokens, t_command **command, \
 		t_var **env_lst);
 char		*heredoc(t_command *command, t_var *env_lst);
 void		command_free(t_command *command);
-void		exec(t_command *command, t_token **tokens, t_var **env_lst);
+void		exec(t_command **command, t_token **tokens, t_var **env_lst);
 char		*find_command(t_command *command, t_var *env_lst);
 
 #endif
