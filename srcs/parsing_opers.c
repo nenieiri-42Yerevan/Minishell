@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 16:05:52 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/19 18:14:28 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/20 12:49:28 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,16 @@ static int	parsing_ins(t_token **tokens, t_command *command, t_var *env_lst)
 	return (0);
 }
 
+static void	parsing_out(t_command *command)
+{
+	int	fd;
+
+	fd = open(command->oper_value, O_CREAT | O_WRONLY | O_APPEND, 0644);
+	if (command->std_out != 1)
+		close(command->std_out);
+	command->std_out = fd;
+}
+
 static int	parsing_redirs(t_token **tokens, t_command *command, \
 		t_token **tmp, t_var *env_lst)
 {
@@ -55,12 +65,7 @@ static int	parsing_redirs(t_token **tokens, t_command *command, \
 		command->std_out = fd;
 	}
 	else if (ft_strncmp(command->oper, ">>", 3) == 0)
-	{
-		fd = open(command->oper_value, O_CREAT | O_WRONLY | O_APPEND, 0644);
-		if (command->std_out != 1)
-			close(command->std_out);
-		command->std_out = fd;
-	}
+		parsing_out(command);
 	else
 		return (parsing_ins(tokens, command, env_lst));
 	return (0);
