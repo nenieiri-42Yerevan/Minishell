@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 17:36:04 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/20 13:08:07 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/20 14:55:38 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ char	*find_command(t_command *command, t_var *env_lst)
 	char	*path;
 
 	path = 0;
-	str_tolower(command->args[0]); 
+	str_tolower(command->args[0]);
 	if ((builtin(command) == 1) || (ft_strchr(command->args[0], '/') != 0))
 		path = ft_strdup(command->args[0]);
 	else

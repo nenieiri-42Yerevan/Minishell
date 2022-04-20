@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 17:23:05 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/20 13:33:10 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/20 14:15:05 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,6 @@ char		*find_command(t_command *command, t_var *env_lst);
 void		exec(t_command **command, t_token **tokens, t_var **env_lst);
 int			pwd(void);
 int			env(char **envp);
+int			unset(t_command *command, t_var **env_lst, char **envp);
 
 #endif

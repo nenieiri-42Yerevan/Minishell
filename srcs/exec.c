@@ -6,22 +6,24 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 16:18:39 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/20 13:42:18 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/20 14:12:55 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	exec_builtin(char *path, char **envp, t_var **env_lst)
+static int	exec_builtin(char *path, t_command *command, \
+		char **envp, t_var **env_lst)
 {
 	int	status;
 
-	(void)env_lst;
 	status = 0;
 	if (ft_strncmp(path, "pwd", 4) == 0)
 		status = pwd();
 	else if (ft_strncmp(path, "env", 4) == 0)
 		status = env(envp);
+	else if (ft_strncmp(path, "unset", 6) == 0)
+		status = unset(command, env_lst, envp);
 	return (status);
 }
 
@@ -53,7 +55,7 @@ static void	child(char *path, t_command *command, char **envp, t_var **env_lst)
 			printf("Minishell$ command not found: %s\n", command->args[0]);
 	}
 	else
-		exec_builtin(path, envp, env_lst);
+		exec_builtin(path, command, envp, env_lst);
 }
 
 void	exec(t_command **command, t_token **tokens, t_var **env_lst)
