@@ -6,18 +6,26 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 16:18:39 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/20 12:56:41 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/20 13:42:18 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	exec_builtin()
+static int	exec_builtin(char *path, char **envp, t_var **env_lst)
 {
+	int	status;
 
+	(void)env_lst;
+	status = 0;
+	if (ft_strncmp(path, "pwd", 4) == 0)
+		status = pwd();
+	else if (ft_strncmp(path, "env", 4) == 0)
+		status = env(envp);
+	return (status);
 }
 
-static void	child(char *path, t_command *command, char **envp)
+static void	child(char *path, t_command *command, char **envp, t_var **env_lst)
 {
 	int		i;
 	int		heredoc[2];
@@ -45,7 +53,7 @@ static void	child(char *path, t_command *command, char **envp)
 			printf("Minishell$ command not found: %s\n", command->args[0]);
 	}
 	else
-		exec_builtin();
+		exec_builtin(path, envp, env_lst);
 }
 
 void	exec(t_command **command, t_token **tokens, t_var **env_lst)
@@ -60,7 +68,7 @@ void	exec(t_command **command, t_token **tokens, t_var **env_lst)
 	envp = env_lst_to_arr(*env_lst);
 	my_pid = fork();
 	if (my_pid == 0)
-		child(path, *command, envp);
+		child(path, *command, envp, env_lst);
 	else
 	{
 		wait(&exit_status);
