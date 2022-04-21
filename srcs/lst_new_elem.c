@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 10:48:39 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/10 19:32:43 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/20 18:03:39 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_var	*lst_new_elem(char *name, char *value)
 		return (0);
 	new_elem->name = name;
 	new_elem->value = value;
+	new_elem->meaning = 'e';
 	new_elem->next = 0;
 	return (new_elem);
 }

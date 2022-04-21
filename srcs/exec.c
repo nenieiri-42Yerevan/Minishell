@@ -6,14 +6,13 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 16:18:39 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/20 14:12:55 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/21 16:26:36 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	exec_builtin(char *path, t_command *command, \
-		char **envp, t_var **env_lst)
+static int	exec_builtin(char *path, t_command *command, t_var **env_lst)
 {
 	int	status;
 
@@ -21,16 +20,19 @@ static int	exec_builtin(char *path, t_command *command, \
 	if (ft_strncmp(path, "pwd", 4) == 0)
 		status = pwd();
 	else if (ft_strncmp(path, "env", 4) == 0)
-		status = env(envp);
+		status = env(env_lst);
 	else if (ft_strncmp(path, "unset", 6) == 0)
-		status = unset(command, env_lst, envp);
+		status = unset(command, env_lst);
+	else if (ft_strncmp(path, "export", 7) == 0)
+		status = export_env(command, env_lst);
 	return (status);
 }
 
-static void	child(char *path, t_command *command, char **envp, t_var **env_lst)
+static void	child(char *path, t_command *command, t_var **env_lst)
 {
 	int		i;
 	int		heredoc[2];
+	char	**envp;
 
 	if (command->std_in != 0)
 		dup2(command->std_in, 0);
@@ -50,27 +52,26 @@ static void	child(char *path, t_command *command, char **envp, t_var **env_lst)
 	}
 	if (command->builtin != 1)
 	{
+		envp = env_lst_to_arr(*env_lst, 'e', 0);
 		i = execve(path, command->args, envp);
 		if (i == -1)
 			printf("Minishell$ command not found: %s\n", command->args[0]);
 	}
 	else
-		exec_builtin(path, command, envp, env_lst);
+		exec_builtin(path, command, env_lst);
 }
 
 void	exec(t_command **command, t_token **tokens, t_var **env_lst)
 {
-	char	**envp;
 	char	*path;
 	int		my_pid;
 	int		exit_status;
 
 	(void)tokens;
 	path = find_command(*command, *env_lst);
-	envp = env_lst_to_arr(*env_lst);
 	my_pid = fork();
 	if (my_pid == 0)
-		child(path, *command, envp, env_lst);
+		child(path, *command, env_lst);
 	else
 	{
 		wait(&exit_status);
@@ -79,6 +80,5 @@ void	exec(t_command **command, t_token **tokens, t_var **env_lst)
 		if ((*command)->std_out != 1)
 			close((*command)->std_out);
 		free(path);
-		arr_free(envp);
 	}
 }

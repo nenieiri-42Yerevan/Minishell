@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 17:23:05 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/20 14:15:05 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/20 20:50:06 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct s_var
 {
 	char			*name;
 	char			*value;
+	char			meaning;
 	struct s_var	*next;
 }					t_var;
 
@@ -66,7 +67,7 @@ void		lst_clear_token(t_token **lst, void (*del)(void *));
 int			lst_size_token(t_token *lst);
 
 void		env_to_list(char **envp, t_var **env_lst);
-char		**env_lst_to_arr(t_var *env_lst);
+char		**env_lst_to_arr(t_var *env_lst, char meaning, int quote);
 char		*strjoin_base(char const *s1, char const *s2, char c);
 void		arr_free(char **arr);
 
@@ -91,7 +92,8 @@ void		command_free(t_command *command);
 char		*find_command(t_command *command, t_var *env_lst);
 void		exec(t_command **command, t_token **tokens, t_var **env_lst);
 int			pwd(void);
-int			env(char **envp);
-int			unset(t_command *command, t_var **env_lst, char **envp);
+int			env(t_var **env_lst);
+int			unset(t_command *command, t_var **env_lst);
+int			export_env(t_command *command, t_var **env_lst);
 
 #endif
