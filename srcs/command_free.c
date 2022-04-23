@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 17:25:09 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/19 17:33:46 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/22 22:13:56 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	command_free(t_command *command)
 				free(command->args[i]);
 			free(command->args);
 		}
+		if (command->path != 0)
+			free(command->path);
 		if (command->oper != 0)
 			free(command->oper);
 		if (command->oper_value != 0)

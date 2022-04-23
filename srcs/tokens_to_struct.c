@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 15:24:28 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/20 11:05:30 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/23 14:45:12 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 static void	command_init(t_command **command)
 {
 	(*command) = (t_command *)malloc(sizeof(t_command));
+	(*command)->id = 0;
 	(*command)->args = 0;
 	(*command)->oper = 0;
+	(*command)->path = 0;
 	(*command)->oper_value = 0;
 	(*command)->heredoc = 0;
 	(*command)->builtin = 0;
@@ -48,7 +50,9 @@ static int	parsing_pipe(t_token **tokens, t_command *last)
 void	tokens_to_struct(t_token **tokens, t_command **command, t_var **env_lst)
 {
 	t_command	*last;
+	int			id;
 
+	id = 0;
 	command_init(command);
 	parsing_command(tokens, *command, env_lst);
 	while ((*tokens) != 0 && ft_strncmp((*tokens)->value, "|", 2) == 0)
@@ -61,5 +65,6 @@ void	tokens_to_struct(t_token **tokens, t_command **command, t_var **env_lst)
 		while (last->next != 0)
 			last = last->next;
 		parsing_command(tokens, last, env_lst);
+		last->id = ++id;
 	}
 }

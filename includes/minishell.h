@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 17:23:05 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/20 20:50:06 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/23 14:47:47 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft.h"
+# include <errno.h>
 
 typedef struct s_var
 {
@@ -40,7 +41,9 @@ typedef struct s_token
 
 typedef struct s_command
 {
+	int					id;
 	char				**args;
+	char				*path;
 	char				*oper;
 	char				*oper_value;
 	char				*heredoc;
@@ -90,10 +93,12 @@ char		*heredoc(t_command *command, t_var *env_lst);
 void		command_free(t_command *command);
 
 char		*find_command(t_command *command, t_var *env_lst);
-void		exec(t_command **command, t_token **tokens, t_var **env_lst);
+void		exec(t_command **command, t_var **env_lst);
+void		child(t_command **command, t_var **env_lst, int id);
 int			pwd(void);
 int			env(t_var **env_lst);
 int			unset(t_command *command, t_var **env_lst);
 int			export_env(t_command *command, t_var **env_lst);
+int			echo(t_command *command);
 
 #endif
