@@ -1,34 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   change_status.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/20 13:26:41 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/23 16:28:14 by vismaily         ###   ########.fr       */
+/*   Created: 2022/04/23 17:35:07 by vismaily          #+#    #+#             */
+/*   Updated: 2022/04/23 17:44:02 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	env(t_var **env_lst)
+void	change_status(t_var **env_lst, char *status)
 {
-	int		i;
-	char	**envp;
+	t_var	*tmp;
 
-	i = -1;
-	envp = env_lst_to_arr(*env_lst, 'e', 0);
-	while (envp[++i] != 0)
-		printf("%s\n", envp[i]);
-	if (envp[i] == 0)
-	{
-		arr_free(envp);
-		return (EXIT_SUCCESS);
-	}
-	else
-	{
-		arr_free(envp);
-		return (EXIT_FAILURE);
-	}
+	tmp = *env_lst;
+	while (tmp->meaning != '?')
+		tmp = tmp->next;
+	free(tmp->value);
+	tmp->value = ft_strdup(status);
 }

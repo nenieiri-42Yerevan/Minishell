@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 17:22:35 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/06 15:12:25 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/23 17:41:55 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,7 @@ void	env_to_list(char **envp, t_var **env_lst)
 		lst_add_back(env_lst, node);
 		i++;
 	}
+	node = lst_new_elem("?", "0");
+	node->meaning = '?';
+	lst_add_front(env_lst, node);
 }

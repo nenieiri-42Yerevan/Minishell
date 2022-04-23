@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 17:23:05 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/23 14:47:47 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/23 17:43:16 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_command
 t_var		*lst_new_elem(char *name, char *value);
 t_var		*lst_last(t_var *lst);
 void		lst_add_back(t_var **lst, t_var *new_node);
+void		lst_add_front(t_var **lst, t_var *new_elem);
 void		lst_delone(t_var *lst, void (*del)(void *));
 void		lst_clear(t_var **lst, void (*del)(void *));
 int			lst_size(t_var *lst);
@@ -70,6 +71,7 @@ void		lst_clear_token(t_token **lst, void (*del)(void *));
 int			lst_size_token(t_token *lst);
 
 void		env_to_list(char **envp, t_var **env_lst);
+void		change_status(t_var **env_lsti, char *status);
 char		**env_lst_to_arr(t_var *env_lst, char meaning, int quote);
 char		*strjoin_base(char const *s1, char const *s2, char c);
 void		arr_free(char **arr);

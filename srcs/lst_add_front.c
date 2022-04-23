@@ -1,34 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   lst_add_front.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/20 13:26:41 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/23 16:28:14 by vismaily         ###   ########.fr       */
+/*   Created: 2022/04/23 17:39:55 by vismaily          #+#    #+#             */
+/*   Updated: 2022/04/23 17:44:49 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	env(t_var **env_lst)
+void	lst_add_front(t_var **lst, t_var *new_elem)
 {
-	int		i;
-	char	**envp;
-
-	i = -1;
-	envp = env_lst_to_arr(*env_lst, 'e', 0);
-	while (envp[++i] != 0)
-		printf("%s\n", envp[i]);
-	if (envp[i] == 0)
+	if (lst && new_elem)
 	{
-		arr_free(envp);
-		return (EXIT_SUCCESS);
-	}
-	else
-	{
-		arr_free(envp);
-		return (EXIT_FAILURE);
+		new_elem->next = *lst;
+		*lst = new_elem;
 	}
 }
