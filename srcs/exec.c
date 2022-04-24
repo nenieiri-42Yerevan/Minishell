@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 16:18:39 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/24 18:11:05 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/24 20:11:32 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,18 @@ static void	builtin_runs(t_command **command, t_var **env_lst)
 		exec_com->path = find_command(exec_com, *env_lst);
 		exec_com = exec_com->next;
 	}
-	if ((*command)->builtin == 1)
+	if ((*command)->builtin == 1 && (*command)->oper != 0 && \
+			ft_strncmp((*command)->oper, "|", ft_strlen((*command)->oper)) != 0)
 		exec_builtin(*command, env_lst, 0);
+	else
+	{
+		exec_com = *command;
+		while (exec_com != 0 && exec_com->oper != 0 && \
+				ft_strncmp(exec_com->oper, "|", ft_strlen(exec_com->oper)) == 0)
+			exec_com = exec_com->next;
+		if (exec_com->builtin == 1)
+			exec_builtin(exec_com, env_lst, 0);
+	}
 }
 
 static void	parent(t_command **command, t_var **env_lst)

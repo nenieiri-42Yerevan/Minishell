@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:10:27 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/24 17:12:16 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/24 20:17:19 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	pwd(t_var **env_lst)
 	else
 	{
 		printf("%s\n", dir);
+		free(dir);
 		change_status(env_lst, 0);
 	}
 }
