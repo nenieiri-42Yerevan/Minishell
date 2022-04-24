@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 17:22:35 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/23 17:41:55 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/24 19:19:21 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,23 @@ static t_var	*env_content(char *before_eq, char *after_eq)
 	return (node);
 }
 
-void	env_to_list(char **envp, t_var **env_lst)
+static int	for_exit_status(t_var *node, t_var **env_lst)
+{
+	char	*blank;
+
+	blank = malloc(sizeof(char) * 2);
+	if (blank == 0)
+		return (0);
+	blank[0] = '0';
+	blank[1] = '\0';
+	node = lst_new_elem("?", blank);
+	node->meaning = '?';
+	node->status = 0;
+	lst_add_front(env_lst, node);
+	return (1);
+}
+
+int	env_to_list(char **envp, t_var **env_lst)
 {
 	int		i;
 	char	*eq;
@@ -44,7 +60,5 @@ void	env_to_list(char **envp, t_var **env_lst)
 		lst_add_back(env_lst, node);
 		i++;
 	}
-	node = lst_new_elem("?", "0");
-	node->meaning = '?';
-	lst_add_front(env_lst, node);
+	return (for_exit_status(node, env_lst));
 }

@@ -6,7 +6,7 @@
 /*   By: vismaily <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/24 16:12:50 by vismaily          #+#    #+#             */
-/*   Updated: 2021/07/18 21:16:55 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/24 18:34:55 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 long	ft_atoi(const char *str)
 {
 	long			res;
-	long			sign;
+	int				sign;
 	unsigned int	i;
 
 	res = 0;

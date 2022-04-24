@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 17:23:05 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/23 17:43:16 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/24 18:30:43 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct s_var
 	char			*name;
 	char			*value;
 	char			meaning;
+	int				status;
 	struct s_var	*next;
 }					t_var;
 
@@ -70,8 +71,9 @@ void		lst_delone_token(t_token *lst, void (*del)(void *));
 void		lst_clear_token(t_token **lst, void (*del)(void *));
 int			lst_size_token(t_token *lst);
 
-void		env_to_list(char **envp, t_var **env_lst);
-void		change_status(t_var **env_lsti, char *status);
+void		shlvl(t_var **env_lst);
+int			env_to_list(char **envp, t_var **env_lst);
+void		change_status(t_var **env_lst, int status);
 char		**env_lst_to_arr(t_var *env_lst, char meaning, int quote);
 char		*strjoin_base(char const *s1, char const *s2, char c);
 void		arr_free(char **arr);
@@ -96,11 +98,12 @@ void		command_free(t_command *command);
 
 char		*find_command(t_command *command, t_var *env_lst);
 void		exec(t_command **command, t_var **env_lst);
+void		exec_builtin(t_command *command, t_var **env_lst, int child_parent);
 void		child(t_command **command, t_var **env_lst, int id);
-int			pwd(void);
-int			env(t_var **env_lst);
-int			unset(t_command *command, t_var **env_lst);
-int			export_env(t_command *command, t_var **env_lst);
-int			echo(t_command *command);
+void		pwd(t_var **env_lst);
+void		env(t_var **env_lst);
+void		unset(t_command *command, t_var **env_lst);
+void		export_env(t_command *command, t_var **env_lst);
+void		echo(t_command *command, t_var **env_lst);
 
 #endif

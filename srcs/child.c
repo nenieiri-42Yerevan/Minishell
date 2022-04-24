@@ -6,29 +6,11 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 14:46:45 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/23 16:15:27 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/24 18:00:16 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	exec_builtin(t_command *command, t_var **env_lst)
-{
-	int	status;
-
-	status = 0;
-	if (ft_strncmp(command->path, "pwd", 4) == 0)
-		status = pwd();
-	else if (ft_strncmp(command->path, "env", 4) == 0)
-		status = env(env_lst);
-	else if (ft_strncmp(command->path, "unset", 6) == 0)
-		status = unset(command, env_lst);
-	else if (ft_strncmp(command->path, "export", 7) == 0)
-		status = export_env(command, env_lst);
-	else if (ft_strncmp(command->path, "echo", 5) == 0)
-		status = echo(command);
-	return (status);
-}
 
 static void	dups(t_command *tmp)
 {
@@ -103,5 +85,6 @@ void	child(t_command **command, t_var **env_lst, int id)
 			printf("Minishell$ command not found: %s\n", exec_com->args[0]);
 	}
 	else
-		exec_builtin(exec_com, env_lst);
+		exec_builtin(exec_com, env_lst, 1);
+	exit (0);
 }

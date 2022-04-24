@@ -6,13 +6,13 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 18:06:34 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/21 17:03:21 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/24 19:19:58 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	print_env(t_var **env_lst)
+static void	print_env(t_var **env_lst)
 {
 	int		i;
 	char	**envp;
@@ -24,12 +24,13 @@ static int	print_env(t_var **env_lst)
 	if (envp[i] == 0)
 	{	
 		arr_free(envp);
-		return (EXIT_SUCCESS);
+		change_status(env_lst, 0);
 	}
 	else
 	{
 		arr_free(envp);
-		return (EXIT_FAILURE);
+		change_status(env_lst, 1);
+		exit (2);
 	}
 }
 
@@ -73,20 +74,29 @@ static void	export_new(t_var **env_lst, char *before_eq, \
 	}
 }
 
-static int	check_valid(char *str, int *res)
+static int	check_valid(char *str, int *res, int n, t_var **env_lst)
 {
-	if ((str[0] == '_') || (str[0] >= 'a' && str[0] <= 'z') || (str[0] >= 'A' \
-			&& str[0] <= 'Z'))
-		return (0);
-	else
+	if (n == 0)
 	{
-		printf("export: %s: not a valid identifier\n", str);
-		*res = 1;
-		return (1);
+		if ((str[0] == '_') || (str[0] >= 'a' && str[0] <= 'z') || \
+				(str[0] >= 'A' && str[0] <= 'Z'))
+			return (0);
+		else
+		{
+			perror(str);
+			*res = 1;
+			return (1);
+		}
 	}
+	else if (*res == 1)
+	{
+		change_status(env_lst, 1);
+		exit(2);
+	}
+	return (0);
 }
 
-int	export_env(t_command *command, t_var **env_lst)
+void	export_env(t_command *command, t_var **env_lst)
 {
 	int		i;
 	int		res;
@@ -94,22 +104,23 @@ int	export_env(t_command *command, t_var **env_lst)
 
 	i = 0;
 	if (command->args[1] == 0)
-		return (print_env(env_lst));
-	while (command->args[++i] != 0)
-	{
-		if (check_valid(command->args[i], &res) == 1)
-			continue ;
-		if (ft_strchr(command->args[i], '=') != 0)
-		{
-			eq = ft_strchr(command->args[i], '=');
-			*eq = '\0';
-			export_new(env_lst, command->args[i], eq + 1, 'e');
-		}
-		else
-			export_new(env_lst, command->args[i], "", 'x');
-	}
-	if (res == 1)
-		return (EXIT_FAILURE);
+		print_env(env_lst);
 	else
-		return (EXIT_SUCCESS);
+	{
+		while (command->args[++i] != 0)
+		{
+			if (check_valid(command->args[i], &res, 0, env_lst) == 1)
+				continue ;
+			if (ft_strchr(command->args[i], '=') != 0)
+			{
+				eq = ft_strchr(command->args[i], '=');
+				*eq = '\0';
+				export_new(env_lst, command->args[i], eq + 1, 'e');
+			}
+			else
+				export_new(env_lst, command->args[i], "", 'x');
+		}
+		check_valid("", &res, 1, env_lst);
+		change_status(env_lst, 0);
+	}
 }

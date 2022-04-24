@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 17:25:03 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/21 18:31:15 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/24 17:02:48 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ static int	check_flag(char *str, int *n)
 	{
 		if (i == 0 && str[i] == '-')
 			continue ;
-		else if (str[i] == 'n')
+		else if (i != 0 && str[i] == 'n')
 			continue ;
 		else
 			break ;
 	}
-	if (str[i] == '\0')
+	if (i != 0 && str[i] == '\0')
 	{
 		*n = 1;
 		return (1);
@@ -56,7 +56,7 @@ static int	echo_print(t_command *command, int *i)
 	return (0);
 }
 
-int	echo(t_command *command)
+void	echo(t_command *command, t_var **env_lst)
 {
 	int	n;
 	int	i;
@@ -76,6 +76,10 @@ int	echo(t_command *command)
 			status = printf("\n");
 	}
 	if (status < 0)
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+	{
+		errno = 127;
+		change_status(env_lst, 127);
+		exit(2);
+	}
+	change_status(env_lst, 0);
 }
