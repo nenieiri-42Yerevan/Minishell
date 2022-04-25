@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 16:14:31 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/24 18:54:15 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/25 17:47:30 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,27 @@ static void	intra(void)
 	printf("***************************************************************\n");
 }
 
+static int	check_status(t_var *env_lst, int *status)
+{
+	while (env_lst->meaning != '?')
+		env_lst = env_lst->next;
+	if (env_lst->value != 0)
+	{
+		if (ft_strncmp(env_lst->value, "exit", 5) == 0)
+		{
+			*status = env_lst->status;
+			return (1);
+		}
+	}
+	return (0);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
 	t_var	*env_lst;
 	t_token	*tokens;
+	int		status;
 
 	(void)argv;
 	if (argc > 1)
@@ -50,7 +66,9 @@ int	main(int argc, char **argv, char **envp)
 		line = readline("Minishell$ ");
 		parsing_line(line, &tokens, &env_lst);
 		free(line);
+		if (check_status(env_lst, &status) == 1)
+			break ;
 	}
-	lst_clear(&env_lst, free);
-	return (0);
+	lst_clear(&env_lst, &free);
+	return (status);
 }

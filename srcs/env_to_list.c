@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 17:22:35 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/24 19:19:21 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/25 17:45:41 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	for_exit_status(t_var *node, t_var **env_lst)
 		return (0);
 	blank[0] = '0';
 	blank[1] = '\0';
-	node = lst_new_elem("?", blank);
+	node = lst_new_elem(ft_strdup("?"), blank);
 	node->meaning = '?';
 	node->status = 0;
 	lst_add_front(env_lst, node);

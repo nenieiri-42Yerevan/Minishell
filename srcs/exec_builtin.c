@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 17:53:24 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/24 19:55:23 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/25 15:15:25 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ static void	exec_run(t_command *command, t_var **env_lst)
 		export_env(command, env_lst);
 	else if (ft_strncmp(command->path, "echo", 5) == 0)
 		echo(command, env_lst);
+	else if (ft_strncmp(command->path, "exit", 5) == 0)
+		my_exit(command, env_lst);
 }
 
 void	exec_builtin(t_command *command, t_var **env_lst, int child_parent)
