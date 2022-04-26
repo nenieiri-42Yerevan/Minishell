@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 14:33:42 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/26 17:20:47 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/26 18:29:22 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	change_env(char *oldpwd, t_var *env_lst)
 			free(env_lst->value);
 			env_lst->value = getcwd(NULL, 0);
 		}
-		else if (ft_strncmp(env_lst->name, "OLDPWD", 7) == 0)
+		else if (ft_strncmp(env_lst->name, "OLDPWD", 7) == 0 && oldpwd != 0)
 		{
 			free(env_lst->value);
 			env_lst->value = oldpwd;
@@ -57,6 +57,7 @@ static int change(char *path, t_var **env_lst)
 	oldpwd = getold(env_lst);
 	if (chdir(path) == -1)
 	{
+		perror(path);
 		free(path);
 		if (oldpwd != 0)
 			free(oldpwd);

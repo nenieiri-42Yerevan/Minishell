@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 16:14:31 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/25 17:47:30 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/26 18:21:36 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ int	main(int argc, char **argv, char **envp)
 	shlvl(&env_lst);
 	while (1)
 	{
-		line = readline("Minishell$ ");
+		line = readline("\033[1;32mMinishell$ \033[0m");
+		add_history(line);
 		parsing_line(line, &tokens, &env_lst);
 		free(line);
 		if (check_status(env_lst, &status) == 1)
