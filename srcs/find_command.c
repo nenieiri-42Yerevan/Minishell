@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 17:36:04 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/26 23:46:49 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/27 00:28:52 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,5 +106,7 @@ char	*find_command(t_command *command, t_var *env_lst)
 			command->args[0] = ft_strdup(path);
 		}
 	}
+	if (path == 0)
+		command->path_error = 1;
 	return (path);
 }

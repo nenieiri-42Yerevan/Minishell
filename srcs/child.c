@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 14:46:45 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/27 00:20:52 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/27 00:36:38 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,10 @@ void	child(t_command **command, t_var **env_lst, int id)
 	exec_com->path = find_command(exec_com, *env_lst);
 	if (exec_com->path == 0)
 	{
-		change_status(env_lst, 0);
-		exit(0);
+		if (exec_com->path_error == 0)
+			exit(0);
+		perror(exec_com->args[0]);
+		exit(127);
 	}
 	heredoc_check(exec_com);
 	if (exec_com->builtin != 1)

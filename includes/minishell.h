@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 17:23:05 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/26 22:32:17 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/27 00:28:43 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_command
 	int					id;
 	char				**args;
 	char				*path;
+	int					path_error;
 	char				*oper;
 	char				*oper_value;
 	char				*heredoc;
