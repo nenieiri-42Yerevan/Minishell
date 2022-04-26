@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 17:00:36 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/19 16:06:41 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/26 22:03:55 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ static int	not_found(t_token *tokens, int *i, int j, int quote)
 	int		res;
 
 	tmp = (t_var *)malloc(sizeof(t_var) * 1);
+	if (tmp == 0)
+		return (-1);
 	tmp->name = (char *)malloc(sizeof(char) * 2);
 	if (tmp->name == 0)
 		return (-1);
@@ -75,13 +77,11 @@ static int	not_found(t_token *tokens, int *i, int j, int quote)
 		tmp->name[0] = '1';
 	else
 		tmp->name[0] = '0';
-	if (tmp == 0)
-		return (-1);
 	tmp->name[1] = '\0';
 	not_found_2(tokens, i, j, tmp);
 	res = my_replace(tokens, *i, j, tmp);
 	if (!((j - *i) == 1 && (tmp->name[0] == '1' || \
-			(tokens->value[j] != '\"' && tokens->value[j] != '\''))))
+			(tokens->value[j] == '\"' || tokens->value[j] == '\''))))
 		*i = *i - 1;
 	lst_delone(tmp, &free);
 	return (res);
@@ -114,15 +114,16 @@ static int	search_and_replace(t_token *tokens, int *i, t_var *env_lst, int q)
 void	p_expansion(t_token *tokens, t_var *env_lst)
 {
 	int		i;
-	int		j;
 
 	i = -1;
-	j = -1;
 	while (tokens->value[++i] != '\0')
 	{
 		if (tokens->value[i] == '\'')
-			while (tokens->value[++i] != '\'')
-				;
+		{
+			i++;
+			while (tokens->value[i] != '\'' && tokens->value[i] != '\0')
+				i++;
+		}
 		else if (tokens->value[i] == '\"')
 		{
 			while (tokens->value[++i] != '\"')

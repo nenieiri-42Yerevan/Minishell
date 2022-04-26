@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 16:05:52 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/20 12:49:28 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/26 22:26:48 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	parsing_opers(t_token **tokens, t_command *command, t_var *env_lst)
 	int		status;
 
 	status = 0;
-	while (*tokens != 0 && (*tokens)->type != 'c')
+	while ((*tokens) != 0 && (*tokens)->type != 'c')
 	{
 		if (command->oper != 0)
 			free(command->oper);

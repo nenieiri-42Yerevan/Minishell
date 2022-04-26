@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 17:23:05 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/26 15:55:05 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/26 22:32:17 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void		word_splitting(t_token **tokens, t_var *env_lst);
 int			operators(t_token *tokens);
 int			arg_count(t_token **tokens, t_command *command);
 int			parsing_opers(t_token **tokens, t_command *command, t_var *env_lst);
-void		tokens_to_struct(t_token **tokens, t_command **command, \
+int			tokens_to_struct(t_token **tokens, t_command **command, \
 		t_var **env_lst);
 char		*heredoc(t_command *command, t_var *env_lst);
 void		command_free(t_command *command);
