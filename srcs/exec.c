@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 16:18:39 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/26 22:44:18 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/27 00:18:04 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ static void	exec_in_proc(t_command **command, t_var **env_lst)
 void	exec(t_command **command, t_var **env_lst)
 {
 	(*command)->path = find_command(*command, *env_lst);
-	if ((*command)->builtin == 1 && (*command)->next == 0)
+	if ((*command)->path != 0 && (*command)->builtin == 1 && \
+			(*command)->next == 0)
 		exec_builtin(*command, env_lst, 0);
 	else
 		exec_in_proc(command, env_lst);
