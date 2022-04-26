@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 19:18:41 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/24 16:08:21 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/26 23:04:15 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,23 @@ static int	my_size(t_var *lst, char meaning)
 	return (count);
 }
 
+static void	empties(t_var *env_lst, int *i, char **arr)
+{
+	char	*tmp_str1;
+	char	*tmp_str2;
+
+	if (env_lst->meaning == 'e')
+	{
+		tmp_str1 = ft_strdup(env_lst->name);
+		tmp_str2 = ft_strdup("=\"\"");
+		arr[*i] = ft_strjoin(tmp_str1, tmp_str2);
+		free(tmp_str1);
+		free(tmp_str2);
+	}
+	else
+		arr[*i] = ft_strdup(env_lst->name);
+}
+
 static void	find_and_join(t_var *env_lst, int quote, char **arr, int *i)
 {
 	char	*tmp;
@@ -43,7 +60,7 @@ static void	find_and_join(t_var *env_lst, int quote, char **arr, int *i)
 			free(tmp);
 		}
 		else
-			arr[*i] = ft_strdup(env_lst->name);
+			empties(env_lst, i, arr);
 		*i = *i + 1;
 	}
 	else
