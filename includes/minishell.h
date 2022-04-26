@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 17:23:05 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/26 14:08:40 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/26 14:32:51 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,5 +109,6 @@ int			unset(t_command *command, t_var **env_lst);
 int			export_env(t_command *command, t_var **env_lst);
 int			echo(t_command *command, t_var **env_lst);
 int			my_exit(t_command *command, t_var **env_lst);
+int			cd(t_command *command, t_var **env_lst);
 
 #endif

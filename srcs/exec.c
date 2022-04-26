@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 16:18:39 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/26 14:21:25 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/26 14:32:16 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	parent(t_command **command, t_var **env_lst)
 	int			exit_status;
 	int			status_code;
 	(void)command;
-/*	t_command	*tmp;
+	t_command	*tmp;
 
 	tmp = *command;
 	while (tmp != 0)
@@ -28,7 +28,7 @@ static void	parent(t_command **command, t_var **env_lst)
 			close(tmp->std_out);
 		tmp = tmp->next;
 	}
-*/	while (wait(&exit_status) != -1 || errno != ECHILD)
+	while (wait(&exit_status) != -1 || errno != ECHILD)
 	{
 		if (WIFEXITED(exit_status))
 		{
