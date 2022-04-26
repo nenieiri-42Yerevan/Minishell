@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 17:53:24 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/26 21:00:13 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/26 22:43:10 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	exec_run(t_command *command, t_var **env_lst)
 	return (0);
 }
 
-static void close_dups(t_command *command)
+static void	close_dups(t_command *command)
 {
 	if (command->std_in != 0)
 	{

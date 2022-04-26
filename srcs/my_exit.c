@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 15:15:41 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/26 14:17:09 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/26 22:43:48 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	exit_status_correct(int res)
 		return (res);
 	num = (float)res / 256;
 	int_part = (int)num;
-	num =  (num - int_part) * 256;
+	num = (num - int_part) * 256;
 	if (num >= ((int)num + 0.5))
 		res = (int)num + 1;
 	else
@@ -38,7 +38,7 @@ static void	parsing_code(t_command *command, t_var **env_lst)
 	int	i;
 
 	i = -1;
-	while (command->args[1][++i] != '\0') 
+	while (command->args[1][++i] != '\0')
 		if (!(ft_isdigit(command->args[1][i]) == 1 || \
 				(i == 0 && command->args[1][i] == '-')))
 			break ;

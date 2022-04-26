@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 14:33:42 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/26 18:29:22 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/26 22:42:40 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static char	*getold(t_var **env_lst)
 {
-	t_var *tmp;
+	t_var	*tmp;
 
 	tmp = *env_lst;
 	while (tmp != 0)
@@ -50,7 +50,7 @@ static void	change_env(char *oldpwd, t_var *env_lst)
 		free(oldpwd);
 }
 
-static int change(char *path, t_var **env_lst)
+static int	change(char *path, t_var **env_lst)
 {
 	char	*oldpwd;
 
@@ -73,7 +73,7 @@ static int change(char *path, t_var **env_lst)
 	}
 }
 
-static int find_home(t_var **env_lst, char **path)
+static int	find_home(t_var **env_lst, char **path)
 {
 	t_var	*tmp;
 

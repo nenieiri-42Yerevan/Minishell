@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 16:18:39 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/26 20:25:13 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/26 22:44:18 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static void	parent(t_command **command, t_var **env_lst)
 {
 	int			exit_status;
 	int			status_code;
-	(void)command;
 	t_command	*tmp;
 
 	tmp = *command;

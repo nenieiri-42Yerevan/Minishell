@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 19:06:22 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/26 22:40:07 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/26 22:53:16 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,17 @@ static void	clear_all(t_command **command, t_token **tokens)
 		command_free(*command);
 		*command = (*command)->next;
 	}
+}
+
+static int	command_bld(t_token **tokens, t_var **env_lst, t_command **command)
+{
+	if (tokens_to_struct(tokens, command, env_lst) == -1)
+	{
+		change_status(env_lst, 1);
+		perror(NULL);
+		return (-1);
+	}
+	return (0);
 }
 
 int	parsing_line(char *line, t_token **tokens, t_var **env_lst)
@@ -40,12 +51,7 @@ int	parsing_line(char *line, t_token **tokens, t_var **env_lst)
 			lst_clear_token(tokens, &free);
 			return (-1);
 		}
-		if (tokens_to_struct(tokens, &command, env_lst) == -1)
-		{
-			change_status(env_lst, 1);
-			perror(NULL);
-		}
-		else
+		if (command_bld(tokens, env_lst, &command) == 0)
 			exec(&command, env_lst);
 		clear_all(&command, tokens);
 	}
