@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 17:23:05 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/26 14:32:51 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/26 15:55:05 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,9 @@ typedef struct s_command
 	int					std_out;
 	int					std_out_dup1;
 	int					std_err;
+	int					pipe;
+	int					pipe_out;
+	int					pipe_in;
 	struct s_command	*next;
 }						t_command;
 

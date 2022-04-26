@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 15:24:28 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/26 13:07:10 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/26 15:55:05 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@ static void	command_init(t_command **command)
 	(*command)->std_in = 0;
 	(*command)->std_out = 1;
 	(*command)->std_err = 2;
+	(*command)->pipe = 0;
+	(*command)->pipe_out = 0;
+	(*command)->pipe_in = 0;
 	(*command)->next = 0;
 }
 
@@ -34,7 +37,7 @@ static int	parsing_pipe(t_token **tokens, t_command *last)
 	t_command	*new_command;
 	int			fd[2];
 
-	last->oper = ft_strdup((*tokens)->value);
+	last->pipe = 1;
 	tmp = *tokens;
 	*tokens = (*tokens)->next;
 	lst_delone_token(tmp, &free);
@@ -42,8 +45,8 @@ static int	parsing_pipe(t_token **tokens, t_command *last)
 		return (-1);
 	command_init(&new_command);
 	last->next = new_command;
-	last->std_out = fd[1];
-	last->next->std_in = fd[0];
+	last->pipe_out = fd[1];
+	last->next->pipe_in = fd[0];
 	return (0);
 }
 

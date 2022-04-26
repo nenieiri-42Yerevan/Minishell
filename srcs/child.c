@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 14:46:45 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/26 13:28:30 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/26 15:44:17 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ static t_command	*close_pipes(t_command **command, int id)
 				close(tmp->std_in);
 			if (tmp->std_out != 1)
 				close(tmp->std_out);
+			if (tmp->pipe_out != 0)
+				close(tmp->pipe_out);
 		}
 		tmp = tmp->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 16:18:39 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/26 14:32:16 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/26 16:03:54 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,10 @@ static void	parent(t_command **command, t_var **env_lst)
 			close(tmp->std_in);
 		if (tmp->std_out != 1)
 			close(tmp->std_out);
+		if (tmp->pipe_out != 0)
+			close(tmp->pipe_out);
+		if (tmp->pipe_in != 0)
+			close(tmp->pipe_in);
 		tmp = tmp->next;
 	}
 	while (wait(&exit_status) != -1 || errno != ECHILD)
@@ -49,7 +53,7 @@ static void	exec_in_proc(t_command **command, t_var **env_lst)
 	my_pid = 1;
 	while (tmp != 0 && my_pid != 0)
 	{
-		if (tmp->id == 0 || ft_strncmp(tmp2->oper, "|", 2) == 0)
+		if (tmp->id == 0 || tmp2->pipe == 1)
 			my_pid = fork();
 		if (my_pid == 0)
 			child(command, env_lst, tmp->id);
