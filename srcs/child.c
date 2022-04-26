@@ -6,25 +6,11 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 14:46:45 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/24 18:00:16 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/26 13:28:30 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	dups(t_command *tmp)
-{
-	if (tmp->std_in != 0)
-	{
-		dup2(tmp->std_in, 0);
-		close(tmp->std_in);
-	}
-	if (tmp->std_out != 1)
-	{
-		dup2(tmp->std_out, 1);
-		close(tmp->std_out);
-	}
-}
 
 static t_command	*close_pipes(t_command **command, int id)
 {
@@ -83,8 +69,8 @@ void	child(t_command **command, t_var **env_lst, int id)
 		i = execve(exec_com->path, exec_com->args, envp);
 		if (i == -1)
 			printf("Minishell$ command not found: %s\n", exec_com->args[0]);
+		exit (2);
 	}
 	else
 		exec_builtin(exec_com, env_lst, 1);
-	exit (0);
 }

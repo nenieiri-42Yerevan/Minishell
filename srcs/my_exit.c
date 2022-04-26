@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 15:15:41 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/25 17:39:03 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/26 14:17:09 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static void	run_exit(t_var *env_lst)
 	env_lst->value = ft_strdup("exit");
 }
 
-void	my_exit(t_command *command, t_var **env_lst)
+int	my_exit(t_command *command, t_var **env_lst)
 {
 	if (command->args[1] != 0)
 	{
@@ -79,4 +79,5 @@ void	my_exit(t_command *command, t_var **env_lst)
 		errno = 1;
 		perror("exit");
 	}
+	return (0);
 }

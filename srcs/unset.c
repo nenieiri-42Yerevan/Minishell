@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:46:44 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/24 16:27:06 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/26 14:19:22 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static void	unset_vars(t_command *command, t_var **env_lst, int *res)
 	}
 }
 
-void	unset(t_command *command, t_var **env_lst)
+int	unset(t_command *command, t_var **env_lst)
 {
 	int	res;
 
@@ -89,4 +89,5 @@ void	unset(t_command *command, t_var **env_lst)
 		change_status(env_lst, 0);
 	else
 		change_status(env_lst, 1);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 17:23:05 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/25 15:15:16 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/26 14:08:40 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,9 @@ typedef struct s_command
 	char				delimitor;
 	int					builtin;
 	int					std_in;
+	int					std_in_dup1;
 	int					std_out;
+	int					std_out_dup1;
 	int					std_err;
 	struct s_command	*next;
 }						t_command;
@@ -100,11 +102,12 @@ char		*find_command(t_command *command, t_var *env_lst);
 void		exec(t_command **command, t_var **env_lst);
 void		exec_builtin(t_command *command, t_var **env_lst, int child_parent);
 void		child(t_command **command, t_var **env_lst, int id);
-void		pwd(t_var **env_lst);
-void		env(t_var **env_lst);
-void		unset(t_command *command, t_var **env_lst);
-void		export_env(t_command *command, t_var **env_lst);
-void		echo(t_command *command, t_var **env_lst);
-void		my_exit(t_command *command, t_var **env_lst);
+void		dups(t_command *tmp);
+int			pwd(t_var **env_lst);
+int			env(t_var **env_lst);
+int			unset(t_command *command, t_var **env_lst);
+int			export_env(t_command *command, t_var **env_lst);
+int			echo(t_command *command, t_var **env_lst);
+int			my_exit(t_command *command, t_var **env_lst);
 
 #endif

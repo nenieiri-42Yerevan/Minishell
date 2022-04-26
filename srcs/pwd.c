@@ -6,13 +6,13 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:10:27 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/24 20:17:19 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/26 14:19:52 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	pwd(t_var **env_lst)
+int	pwd(t_var **env_lst)
 {
 	char	*dir;
 
@@ -22,12 +22,13 @@ void	pwd(t_var **env_lst)
 		errno = 127;
 		change_status(env_lst, 2);
 		perror("pwd");
-		exit(2);
+		return (2);
 	}
 	else
 	{
 		printf("%s\n", dir);
 		free(dir);
 		change_status(env_lst, 0);
+		return (0);
 	}
 }

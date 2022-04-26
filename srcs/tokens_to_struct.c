@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 15:24:28 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/23 14:45:12 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/26 13:07:10 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	tokens_to_struct(t_token **tokens, t_command **command, t_var **env_lst)
 	id = 0;
 	command_init(command);
 	parsing_command(tokens, *command, env_lst);
+	(*command)->id = id;
 	while ((*tokens) != 0 && ft_strncmp((*tokens)->value, "|", 2) == 0)
 	{
 		last = *command;

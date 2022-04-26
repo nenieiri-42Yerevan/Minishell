@@ -1,36 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   dups.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/20 13:26:41 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/26 14:17:39 by vismaily         ###   ########.fr       */
+/*   Created: 2022/04/25 20:39:41 by vismaily          #+#    #+#             */
+/*   Updated: 2022/04/26 12:23:45 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	env(t_var **env_lst)
+void	dups(t_command *tmp)
 {
-	int		i;
-	char	**envp;
-
-	i = -1;
-	envp = env_lst_to_arr(*env_lst, 'e', 0);
-	while (envp[++i] != 0)
-		printf("%s\n", envp[i]);
-	if (envp[i] == 0)
+	if (tmp->std_in != 0)
 	{
-		arr_free(envp);
-		change_status(env_lst, 0);
-		return (0);
+		tmp->std_in_dup1 = dup(0);
+		dup2(tmp->std_in, 0);
+		close(tmp->std_in);
 	}
-	else
+	if (tmp->std_out != 1)
 	{
-		arr_free(envp);
-		change_status(env_lst, 127);
-		return (2);
+		tmp->std_out_dup1 = dup(1);
+		dup2(tmp->std_out, 1);
+		close(tmp->std_out);
 	}
 }

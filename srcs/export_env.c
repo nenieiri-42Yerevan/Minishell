@@ -6,13 +6,13 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 18:06:34 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/24 19:19:58 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/26 14:14:25 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	print_env(t_var **env_lst)
+static int	print_env(t_var **env_lst)
 {
 	int		i;
 	char	**envp;
@@ -25,12 +25,13 @@ static void	print_env(t_var **env_lst)
 	{	
 		arr_free(envp);
 		change_status(env_lst, 0);
+		return (0);
 	}
 	else
 	{
 		arr_free(envp);
 		change_status(env_lst, 1);
-		exit (2);
+		return (2);
 	}
 }
 
@@ -88,15 +89,19 @@ static int	check_valid(char *str, int *res, int n, t_var **env_lst)
 			return (1);
 		}
 	}
-	else if (*res == 1)
+	else
 	{
-		change_status(env_lst, 1);
-		exit(2);
+		if (*res == 1)
+		{
+			change_status(env_lst, 1);
+			return (2);
+		}
+		change_status(env_lst, 0);
+		return (0);
 	}
-	return (0);
 }
 
-void	export_env(t_command *command, t_var **env_lst)
+int	export_env(t_command *command, t_var **env_lst)
 {
 	int		i;
 	int		res;
@@ -104,7 +109,7 @@ void	export_env(t_command *command, t_var **env_lst)
 
 	i = 0;
 	if (command->args[1] == 0)
-		print_env(env_lst);
+		return (print_env(env_lst));
 	else
 	{
 		while (command->args[++i] != 0)
@@ -120,7 +125,6 @@ void	export_env(t_command *command, t_var **env_lst)
 			else
 				export_new(env_lst, command->args[i], "", 'x');
 		}
-		check_valid("", &res, 1, env_lst);
-		change_status(env_lst, 0);
+		return (check_valid("", &res, 1, env_lst));
 	}
 }

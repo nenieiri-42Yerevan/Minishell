@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 17:25:03 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/24 17:02:48 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/26 14:15:21 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static int	echo_print(t_command *command, int *i)
 	return (0);
 }
 
-void	echo(t_command *command, t_var **env_lst)
+int	echo(t_command *command, t_var **env_lst)
 {
 	int	n;
 	int	i;
@@ -79,7 +79,8 @@ void	echo(t_command *command, t_var **env_lst)
 	{
 		errno = 127;
 		change_status(env_lst, 127);
-		exit(2);
+		return (2);
 	}
 	change_status(env_lst, 0);
+	return (0);
 }
