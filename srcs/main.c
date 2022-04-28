@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 16:14:31 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/27 00:22:39 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/28 11:53:24 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		line = readline("\033[1;32mMinishell$ \033[0m");
-		add_history(line);
+		if (ft_strncmp(line, "", ft_strlen(line)) != 0)
+			add_history(line);
 		parsing_line(line, &tokens, &env_lst);
 		free(line);
 		if (check_status(env_lst, &status) == 1)
