@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 16:14:31 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/28 11:53:24 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/28 11:55:56 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,10 @@ int	main(int argc, char **argv, char **envp)
 		parsing_line(line, &tokens, &env_lst);
 		free(line);
 		if (check_status(env_lst, &status) == 1)
+		{
+			printf("exit\n");
 			break ;
+		}
 	}
 	lst_clear(&env_lst, &free);
 	return (status);
