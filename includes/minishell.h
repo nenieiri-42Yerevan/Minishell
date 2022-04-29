@@ -6,22 +6,23 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 17:23:05 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/27 00:28:43 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/29 11:45:15 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <errno.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include <signal.h>
 # include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft.h"
-# include <errno.h>
 
 typedef struct s_var
 {
@@ -62,6 +63,12 @@ typedef struct s_command
 	struct s_command	*next;
 }						t_command;
 
+struct	s_signal
+{
+	struct sigaction	sa_quit;
+	struct sigaction	sa_int;
+};
+
 t_var		*lst_new_elem(char *name, char *value);
 t_var		*lst_last(t_var *lst);
 void		lst_add_back(t_var **lst, t_var *new_node);
@@ -76,6 +83,8 @@ void		lst_add_back_token(t_token **lst, t_token *new_node);
 void		lst_delone_token(t_token *lst, void (*del)(void *));
 void		lst_clear_token(t_token **lst, void (*del)(void *));
 int			lst_size_token(t_token *lst);
+
+void		signals_init(struct s_signal *signals);
 
 void		shlvl(t_var **env_lst);
 int			env_to_list(char **envp, t_var **env_lst);
@@ -96,7 +105,8 @@ void		quote_removal(t_token *tokens);
 void		word_splitting(t_token **tokens, t_var *env_lst);
 int			operators(t_token *tokens);
 int			arg_count(t_token **tokens, t_command *command);
-int			parsing_opers(t_token **tokens, t_command *command, t_var *env_lst);
+int			parsing_opers(t_token **tokens, t_command *command, \
+		t_var *env_lst);
 int			tokens_to_struct(t_token **tokens, t_command **command, \
 		t_var **env_lst);
 char		*heredoc(t_command *command, t_var *env_lst);
@@ -104,7 +114,8 @@ void		command_free(t_command *command);
 
 char		*find_command(t_command *command, t_var *env_lst);
 void		exec(t_command **command, t_var **env_lst);
-void		exec_builtin(t_command *command, t_var **env_lst, int child_parent);
+void		exec_builtin(t_command *command, t_var **env_lst, \
+		int child_parent);
 void		child(t_command **command, t_var **env_lst, int id);
 void		dups(t_command *tmp);
 int			pwd(t_var **env_lst);

@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 16:14:31 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/28 11:55:56 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/29 11:45:40 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,12 @@ static int	check_status(t_var *env_lst, int *status)
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*line;
-	t_var	*env_lst;
-	t_token	*tokens;
-	int		status;
+	char			*line;
+	t_var			*env_lst;
+	t_token			*tokens;
+	int				status;
+	struct s_signal	*signals;
+
 
 	(void)argv;
 	if (argc > 1)
@@ -59,6 +61,8 @@ int	main(int argc, char **argv, char **envp)
 		return (0);
 	}
 	intra();
+	signals = 0;
+	signals_init(signals);
 	env_to_list(envp, &env_lst);
 	shlvl(&env_lst);
 	while (1)
