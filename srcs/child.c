@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 14:46:45 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/27 00:36:38 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/29 11:56:27 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ static void	heredoc_check(t_command *exec_com)
 	}
 }
 
-void	child(t_command **command, t_var **env_lst, int id)
+void	child(t_command **command, t_var **env_lst, int id, \
+		struct s_signal *signals)
 {
 	int			i;
 	char		**envp;
@@ -81,5 +82,5 @@ void	child(t_command **command, t_var **env_lst, int id)
 		exit (2);
 	}
 	else
-		exec_builtin(exec_com, env_lst, 1);
+		exec_builtin(exec_com, env_lst, 1, signals);
 }

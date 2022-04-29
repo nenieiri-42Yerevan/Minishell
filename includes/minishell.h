@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 17:23:05 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/29 11:49:03 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/29 11:56:27 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,8 +117,9 @@ char		*find_command(t_command *command, t_var *env_lst);
 void		exec(t_command **command, t_var **env_lst, \
 		struct s_signal *signals);
 void		exec_builtin(t_command *command, t_var **env_lst, \
-		int child_parent);
-void		child(t_command **command, t_var **env_lst, int id);
+		int child_parent, struct s_signal *signals);
+void		child(t_command **command, t_var **env_lst, int id, \
+		struct s_signal *signals);
 void		dups(t_command *tmp);
 int			pwd(t_var **env_lst);
 int			env(t_var **env_lst);
