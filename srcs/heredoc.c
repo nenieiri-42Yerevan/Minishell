@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 20:18:11 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/19 15:53:41 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/29 15:29:14 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static char	*line_expansion(char *line, t_var *env_lst)
 	return (str);
 }
 
-char	*heredoc(t_command *command, t_var *env_lst)
+static char	*go_heredoc(t_command *command, t_var *env_lst)
 {
 	char	*line;
 	char	*tmp;
@@ -76,3 +76,46 @@ char	*heredoc(t_command *command, t_var *env_lst)
 		free(line);
 	return (res);
 }
+
+void heredoc(t_command *command, t_var **env_lst, struct s_signal *signals)
+{
+//	int	pid;
+//	int	exit_status;
+	int	heredoc[2];
+	int	i;
+
+	(void)signals;
+//	pid = fork();
+//	if (pid == 0)
+//	{
+//		signal(SIGINT, handle_sigint_heredoc);
+		command->heredoc = go_heredoc(command, *env_lst);
+		i = pipe(heredoc);
+		if (i == -1)
+			exit(1);
+		ft_putstr_fd(command->heredoc, heredoc[1]);
+		ft_putstr_fd("\n", heredoc[1]);
+		close(heredoc[1]);
+		command->std_in = dup(heredoc[0]);
+		close(heredoc[0]);
+	//	exit(0);
+//	}
+//	else
+//	{
+//		signal(SIGINT, SIG_IGN);
+//		wait(&exit_status);
+//		if (WIFEXITED(exit_status))
+//		{
+//				exit_status = WEXITSTATUS(exit_status);
+	/*			if (exit_status == 1)
+				{
+					write(1, "\b\b  \b\b\n", 7);
+					rl_on_new_line();
+					rl_replace_line("", 0); 
+					rl_redisplay();
+				}
+	*///	}
+//		signals_init(signals);
+//	}
+}
+

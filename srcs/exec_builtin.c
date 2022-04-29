@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 17:53:24 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/29 11:56:27 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/29 13:00:38 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,8 @@ static void	exec_run_par(t_command *command, t_var **env_lst)
 	close_dups(command);
 }
 
-void	exec_builtin(t_command *command, t_var **env_lst, int child_parent, \
-		struct s_signal *signals)
+void	exec_builtin(t_command *command, t_var **env_lst, int child_parent)
 {
-	(void)signals;
 	if (child_parent == 0)
 		exec_run_par(command, env_lst);
 	else if (child_parent == 1)

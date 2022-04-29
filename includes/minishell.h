@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 17:23:05 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/29 11:56:27 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/29 15:06:25 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ struct	s_signal
 {
 	struct sigaction	sa_quit;
 	struct sigaction	sa_int;
+	struct sigaction	sa_int_here;
 };
 
 t_var		*lst_new_elem(char *name, char *value);
@@ -85,6 +86,7 @@ void		lst_clear_token(t_token **lst, void (*del)(void *));
 int			lst_size_token(t_token *lst);
 
 void		signals_init(struct s_signal *signals);
+void		handle_sigint_heredoc(int sig);
 
 void		shlvl(t_var **env_lst);
 int			env_to_list(char **envp, t_var **env_lst);
@@ -99,7 +101,7 @@ int			tokens_count(char *line, char *metachars);
 void		tokens_array(char *line, char *metachars, t_token **tokens);
 void		tokens_trim(t_token **tokens);
 int			parsing_command(t_token **tokens, t_command *command, \
-			t_var **env_lst);
+			t_var **env_lst, struct s_signal *signals);
 void		quote_counting(t_token *tokens);
 void		p_expansion(t_token *tokens, t_var *env_lst);
 void		quote_removal(t_token *tokens);
@@ -107,19 +109,17 @@ void		word_splitting(t_token **tokens, t_var *env_lst);
 int			operators(t_token *tokens);
 int			arg_count(t_token **tokens, t_command *command);
 int			parsing_opers(t_token **tokens, t_command *command, \
-		t_var *env_lst);
+		t_var **env_lst, struct s_signal *signals);
 int			tokens_to_struct(t_token **tokens, t_command **command, \
-		t_var **env_lst);
-char		*heredoc(t_command *command, t_var *env_lst);
+		t_var **env_lst, struct s_signal *signals);
+void		heredoc(t_command *command, t_var **env_lst, \
+		struct s_signal *signals);
 void		command_free(t_command *command);
 
 char		*find_command(t_command *command, t_var *env_lst);
-void		exec(t_command **command, t_var **env_lst, \
-		struct s_signal *signals);
-void		exec_builtin(t_command *command, t_var **env_lst, \
-		int child_parent, struct s_signal *signals);
-void		child(t_command **command, t_var **env_lst, int id, \
-		struct s_signal *signals);
+void		exec(t_command **command, t_var **env_lst);
+void		exec_builtin(t_command *command, t_var **env_lst, int child_parent);
+void		child(t_command **command, t_var **env_lst, int id);
 void		dups(t_command *tmp);
 int			pwd(t_var **env_lst);
 int			env(t_var **env_lst);

@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 14:46:45 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/29 11:56:27 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/29 15:07:48 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,27 +37,7 @@ static t_command	*close_pipes(t_command **command, int id)
 	return (tmp);
 }
 
-static void	heredoc_check(t_command *exec_com)
-{
-	int			i;
-	int			heredoc[2];
-
-	if (exec_com->oper != 0 && \
-			ft_strncmp(exec_com->oper, "<<", 3) == 0 && exec_com->heredoc != 0)
-	{
-		i = pipe(heredoc);
-		if (i == -1)
-			exit(1);
-		dup2(heredoc[0], 0);
-		close(heredoc[0]);
-		ft_putstr_fd(exec_com->heredoc, heredoc[1]);
-		ft_putstr_fd("\n", heredoc[1]);
-		close(heredoc[1]);
-	}
-}
-
-void	child(t_command **command, t_var **env_lst, int id, \
-		struct s_signal *signals)
+void	child(t_command **command, t_var **env_lst, int id)
 {
 	int			i;
 	char		**envp;
@@ -72,7 +52,6 @@ void	child(t_command **command, t_var **env_lst, int id, \
 		perror(exec_com->args[0]);
 		exit(127);
 	}
-	heredoc_check(exec_com);
 	if (exec_com->builtin != 1)
 	{
 		envp = env_lst_to_arr(*env_lst, 'e', 0);
@@ -82,5 +61,5 @@ void	child(t_command **command, t_var **env_lst, int id, \
 		exit (2);
 	}
 	else
-		exec_builtin(exec_com, env_lst, 1, signals);
+		exec_builtin(exec_com, env_lst, 1);
 }

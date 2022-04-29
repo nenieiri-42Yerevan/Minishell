@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 15:24:28 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/27 00:32:51 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/29 13:15:13 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,15 @@ static int	parsing_pipe(t_token **tokens, t_command *last)
 	return (0);
 }
 
-int	tokens_to_struct(t_token **tokens, t_command **command, t_var **env_lst)
+int	tokens_to_struct(t_token **tokens, t_command **command, t_var **env_lst, \
+		struct s_signal *signals)
 {
 	t_command	*last;
 	int			id;
 
 	id = 0;
 	command_init(command);
-	if (parsing_command(tokens, *command, env_lst) == -1)
+	if (parsing_command(tokens, *command, env_lst, signals) == -1)
 		return (-1);
 	(*command)->id = id;
 	while ((*tokens) != 0 && ft_strncmp((*tokens)->value, "|", 2) == 0)
@@ -70,7 +71,7 @@ int	tokens_to_struct(t_token **tokens, t_command **command, t_var **env_lst)
 		last = *command;
 		while (last->next != 0)
 			last = last->next;
-		if (parsing_command(tokens, last, env_lst) == -1)
+		if (parsing_command(tokens, last, env_lst, signals) == -1)
 			return (-1);
 		last->id = ++id;
 	}

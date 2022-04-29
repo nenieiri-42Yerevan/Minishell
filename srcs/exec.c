@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 16:18:39 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/29 11:53:02 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/29 16:06:47 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,7 @@ static void	parent(t_command **command, t_var **env_lst)
 	}
 }
 
-static void	exec_in_proc(t_command **command, t_var **env_lst, \
-		struct s_signal *signals)
+static void	exec_in_proc(t_command **command, t_var **env_lst)
 {
 	int			my_pid;
 	t_command	*tmp;
@@ -56,7 +55,7 @@ static void	exec_in_proc(t_command **command, t_var **env_lst, \
 		if (tmp->id == 0 || tmp2->pipe == 1)
 			my_pid = fork();
 		if (my_pid == 0)
-			child(command, env_lst, tmp->id, signals);
+			child(command, env_lst, tmp->id);
 		else if (tmp != 0)
 		{
 			tmp2 = tmp;
@@ -67,12 +66,12 @@ static void	exec_in_proc(t_command **command, t_var **env_lst, \
 		parent(command, env_lst);
 }
 
-void	exec(t_command **command, t_var **env_lst, struct s_signal *signals)
+void	exec(t_command **command, t_var **env_lst)
 {
 	(*command)->path = find_command(*command, *env_lst);
 	if ((*command)->path != 0 && (*command)->builtin == 1 && \
 			(*command)->next == 0)
-		exec_builtin(*command, env_lst, 0, signals);
+		exec_builtin(*command, env_lst, 0);
 	else
-		exec_in_proc(command, env_lst, signals);
+		exec_in_proc(command, env_lst);
 }
