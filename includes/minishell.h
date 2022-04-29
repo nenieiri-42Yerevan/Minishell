@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 17:23:05 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/29 11:45:15 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/29 11:49:03 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,8 @@ char		**env_lst_to_arr(t_var *env_lst, char meaning, int quote);
 char		*strjoin_base(char const *s1, char const *s2, char c);
 void		arr_free(char **arr);
 
-int			parsing_line(char *line, t_token **tokens, t_var **env_lst);
+int			parsing_line(char *line, t_token **tokens, t_var **env_lst, \
+		struct s_signal *signals);
 int			tokens_count(char *line, char *metachars);
 void		tokens_array(char *line, char *metachars, t_token **tokens);
 void		tokens_trim(t_token **tokens);
@@ -113,7 +114,8 @@ char		*heredoc(t_command *command, t_var *env_lst);
 void		command_free(t_command *command);
 
 char		*find_command(t_command *command, t_var *env_lst);
-void		exec(t_command **command, t_var **env_lst);
+void		exec(t_command **command, t_var **env_lst, \
+		struct s_signal *signals);
 void		exec_builtin(t_command *command, t_var **env_lst, \
 		int child_parent);
 void		child(t_command **command, t_var **env_lst, int id);

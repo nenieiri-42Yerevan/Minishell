@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 16:18:39 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/27 00:18:04 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/29 11:50:14 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,14 @@ static void	parent(t_command **command, t_var **env_lst)
 	}
 }
 
-static void	exec_in_proc(t_command **command, t_var **env_lst)
+static void	exec_in_proc(t_command **command, t_var **env_lst, \
+		struct s_signal *signals)
 {
 	int			my_pid;
 	t_command	*tmp;
 	t_command	*tmp2;
 
+	(void)signals;
 	tmp = *command;
 	tmp2 = tmp;
 	my_pid = 1;
@@ -66,12 +68,12 @@ static void	exec_in_proc(t_command **command, t_var **env_lst)
 		parent(command, env_lst);
 }
 
-void	exec(t_command **command, t_var **env_lst)
+void	exec(t_command **command, t_var **env_lst, struct s_signal *signals)
 {
 	(*command)->path = find_command(*command, *env_lst);
 	if ((*command)->path != 0 && (*command)->builtin == 1 && \
 			(*command)->next == 0)
 		exec_builtin(*command, env_lst, 0);
 	else
-		exec_in_proc(command, env_lst);
+		exec_in_proc(command, env_lst, signals);
 }
