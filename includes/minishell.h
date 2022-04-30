@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 17:23:05 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/30 12:13:14 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/30 18:47:13 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,5 +118,6 @@ int			export_env(t_command *command, t_var **env_lst);
 int			echo(t_command *command, t_var **env_lst);
 int			my_exit(t_command *command, t_var **env_lst);
 int			cd(t_command *command, t_var **env_lst);
+int			change_dir(char *path, t_var **env_lst);
 
 #endif

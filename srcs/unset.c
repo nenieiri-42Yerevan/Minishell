@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:46:44 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/30 15:17:20 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/30 18:43:52 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	checked(char *str, int *res, t_var **env_lst)
 	}
 }
 
-static void pwd_imitation(t_var *env_lst)
+static void	pwd_imitation(t_var *env_lst)
 {
 	while (env_lst != 0)
 	{

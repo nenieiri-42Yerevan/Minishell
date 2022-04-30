@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 12:00:30 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/29 19:25:14 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/30 18:43:11 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	handle_sigint(int sig)
 	(void)sig;
 	write(1, "\n", 1);
 	rl_on_new_line();
-	rl_replace_line("", 0); 
+	rl_replace_line("", 0);
 	rl_redisplay();
 }
 
