@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 12:00:30 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/29 14:41:15 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/29 19:25:14 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	handle_sigint(int sig)
 {
 	(void)sig;
-	write(1, "\b\b  \b\b\n", 7); 
+	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0); 
 	rl_redisplay();
@@ -24,23 +24,18 @@ static void	handle_sigint(int sig)
 static void	handle_sigquit(int sig)
 {
 	(void)sig;
-	write(1, "\b\b  \b\b", 6); 
 	rl_redisplay();
 }
 
 void	handle_sigint_heredoc(int sig)
 {
 	(void)sig;
+	write(1, "\n", 1);
 	exit(1);
 }
 
-void	signals_init(struct s_signal *signals)
+void	signals_init(void)
 {
-	signals = (struct s_signal *)malloc(sizeof(struct s_signal));
-	signals->sa_quit.sa_handler = &handle_sigquit;
-	signals->sa_int.sa_handler = &handle_sigint;	
-	signals->sa_int_here.sa_handler = &handle_sigint_heredoc;
-//	sigaction(SIGQUIT, &(signals->sa_quit), NULL);
-//	sigaction(SIGINT, &(signals->sa_int), NULL);
 	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, handle_sigquit);
 }

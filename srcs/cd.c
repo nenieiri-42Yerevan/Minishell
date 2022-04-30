@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 14:33:42 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/26 22:42:40 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/30 15:22:30 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static char	*getold(t_var **env_lst)
 	tmp = *env_lst;
 	while (tmp != 0)
 	{
-		if (ft_strncmp(tmp->name, "PWD", 4) == 0)
+		if (ft_strncmp(tmp->name, "PWD", 4) == 0 && tmp->meaning != 'p')
 			return (ft_strdup(tmp->value));
 		tmp = tmp->next;
 	}

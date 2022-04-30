@@ -6,29 +6,11 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 20:18:11 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/29 15:29:14 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/30 12:17:52 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static char	*get_line(char *tmp, char *line)
-{
-	char	*res;
-
-	if (tmp == 0)
-	{
-		tmp = ft_calloc(1, sizeof(char));
-		if (tmp == 0)
-			return (0);
-		res = ft_strjoin(tmp, line);
-	}
-	else
-		res = strjoin_base(tmp, line, '\n');
-	free(tmp);
-	free(line);
-	return (res);
-}
 
 static char	*line_expansion(char *line, t_var *env_lst)
 {
@@ -53,69 +35,65 @@ static char	*line_expansion(char *line, t_var *env_lst)
 	return (str);
 }
 
-static char	*go_heredoc(t_command *command, t_var *env_lst)
+static void	go_heredoc(t_command *command, t_var *env_lst, int fd_doc)
 {
 	char	*line;
-	char	*tmp;
-	char	*res;
 
-	tmp = 0;
-	res = 0;
 	while (1)
 	{
 		line = readline("> ");
+		if (!line)
+			break ;
 		if (ft_strncmp(line, command->oper_value, \
 					ft_strlen(command->oper_value) + 1) == 0)
 			break ;
 		if (command->delimitor == 'h')
 			line = line_expansion(line, env_lst);
-		res = get_line(tmp, line);
-		tmp = res;
+		ft_putstr_fd(line, fd_doc);
+		ft_putstr_fd("\n", fd_doc);
+		free(line);
 	}
 	if (line != 0)
 		free(line);
-	return (res);
 }
 
-void heredoc(t_command *command, t_var **env_lst, struct s_signal *signals)
+static void	child_heredoc(t_command *command, t_var **env_lst, int *heredoc)
 {
-//	int	pid;
-//	int	exit_status;
+	signal(SIGINT, handle_sigint_heredoc);
+	close(heredoc[0]);
+	go_heredoc(command, *env_lst, heredoc[1]);
+	close(heredoc[1]);
+	exit(0);
+}
+
+int	heredoc(t_command *command, t_var **env_lst)
+{
+	int	pid;
+	int	exit_status;
 	int	heredoc[2];
 	int	i;
-
-	(void)signals;
-//	pid = fork();
-//	if (pid == 0)
-//	{
-//		signal(SIGINT, handle_sigint_heredoc);
-		command->heredoc = go_heredoc(command, *env_lst);
-		i = pipe(heredoc);
-		if (i == -1)
-			exit(1);
-		ft_putstr_fd(command->heredoc, heredoc[1]);
-		ft_putstr_fd("\n", heredoc[1]);
+	
+	i = pipe(heredoc);
+	if (i == -1)
+		exit(1);
+	pid = fork();
+	if (pid == 0)
+		child_heredoc(command, env_lst, heredoc);
+	else
+	{
+		signal(SIGINT, SIG_IGN);
+		wait(&exit_status);
 		close(heredoc[1]);
-		command->std_in = dup(heredoc[0]);
-		close(heredoc[0]);
-	//	exit(0);
-//	}
-//	else
-//	{
-//		signal(SIGINT, SIG_IGN);
-//		wait(&exit_status);
-//		if (WIFEXITED(exit_status))
-//		{
-//				exit_status = WEXITSTATUS(exit_status);
-	/*			if (exit_status == 1)
-				{
-					write(1, "\b\b  \b\b\n", 7);
-					rl_on_new_line();
-					rl_replace_line("", 0); 
-					rl_redisplay();
-				}
-	*///	}
-//		signals_init(signals);
-//	}
+		if (WIFEXITED(exit_status))
+		{
+			exit_status = WEXITSTATUS(exit_status);
+			if (exit_status == 1)
+				return (-1);
+			else
+				command->std_in = dup(heredoc[0]);
+			close(heredoc[0]);
+		}
+		signals_init();
+	}
+	return (0);
 }
-

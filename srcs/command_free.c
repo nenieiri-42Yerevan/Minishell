@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 17:25:09 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/22 22:13:56 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/29 16:26:00 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ void	command_free(t_command *command)
 			free(command->oper);
 		if (command->oper_value != 0)
 			free(command->oper_value);
-		if (command->heredoc != 0)
-			free(command->heredoc);
 		free(command);
 	}
 }

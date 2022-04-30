@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 17:00:36 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/26 22:03:55 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/30 14:15:40 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ static int	search_and_replace(t_token *tokens, int *i, t_var *env_lst, int q)
 	j = *i;
 	while (tokens->value[j] != ' ' && tokens->value[j] != '\0' && \
 			tokens->value[j] != '\t' && tokens->value[j] != '\"' && \
-			tokens->value[j] != '\'')
+			tokens->value[j] != '\'' && tokens->value[j] != '/')
 		j++;
 	new_str = ft_substr(tokens->value, *i + 1, j - *i - 1);
 	while (env_lst != 0)

@@ -6,14 +6,13 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 16:05:52 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/29 14:27:43 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/30 12:12:53 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	parsing_ins(t_token **tokens, t_command *command, \
-		t_var **env_lst, struct s_signal *signals)
+static int	parsing_ins(t_token **tokens, t_command *command, t_var **env_lst)
 {
 	int	fd;
 
@@ -28,11 +27,7 @@ static int	parsing_ins(t_token **tokens, t_command *command, \
 		command->std_in = fd;
 	}
 	else if (ft_strncmp(command->oper, "<<", 3) == 0)
-	{
-		if (command->heredoc != 0)
-			free(command->heredoc);
-		heredoc(command, env_lst, signals);
-	}
+		return (heredoc(command, env_lst));
 	return (0);
 }
 
@@ -47,7 +42,7 @@ static void	parsing_out(t_command *command)
 }
 
 static int	parsing_redirs(t_token **tokens, t_command *command, \
-		t_token **tmp, t_var **env_lst, struct s_signal *signals)
+		t_token **tmp, t_var **env_lst)
 {
 	int	fd;
 
@@ -68,19 +63,17 @@ static int	parsing_redirs(t_token **tokens, t_command *command, \
 	else if (ft_strncmp(command->oper, ">>", 3) == 0)
 		parsing_out(command);
 	else
-		return (parsing_ins(tokens, command, env_lst, signals));
+		return (parsing_ins(tokens, command, env_lst));
 	return (0);
 }
 
-int	parsing_opers(t_token **tokens, t_command *command, t_var **env_lst, \
-		struct s_signal *signals)
+int	parsing_opers(t_token **tokens, t_command *command, t_var **env_lst)
 {
 	t_token	*tmp;
 	int		status;
 
-	(void)signals;
 	status = 0;
-	while ((*tokens) != 0 && (*tokens)->type != 'c')
+	while ((*tokens) != 0 && (*tokens)->type != 'c' && status >= 0)
 	{
 		if (command->oper != 0)
 			free(command->oper);
@@ -90,7 +83,7 @@ int	parsing_opers(t_token **tokens, t_command *command, t_var **env_lst, \
 		lst_delone_token(tmp, &free);
 		if (*tokens != 0 && ((*tokens)->type == 'v' || \
 					(*tokens)->type == 'h' || (*tokens)->type == 'H'))
-			status = parsing_redirs(tokens, command, &tmp, env_lst, signals);
+			status = parsing_redirs(tokens, command, &tmp, env_lst);
 		else
 		{
 			printf("Minishell$ Syntax error: Undefined value after operator\n");

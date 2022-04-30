@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:46:44 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/26 14:19:22 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/30 15:17:20 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,19 @@ static int	checked(char *str, int *res, t_var **env_lst)
 	}
 }
 
+static void pwd_imitation(t_var *env_lst)
+{
+	while (env_lst != 0)
+	{
+		if (ft_strncmp(env_lst->name, "PWD", 4) == 0)
+		{
+			env_lst->meaning = 'p';
+			break ;
+		}
+		env_lst = env_lst->next;
+	}
+}
+
 static void	unset_vars(t_command *command, t_var **env_lst, int *res)
 {
 	t_var	*tmp;
@@ -59,7 +72,9 @@ static void	unset_vars(t_command *command, t_var **env_lst, int *res)
 	{
 		if (checked(command->args[i], res, env_lst) == 0)
 		{
-			if (ft_strncmp(command->args[i], (*env_lst)->name, \
+			if (ft_strncmp(command->args[i], "PWD", 4) == 0)
+				pwd_imitation(*env_lst);
+			else if (ft_strncmp(command->args[i], (*env_lst)->name, \
 						ft_strlen(command->args[i]) + 1) == 0)
 			{
 				tmp = *env_lst;

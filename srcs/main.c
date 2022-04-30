@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 16:14:31 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/29 11:47:06 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/30 14:43:04 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ int	main(int argc, char **argv, char **envp)
 	t_var			*env_lst;
 	t_token			*tokens;
 	int				status;
-	struct s_signal	*signals;
 
 
 	(void)argv;
@@ -61,16 +60,20 @@ int	main(int argc, char **argv, char **envp)
 		return (0);
 	}
 	intra();
-	signals = 0;
-	signals_init(signals);
+	signals_init();
 	env_to_list(envp, &env_lst);
 	shlvl(&env_lst);
 	while (1)
 	{
 		line = readline("\033[1;32mMinishell$ \033[0m");
+		if (!line)
+		{
+			ft_putstr_fd("exit\n", 1);
+			return (EXIT_SUCCESS);
+		}
 		if (ft_strncmp(line, "", ft_strlen(line)) != 0)
 			add_history(line);
-		parsing_line(line, &tokens, &env_lst, signals);
+		parsing_line(line, &tokens, &env_lst);
 		free(line);
 		if (check_status(env_lst, &status) == 1)
 		{
@@ -79,5 +82,6 @@ int	main(int argc, char **argv, char **envp)
 		}
 	}
 	lst_clear(&env_lst, &free);
+	sleep(50);
 	return (status);
 }

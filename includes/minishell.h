@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 17:23:05 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/29 15:06:25 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/30 12:13:14 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ typedef struct s_command
 	int					path_error;
 	char				*oper;
 	char				*oper_value;
-	char				*heredoc;
 	char				delimitor;
 	int					builtin;
 	int					std_in;
@@ -62,13 +61,6 @@ typedef struct s_command
 	int					pipe_in;
 	struct s_command	*next;
 }						t_command;
-
-struct	s_signal
-{
-	struct sigaction	sa_quit;
-	struct sigaction	sa_int;
-	struct sigaction	sa_int_here;
-};
 
 t_var		*lst_new_elem(char *name, char *value);
 t_var		*lst_last(t_var *lst);
@@ -85,7 +77,7 @@ void		lst_delone_token(t_token *lst, void (*del)(void *));
 void		lst_clear_token(t_token **lst, void (*del)(void *));
 int			lst_size_token(t_token *lst);
 
-void		signals_init(struct s_signal *signals);
+void		signals_init(void);
 void		handle_sigint_heredoc(int sig);
 
 void		shlvl(t_var **env_lst);
@@ -95,13 +87,12 @@ char		**env_lst_to_arr(t_var *env_lst, char meaning, int quote);
 char		*strjoin_base(char const *s1, char const *s2, char c);
 void		arr_free(char **arr);
 
-int			parsing_line(char *line, t_token **tokens, t_var **env_lst, \
-		struct s_signal *signals);
+int			parsing_line(char *line, t_token **tokens, t_var **env_lst);
 int			tokens_count(char *line, char *metachars);
 void		tokens_array(char *line, char *metachars, t_token **tokens);
 void		tokens_trim(t_token **tokens);
 int			parsing_command(t_token **tokens, t_command *command, \
-			t_var **env_lst, struct s_signal *signals);
+			t_var **env_lst);
 void		quote_counting(t_token *tokens);
 void		p_expansion(t_token *tokens, t_var *env_lst);
 void		quote_removal(t_token *tokens);
@@ -109,11 +100,10 @@ void		word_splitting(t_token **tokens, t_var *env_lst);
 int			operators(t_token *tokens);
 int			arg_count(t_token **tokens, t_command *command);
 int			parsing_opers(t_token **tokens, t_command *command, \
-		t_var **env_lst, struct s_signal *signals);
+		t_var **env_lst);
 int			tokens_to_struct(t_token **tokens, t_command **command, \
-		t_var **env_lst, struct s_signal *signals);
-void		heredoc(t_command *command, t_var **env_lst, \
-		struct s_signal *signals);
+		t_var **env_lst);
+int			heredoc(t_command *command, t_var **env_lst);
 void		command_free(t_command *command);
 
 char		*find_command(t_command *command, t_var *env_lst);

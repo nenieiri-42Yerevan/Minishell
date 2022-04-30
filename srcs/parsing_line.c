@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 19:06:22 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/29 13:12:48 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/29 17:31:54 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,9 @@ static void	clear_all(t_command **command, t_token **tokens)
 	}
 }
 
-static int	command_bld(t_token **tokens, t_var **env_lst, \
-		t_command **command, struct s_signal *signals)
+static int	command_bld(t_token **tokens, t_var **env_lst, t_command **command)
 {
-	if (tokens_to_struct(tokens, command, env_lst, signals) == -1)
+	if (tokens_to_struct(tokens, command, env_lst) == -1)
 	{
 		change_status(env_lst, 1);
 		perror(NULL);
@@ -34,8 +33,7 @@ static int	command_bld(t_token **tokens, t_var **env_lst, \
 	return (0);
 }
 
-int	parsing_line(char *line, t_token **tokens, t_var **env_lst,\
-	   	struct s_signal *signals)
+int	parsing_line(char *line, t_token **tokens, t_var **env_lst)
 {
 	int			count;
 	char		metachars[11];
@@ -53,7 +51,7 @@ int	parsing_line(char *line, t_token **tokens, t_var **env_lst,\
 			lst_clear_token(tokens, &free);
 			return (-1);
 		}
-		if (command_bld(tokens, env_lst, &command, signals) == 0)
+		if (command_bld(tokens, env_lst, &command) == 0)
 			exec(&command, env_lst);
 		clear_all(&command, tokens);
 	}
