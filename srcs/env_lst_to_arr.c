@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 19:18:41 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/26 23:04:15 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/30 16:50:10 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@ static int	my_size(t_var *lst, char meaning)
 	count = 0;
 	while (lst != 0)
 	{
-		if ((meaning == 'x' && (lst->meaning == 'e' || lst->meaning == 'x')) \
-				|| (meaning == 'e' && lst->meaning == 'e'))
+		if ((meaning == 'x' && (lst->meaning == 'e' || lst->meaning == 'x' || \
+						lst->meaning == 'q')) || \
+				(meaning == 'e' && lst->meaning == 'e'))
 			count++;
 		lst = lst->next;
 	}
@@ -50,7 +51,8 @@ static void	find_and_join(t_var *env_lst, int quote, char **arr, int *i)
 
 	if (quote == 1)
 	{
-		if (ft_strncmp(env_lst->value, "", ft_strlen(env_lst->value)) != 0)
+		if (ft_strncmp(env_lst->value, "", ft_strlen(env_lst->value)) != 0 || \
+				env_lst->meaning == 'q')
 		{
 			tmp = ft_strjoin(env_lst->name, "=\"");
 			arr[*i] = ft_strjoin(tmp, env_lst->value);
@@ -85,8 +87,8 @@ char	**env_lst_to_arr(t_var *env_lst, char meaning, int quote)
 	while (env_lst != 0)
 	{
 		if ((meaning == 'x' && (env_lst->meaning == 'e' || \
-						env_lst->meaning == 'x')) || (meaning == 'e' && \
-						env_lst->meaning == 'e'))
+					env_lst->meaning == 'x' || env_lst->meaning == 'q')) || \
+				(meaning == 'e' && env_lst->meaning == 'e'))
 			find_and_join(env_lst, quote, arr, &i);
 		env_lst = env_lst->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 14:33:42 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/30 15:22:30 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/04/30 18:27:24 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,38 +38,57 @@ static void	change_env(char *oldpwd, t_var *env_lst)
 			free(env_lst->value);
 			env_lst->value = getcwd(NULL, 0);
 		}
-		else if (ft_strncmp(env_lst->name, "OLDPWD", 7) == 0 && oldpwd != 0)
+		else if (ft_strncmp(env_lst->name, "OLDPWD", 7) == 0)
 		{
-			free(env_lst->value);
-			env_lst->value = oldpwd;
+			if (env_lst->value != 0)
+				free(env_lst->value);
+			if (oldpwd == 0)
+			{
+				env_lst->value = ft_strdup("");;
+				env_lst->meaning = 'q';
+			}
+			else
+				env_lst->value = oldpwd;
 			j++;
 		}
 		env_lst = env_lst->next;
 	}
-	if (j == 0)
+	if (j == 0 && oldpwd != 0)
 		free(oldpwd);
 }
 
 static int	change(char *path, t_var **env_lst)
 {
 	char	*oldpwd;
+	int		pid;
+	int		exit_status;
 
 	oldpwd = getold(env_lst);
-	if (chdir(path) == -1)
+	pid = fork();
+	if (pid == 0)
 	{
+		if (chdir(path) == 0 && getcwd(NULL, 0) == NULL)
+			exit(1);
+		exit(0);
+	}
+	else
+	{
+		wait(&exit_status);
+		if (WIFEXITED(exit_status))
+			exit_status = WEXITSTATUS(exit_status);
+		if (exit_status == 0 && chdir(path) == 0)
+		{
+			change_env(oldpwd, *env_lst);
+			free(path);
+			change_status(env_lst, 0);
+			return (0);
+		}
 		perror(path);
 		free(path);
 		if (oldpwd != 0)
 			free(oldpwd);
 		change_status(env_lst, 1);
 		return (2);
-	}
-	else
-	{
-		change_env(oldpwd, *env_lst);
-		free(path);
-		change_status(env_lst, 0);
-		return (0);
 	}
 }
 
