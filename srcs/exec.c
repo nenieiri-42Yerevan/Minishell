@@ -6,16 +6,38 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 16:18:39 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/29 16:06:47 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/05/02 15:52:05 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	parent(t_command **command, t_var **env_lst)
+static void	waiting(t_var **env_lst)
 {
 	int			exit_status;
 	int			status_code;
+
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+	while (wait(&exit_status) != -1 || errno != ECHILD)
+	{
+		if (WIFSIGNALED(exit_status) != 0)
+		{
+			ft_putchar_fd('\n', 1);
+			status_code = WTERMSIG(exit_status) + 128;
+			change_status(env_lst, status_code);
+		}
+		else if (WIFEXITED(exit_status))
+		{
+			status_code = WEXITSTATUS(exit_status);
+			change_status(env_lst, status_code);
+		}
+	}
+	signals_init();
+}
+
+static void	parent(t_command **command, t_var **env_lst)
+{
 	t_command	*tmp;
 
 	tmp = *command;
@@ -31,14 +53,7 @@ static void	parent(t_command **command, t_var **env_lst)
 			close(tmp->pipe_in);
 		tmp = tmp->next;
 	}
-	while (wait(&exit_status) != -1 || errno != ECHILD)
-	{
-		if (WIFEXITED(exit_status))
-		{
-			status_code = WEXITSTATUS(exit_status);
-			change_status(env_lst, status_code);
-		}
-	}
+	waiting(env_lst);
 }
 
 static void	exec_in_proc(t_command **command, t_var **env_lst)

@@ -6,11 +6,23 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 14:46:45 by vismaily          #+#    #+#             */
-/*   Updated: 2022/05/02 11:45:36 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/05/02 15:15:48 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	proc_handle_sigint(int sig)
+{
+	(void)sig;
+	exit(2);
+}
+
+static void	proc_handle_sigquit(int sig)
+{
+	(void)sig;
+	exit(3);
+}
 
 static t_command	*close_pipes(t_command **command, int id)
 {
@@ -45,6 +57,8 @@ void	child(t_command **command, t_var **env_lst, int id)
 	char		**envp;
 	t_command	*exec_com;
 
+	signal(SIGINT, proc_handle_sigint);
+	signal(SIGQUIT, proc_handle_sigquit);
 	exec_com = close_pipes(command, id);
 	exec_com->path = find_command(exec_com, *env_lst);
 	if (exec_com->path == 0)
