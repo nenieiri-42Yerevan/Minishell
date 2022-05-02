@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 16:14:31 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/30 14:43:04 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/05/02 18:25:43 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	intra(void)
 	printf("*    +:+ +:+         +:+   ************************************\n");
 	printf("*  +#+  +:+       +#+      ***    ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★     *\n");
 	printf("*+#+#+#+#+#+   +#+         ************************************\n");
-	printf("*     #+#    #+#           ***  Updated: 2022/04/12 12:46:50  *\n");
+	printf("*     #+#    #+#           ***  Updated: 2022/05/01 17:45:00  *\n");
 	printf("*    ###   ########.fr     ***  Created: 2022/03/26 16:14:31  *\n");
 	printf("***************************************************************\n");
 }
@@ -52,7 +52,6 @@ int	main(int argc, char **argv, char **envp)
 	t_token			*tokens;
 	int				status;
 
-
 	(void)argv;
 	if (argc > 1)
 	{
@@ -76,12 +75,8 @@ int	main(int argc, char **argv, char **envp)
 		parsing_line(line, &tokens, &env_lst);
 		free(line);
 		if (check_status(env_lst, &status) == 1)
-		{
-			printf("exit\n");
 			break ;
-		}
 	}
 	lst_clear(&env_lst, &free);
-	sleep(50);
 	return (status);
 }
