@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 17:23:05 by vismaily          #+#    #+#             */
-/*   Updated: 2022/05/01 14:45:57 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/05/02 18:28:01 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <errno.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <termios.h>
 # include <unistd.h>
 # include <fcntl.h>
 # include <signal.h>
