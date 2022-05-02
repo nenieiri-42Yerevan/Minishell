@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 15:15:41 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/26 23:59:56 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/05/01 17:56:56 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	exit_status_correct(int res)
 		return (res);
 }
 
-static void	parsing_code(t_command *command, t_var **env_lst)
+static int	parsing_code(t_command *command, int *k)
 {
 	int	res;
 	int	i;
@@ -49,11 +49,12 @@ static void	parsing_code(t_command *command, t_var **env_lst)
 	}
 	else
 	{
-		errno = 255;
+		*k = 1;
+		printf("exit\n");
 		perror(command->args[1]);
 		res = 255;
 	}
-	change_status(env_lst, res);
+	return (res);
 }
 
 static void	run_exit(t_var *env_lst)
@@ -67,17 +68,25 @@ static void	run_exit(t_var *env_lst)
 
 int	my_exit(t_command *command, t_var **env_lst)
 {
+	int	res;
+	int	k;
+
+	k = 0;
 	if (command->args[1] != 0)
 	{
-		parsing_code(command, env_lst);
+		res = parsing_code(command, &k);
+		if (k == 0)
+			printf("exit\n");
+		if (command->args[2] != 0 && k == 0)
+		{
+			perror("exit");
+			change_status(env_lst, 1);
+			return (2);
+		}
+		change_status(env_lst, res);
 		run_exit(*env_lst);
 	}
 	else
 		run_exit(*env_lst);
-	if (command->args[1] != 0 && command->args[2] != 0)
-	{
-		errno = 1;
-		perror("exit");
-	}
 	return (0);
 }

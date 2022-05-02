@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 18:06:34 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/28 11:24:02 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/05/01 15:32:22 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,30 +75,13 @@ static void	export_new(t_var **env_lst, char *before_eq, \
 	}
 }
 
-static int	check_valid(char *str, int *res, int n, t_var **env_lst)
+static int	check_valid(int res, t_var **env_lst)
 {
-	if (n == 0)
-	{
-		if ((str[0] == '_') || (str[0] >= 'a' && str[0] <= 'z') || \
-				(str[0] >= 'A' && str[0] <= 'Z'))
-			return (0);
-		else
-		{
-			perror(str);
-			*res = 1;
-			return (1);
-		}
-	}
-	else
-	{
-		if (*res == 1)
-		{
-			change_status(env_lst, 1);
-			return (2);
-		}
+	if (res == 0)
 		change_status(env_lst, 0);
-		return (0);
-	}
+	else
+		change_status(env_lst, 1);
+	return (0);
 }
 
 int	export_env(t_command *command, t_var **env_lst)
@@ -108,23 +91,29 @@ int	export_env(t_command *command, t_var **env_lst)
 	char	*eq;
 
 	i = 0;
+	res = 0;
 	if (command->args[1] == 0)
 		return (print_env(env_lst));
 	else
 	{
 		while (command->args[++i] != 0)
 		{
-			if (check_valid(command->args[i], &res, 0, env_lst) == 1)
-				continue ;
-			if (ft_strchr(command->args[i], '=') != 0)
+			if (command->args[i][0] != '=' && \
+					ft_strchr(command->args[i], '=') != 0)
 			{
 				eq = ft_strchr(command->args[i], '=');
 				*eq = '\0';
+				if (check_var_name(command->args[i], &res, env_lst) == 1)
+					continue ;
 				export_new(env_lst, command->args[i], eq + 1, 'e');
 			}
 			else
+			{
+				if (check_var_name(command->args[i], &res, env_lst) == 1)
+					continue ;
 				export_new(env_lst, command->args[i], "", 'x');
+			}
 		}
-		return (check_valid("", &res, 1, env_lst));
+		return (check_valid(res, env_lst));
 	}
 }

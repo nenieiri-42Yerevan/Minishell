@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:46:44 by vismaily          #+#    #+#             */
-/*   Updated: 2022/05/01 14:06:35 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/05/01 14:52:43 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,31 +35,6 @@ static void	find_and_del(t_command *command, t_var **env_lst, int i)
 	}
 }
 
-static int	checked(char *str, int *res, t_var **env_lst)
-{
-	int	i;
-
-	i = -1;
-	while (str[++i] != '\0')
-	{
-		if (i == 0 && ((str[0] == '_') || (str[0] >= 'a' && str[0] <= 'z') || \
-				(str[0] >= 'A' && str[0] <= 'Z')))
-			continue ;
-		else if ((str[i] >= 48 && str[i] <= 57) || \
-				(str[i] >= 'a' && str[i] <= 'z') || \
-				(str[i] >= 'A' && str[i] <= 'Z') || (str[i] == '_'))
-			continue ;
-		else
-		{
-			perror(str);
-			change_status(env_lst, 1);
-			*res = 1;
-			return (1);
-		}
-	}
-	return (0);
-}
-
 static void	pwd_imitation(t_var *env_lst)
 {
 	while (env_lst != 0)
@@ -81,7 +56,7 @@ static void	unset_vars(t_command *command, t_var **env_lst, int *res)
 	i = 0;
 	while (command->args[++i] != 0)
 	{
-		if (checked(command->args[i], res, env_lst) == 0)
+		if (check_var_name(command->args[i], res, env_lst) == 0)
 		{
 			if (ft_strncmp(command->args[i], "PWD", 4) == 0)
 				pwd_imitation(*env_lst);
