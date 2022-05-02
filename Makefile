@@ -14,9 +14,9 @@ LIB			= ./libs
 
 LIBFT		= $(LIB)/libft
 
-LINKERS		= -lft -L$(LIBFT) -lreadline -L /Users/vismaily/lib
+LINKERS		= -lft -L$(LIBFT) -lreadline -L $(HOME)/lib
 
-INCLUDES	= -I ./includes -I /Users/vismaily/include
+INCLUDES	= -I ./includes -I $(HOME)/include
 
 RM			= rm -rf
 
