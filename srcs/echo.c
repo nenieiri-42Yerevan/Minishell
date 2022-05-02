@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 17:25:03 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/26 14:15:21 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/05/02 13:48:31 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,36 +34,27 @@ static int	check_flag(char *str, int *n)
 	return (0);
 }
 
-static int	echo_print(t_command *command, int *i)
+static void	echo_print(t_command *command, int *i)
 {
 	int	flag;
-	int	status;
 
 	flag = 0;
-	status = 0;
 	while (command->args[*i] != 0)
 	{
 		if (flag == 1)
-			status = printf(" ");
-		if (status < 0)
-			return (status);
-		status = printf("%s", command->args[*i]);
-		if (status < 0)
-			return (status);
+			ft_putchar_fd(' ', 1);
+		ft_putstr_fd(command->args[*i], 1);
 		flag = 1;
 		++(*i);
 	}
-	return (0);
 }
 
 int	echo(t_command *command, t_var **env_lst)
 {
 	int	n;
 	int	i;
-	int	status;
 
 	n = 0;
-	status = 0;
 	if (command->args[1] == 0)
 		printf("\n");
 	else
@@ -71,15 +62,9 @@ int	echo(t_command *command, t_var **env_lst)
 		i = 0;
 		while (command->args[++i] != 0 && check_flag(command->args[i], &n) == 1)
 			;
-		status = echo_print(command, &i);
-		if (n == 0 && status >= 0)
-			status = printf("\n");
-	}
-	if (status < 0)
-	{
-		errno = 127;
-		change_status(env_lst, 127);
-		return (2);
+		echo_print(command, &i);
+		if (n == 0)
+			ft_putchar_fd('\0', 1);
 	}
 	change_status(env_lst, 0);
 	return (0);
