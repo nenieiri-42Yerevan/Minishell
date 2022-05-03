@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 16:14:31 by vismaily          #+#    #+#             */
-/*   Updated: 2022/05/02 18:25:43 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/05/03 12:38:40 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,21 @@ static int	check_status(t_var *env_lst, int *status)
 	return (0);
 }
 
+static int	start(int argc, char **argv, char **envp, t_var **env_lst)
+{
+	(void)argv;
+	if (argc > 1)
+	{
+		ft_putstr_fd("The program no needs any argument\n", 2);
+		return (1);
+	}
+	intra();
+	signals_init();
+	env_to_list(envp, env_lst);
+	shlvl(env_lst);
+	return (0);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char			*line;
@@ -52,16 +67,8 @@ int	main(int argc, char **argv, char **envp)
 	t_token			*tokens;
 	int				status;
 
-	(void)argv;
-	if (argc > 1)
-	{
-		printf("The program no needs to arguments\n");
+	if (start(argc, argv, envp, &env_lst) == 1)
 		return (0);
-	}
-	intra();
-	signals_init();
-	env_to_list(envp, &env_lst);
-	shlvl(&env_lst);
 	while (1)
 	{
 		line = readline("\033[1;32mMinishell$ \033[0m");

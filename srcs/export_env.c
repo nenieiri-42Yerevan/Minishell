@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 18:06:34 by vismaily          #+#    #+#             */
-/*   Updated: 2022/05/03 11:14:05 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/05/03 12:46:47 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,24 @@ static void	export_new(t_var **env_lst, char *before_eq, \
 	}
 }
 
-static int	check_valid(int res, t_var **env_lst)
+static int	export_arg(t_command *command, int i, int *res, t_var **env_lst)
 {
-	if (res == 0)
-		change_status(env_lst, 0);
+	char	*eq;
+
+	if (command->args[i][0] != '=' && ft_strchr(command->args[i], '=') != 0)
+	{
+		eq = ft_strchr(command->args[i], '=');
+		*eq = '\0';
+		if (check_var_name(command->args[i], res, env_lst) == 1)
+			return (1);
+		export_new(env_lst, command->args[i], eq + 1, 'e');
+	}
 	else
-		change_status(env_lst, 1);
+	{
+		if (check_var_name(command->args[i], res, env_lst) == 1)
+			return (1);
+		export_new(env_lst, command->args[i], "", 'x');
+	}
 	return (0);
 }
 
@@ -92,7 +104,6 @@ int	export_env(t_command *command, t_var **env_lst)
 {
 	int		i;
 	int		res;
-	char	*eq;
 
 	i = 0;
 	res = 0;
@@ -101,23 +112,11 @@ int	export_env(t_command *command, t_var **env_lst)
 	else
 	{
 		while (command->args[++i] != 0)
-		{
-			if (command->args[i][0] != '=' && \
-					ft_strchr(command->args[i], '=') != 0)
-			{
-				eq = ft_strchr(command->args[i], '=');
-				*eq = '\0';
-				if (check_var_name(command->args[i], &res, env_lst) == 1)
-					continue ;
-				export_new(env_lst, command->args[i], eq + 1, 'e');
-			}
-			else
-			{
-				if (check_var_name(command->args[i], &res, env_lst) == 1)
-					continue ;
-				export_new(env_lst, command->args[i], "", 'x');
-			}
-		}
-		return (check_valid(res, env_lst));
+			export_arg(command, i, &res, env_lst);
+		if (res == 0)
+			change_status(env_lst, 0);
+		else
+			change_status(env_lst, 1);
+		return (0);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 20:18:11 by vismaily          #+#    #+#             */
-/*   Updated: 2022/05/03 12:22:15 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/05/03 12:30:47 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static void	child_heredoc(t_command *command, t_var **env_lst, int *heredoc)
 	exit(0);
 }
 
-static int parent_heredoc(t_command *command, int *heredoc)
+static int	parent_heredoc(t_command *command, int *heredoc)
 {
 	int	exit_status;
 
@@ -91,7 +91,7 @@ int	heredoc(t_command *command, t_var **env_lst)
 	int	pid;
 	int	heredoc[2];
 	int	i;
-	
+
 	i = pipe(heredoc);
 	if (i == -1)
 		exit(1);

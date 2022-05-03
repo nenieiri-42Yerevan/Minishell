@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 15:15:41 by vismaily          #+#    #+#             */
-/*   Updated: 2022/05/03 11:40:19 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/05/03 12:29:24 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	my_exit(t_command *command, t_var **env_lst)
 	if (command->args[1] != 0)
 	{
 		res = parsing_code(command, &k);
-		if (command->args[2] ==0 && k == 0)
+		if (command->args[2] == 0 && k == 0)
 			ft_putstr_fd("exit\n", 1);
 		if (command->args[2] != 0 && k == 0)
 		{
