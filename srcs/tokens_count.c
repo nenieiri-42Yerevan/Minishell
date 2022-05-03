@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 21:06:03 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/03 20:57:34 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/05/03 12:18:54 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	single_quotes(char *line, int *i, int *count, char *metachars)
 			(*i)++;
 		if (line[*i] == '\0')
 		{
-			printf("Error: found not closed quote\n");
+			ft_putstr_fd("Error: found not closed quote\n", 2);
 			(*count) = -300;
 		}
 		(*i)++;
@@ -39,7 +39,7 @@ static void	double_quotes(char *line, int *i, int *count, char *metachars)
 			(*i)++;
 		if (line[*i] == '\0')
 		{
-			printf("Error: found not closed quote\n");
+			ft_putstr_fd("Error: found not closed quote\n", 2);
 			(*count) = -300;
 		}
 		(*i)++;

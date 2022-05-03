@@ -6,15 +6,27 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/01 14:45:12 by vismaily          #+#    #+#             */
-/*   Updated: 2022/05/01 16:13:08 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/05/03 10:56:20 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static void	print_error(char *str)
+{
+	char	*tmp;
+	char	*err;
+
+	tmp = ft_strjoin(str, "': not a valid identifier\n");
+	err = ft_strjoin("Minishell: '", tmp);
+	free(tmp);
+	ft_putstr_fd(err, 2);
+	free(err);
+}
+
 int	check_var_name(char *str, int *res, t_var **env_lst)
 {
-	int	i;
+	int		i;
 
 	i = -1;
 	while (str[++i] != '\0')
@@ -28,7 +40,7 @@ int	check_var_name(char *str, int *res, t_var **env_lst)
 			continue ;
 		else
 		{
-			perror(str);
+			print_error(str);
 			change_status(env_lst, 1);
 			*res = 1;
 			return (1);

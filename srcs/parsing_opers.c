@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 16:05:52 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/30 12:12:53 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/05/03 11:59:45 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,9 @@ int	parsing_opers(t_token **tokens, t_command *command, t_var **env_lst)
 			status = parsing_redirs(tokens, command, &tmp, env_lst);
 		else
 		{
-			printf("Minishell$ Syntax error: Undefined value after operator\n");
-			return (-1);
+			ft_putstr_fd("Minishell$ Syntax error: Undefined value after " \
+					"operator\n", 2);
+			return (-2);
 		}
 	}
 	return (status);

@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 14:02:02 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/17 17:43:15 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/05/03 11:42:52 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,9 @@ int	operators(t_token *tokens)
 				tokens->type = 'c';
 			else
 			{
-				printf("Miniahell$ Syntax error: unexpected token '%s'\n", \
-						tokens->value);
+				ft_putstr_fd("Minishell: Syntax error: unexpected token '", 2);
+				ft_putstr_fd(tokens->value, 2);
+				ft_putstr_fd("'\n", 2);
 				return (-1);
 			}
 		}

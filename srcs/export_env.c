@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 18:06:34 by vismaily          #+#    #+#             */
-/*   Updated: 2022/05/01 15:32:22 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/05/03 11:14:05 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,11 @@ static int	print_env(t_var **env_lst)
 	i = -1;
 	envp = env_lst_to_arr(*env_lst, 'x', 1);
 	while (envp[++i] != 0)
-		printf("declare -x %s\n", envp[i]);
+	{
+		ft_putstr_fd("declare -x ", 1);
+		ft_putstr_fd(envp[i], 1);
+		ft_putchar_fd('\n', 1);
+	}
 	if (envp[i] == 0)
 	{	
 		arr_free(envp);

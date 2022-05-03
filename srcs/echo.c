@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 17:25:03 by vismaily          #+#    #+#             */
-/*   Updated: 2022/05/02 19:16:14 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/05/03 11:09:49 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	echo(t_command *command, t_var **env_lst)
 
 	n = 0;
 	if (command->args[1] == 0)
-		printf("\n");
+		ft_putchar_fd('\n', 1);
 	else
 	{
 		i = 0;

@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 18:22:18 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/24 19:23:14 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/05/03 12:16:03 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ str[i] == '\n' || str[i] == '\r' || str[i] == '\f')
 		return (1);
 }
 
-static void	lvl_up(int lvl, t_var *tmp)
+static void	lvl_up(int lvl, t_var *tmp, char *str)
 {
 	if (lvl < 0)
 		lvl = 0;
@@ -49,8 +49,9 @@ static void	lvl_up(int lvl, t_var *tmp)
 		lvl++;
 	else
 	{
-		printf("Minishell: warning: shell level (%d) too high, "
-			"resetting to 1\n", lvl + 1);
+		ft_putstr_fd("Minishell: warning: shell level (", 2);
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd(") too high, resetting to 1\n", 2);
 		lvl = 1;
 	}
 	if (lvl == 1000)
@@ -78,7 +79,7 @@ void	shlvl(t_var **env_lst)
 		{
 			if (new_atoi(tmp->value, &lvl) == 0)
 				lvl = 1;
-			lvl_up(lvl, tmp);
+			lvl_up(lvl, tmp, tmp->value);
 			break ;
 		}
 		tmp = tmp->next;

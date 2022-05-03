@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 20:18:11 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/30 12:17:52 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/05/03 12:22:15 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,29 @@ static void	child_heredoc(t_command *command, t_var **env_lst, int *heredoc)
 	exit(0);
 }
 
+static int parent_heredoc(t_command *command, int *heredoc)
+{
+	int	exit_status;
+
+	signal(SIGINT, SIG_IGN);
+	wait(&exit_status);
+	close(heredoc[1]);
+	if (WIFEXITED(exit_status))
+	{
+		exit_status = WEXITSTATUS(exit_status);
+		if (exit_status == 1)
+			return (-3);
+		else
+			command->std_in = dup(heredoc[0]);
+		close(heredoc[0]);
+	}
+	signals_init();
+	return (0);
+}
+
 int	heredoc(t_command *command, t_var **env_lst)
 {
 	int	pid;
-	int	exit_status;
 	int	heredoc[2];
 	int	i;
 	
@@ -80,20 +99,6 @@ int	heredoc(t_command *command, t_var **env_lst)
 	if (pid == 0)
 		child_heredoc(command, env_lst, heredoc);
 	else
-	{
-		signal(SIGINT, SIG_IGN);
-		wait(&exit_status);
-		close(heredoc[1]);
-		if (WIFEXITED(exit_status))
-		{
-			exit_status = WEXITSTATUS(exit_status);
-			if (exit_status == 1)
-				return (-1);
-			else
-				command->std_in = dup(heredoc[0]);
-			close(heredoc[0]);
-		}
-		signals_init();
-	}
+		return (parent_heredoc(command, heredoc));
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/30 18:47:38 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/30 18:55:53 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/05/02 20:17:43 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,12 @@ static int	cd_parent(char *path, t_var **env_lst, char *oldpwd)
 		change_status(env_lst, 0);
 		return (0);
 	}
-	perror(path);
+	if (exit_status != 0)
+		ft_putstr_fd("cd: error retrieving current directory: getcwd: " \
+				"cannot access parent directories: No such file or " \
+				"directory\n", 2);
+	else
+		perror(path);
 	free(path);
 	if (oldpwd != 0)
 		free(oldpwd);

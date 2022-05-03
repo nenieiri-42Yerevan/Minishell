@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 15:15:41 by vismaily          #+#    #+#             */
-/*   Updated: 2022/05/01 17:56:56 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/05/03 11:40:19 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,10 @@ static int	parsing_code(t_command *command, int *k)
 	else
 	{
 		*k = 1;
-		printf("exit\n");
-		perror(command->args[1]);
+		ft_putstr_fd("exit\n", 2);
+		ft_putstr_fd("Minishell:: exit: ", 2);
+		ft_putstr_fd(command->args[1], 2);
+		ft_putstr_fd(": numeric argument required\n", 2);
 		res = 255;
 	}
 	return (res);
@@ -75,11 +77,12 @@ int	my_exit(t_command *command, t_var **env_lst)
 	if (command->args[1] != 0)
 	{
 		res = parsing_code(command, &k);
-		if (k == 0)
-			printf("exit\n");
+		if (command->args[2] ==0 && k == 0)
+			ft_putstr_fd("exit\n", 1);
 		if (command->args[2] != 0 && k == 0)
 		{
-			perror("exit");
+			ft_putstr_fd("exit\n", 2);
+			ft_putstr_fd("Minishell: exit: too many arguments\n", 2);
 			change_status(env_lst, 1);
 			return (2);
 		}

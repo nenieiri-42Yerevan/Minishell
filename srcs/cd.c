@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 14:33:42 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/30 18:55:23 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/05/02 20:07:06 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	find_home(t_var **env_lst, char **path)
 	}
 	if (tmp == 0)
 	{
-		perror("Minishell: cd: HOME not set");
+		ft_putstr_fd("Minishell: cd: HOME not set\n", 2);
 		change_status(env_lst, 1);
 		return (-1);
 	}

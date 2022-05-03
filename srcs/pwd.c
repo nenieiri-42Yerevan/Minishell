@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:10:27 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/30 15:48:38 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/05/03 12:08:32 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ static int	get_from_env(t_var *env_lst)
 	{
 		if (ft_strncmp(env_lst->name, "PWD", 4) == 0)
 		{
-			printf("%s\n", env_lst->value);
+			ft_putstr_fd(env_lst->value, 1);
+			ft_putchar_fd('\n', 1);
 			return (1);
 		}
 		env_lst = env_lst->next;
@@ -44,7 +45,8 @@ int	pwd(t_var **env_lst)
 	}
 	else
 	{
-		printf("%s\n", dir);
+		ft_putstr_fd(dir, 1);
+		ft_putchar_fd('\n', 1);
 		free(dir);
 		change_status(env_lst, 0);
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 15:30:05 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/29 17:32:52 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/05/03 12:27:01 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,26 @@ static void	parsing_final(t_token **tokens, t_var *env_lst)
 
 int	parsing_command(t_token **tokens, t_command *command, t_var **env_lst)
 {
+	int	i;
+
 	parsing_final(tokens, *env_lst);
 	arg_count(tokens, command);
-	if (parsing_opers(tokens, command, env_lst) == -1)
+	i = parsing_opers(tokens, command, env_lst);
+	if (i == -1)
+	{
+		ft_putstr_fd("Minishell: ", 2);
+		ft_putstr_fd(command->oper_value, 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+		change_status(env_lst, 1);
+	}
+	if (i == -2)
+	{
+		change_status(env_lst, 258);
+		return (-1);
+	}
+	if (i == -3)
+		change_status(env_lst, 1);
+	if (i < 0)
 		return (-1);
 	return (0);
 }
