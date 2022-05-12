@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 15:15:41 by vismaily          #+#    #+#             */
-/*   Updated: 2022/05/12 15:46:48 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/05/12 16:33:42 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,12 @@
 
 static int	exit_status_correct(long res)
 {
-	double	num;
-	long	int_part;
+	long double	num;
+	long		int_part;
 
 	if (res >= 0 && res <= 255)
 		return (res);
-	num = (double)res / 256;
-	printf("%f \n", num);
+	num = (long double)res / 256;
 	int_part = (long)num;
 	num = (num - int_part) * 256;
 	if (num >= ((long)num + 0.5))
@@ -41,18 +40,19 @@ static int	parsing_code(t_command *command, int *k)
 	i = -1;
 	while (command->args[1][++i] != '\0')
 		if (!(ft_isdigit(command->args[1][i]) == 1 || \
-				(i == 0 && command->args[1][i] == '-')))
+				(i == 0 && command->args[1][i] == '-') || \
+				(i == 0 && command->args[1][i] == '+')))
 			break ;
 	if (command->args[1][i] == '\0')
 	{
-		res = ft_atoi(command->args[1]);
+		res = ft_atoi(command->args[1], k);
 		res = exit_status_correct(res);
 	}
 	else
 	{
 		*k = 1;
 		ft_putstr_fd("exit\n", 2);
-		ft_putstr_fd("Minishell:: exit: ", 2);
+		ft_putstr_fd("Minishell: exit: ", 2);
 		ft_putstr_fd(command->args[1], 2);
 		ft_putstr_fd(": numeric argument required\n", 2);
 		res = 255;
