@@ -6,26 +6,27 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 15:15:41 by vismaily          #+#    #+#             */
-/*   Updated: 2022/05/03 12:29:24 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/05/12 15:46:48 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	exit_status_correct(int res)
+static int	exit_status_correct(long res)
 {
-	float	num;
-	int		int_part;
+	double	num;
+	long	int_part;
 
 	if (res >= 0 && res <= 255)
 		return (res);
-	num = (float)res / 256;
-	int_part = (int)num;
+	num = (double)res / 256;
+	printf("%f \n", num);
+	int_part = (long)num;
 	num = (num - int_part) * 256;
-	if (num >= ((int)num + 0.5))
-		res = (int)num + 1;
+	if (num >= ((long)num + 0.5))
+		res = (long)num + 1;
 	else
-		res = (int)num;
+		res = (long)num;
 	if (res < 0)
 		return (256 + res);
 	else
@@ -34,8 +35,8 @@ static int	exit_status_correct(int res)
 
 static int	parsing_code(t_command *command, int *k)
 {
-	int	res;
-	int	i;
+	long	res;
+	int		i;
 
 	i = -1;
 	while (command->args[1][++i] != '\0')
