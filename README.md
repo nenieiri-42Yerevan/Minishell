@@ -65,6 +65,252 @@ After that you will see the executable minishell. Lastly you should run the exec
 You will be provided with a prompt and can use it as a shell.
 
 ## Test cases
+### __cd__:
+``` sh
+cd
+cd .
+cd ..
+cd /Users
+cd /
+cd '/'
+cd //////
+cd ./././
+cd ../../..
+cd '/////' >/dev/null
+cd "$PWD/directory"
+cd $PWD/directory
+cd $OLDPWD/directory
+cd "doesntexist"
+cd ?
+cd +
+cd _
+cd woof
+cd bark bark
+```
+### __echo__:
+``` sh
+echo
+echo echo
+eCho 
+eChO
+eCHO
+ECHO
+echo rhobebou
+echo stop barking
+echo nenie_iri
+echo 'nenie_iri'
+echo "nenie_iri"
+echo -n
+echo -n nenie_iri
+echo -nn nenie_iri
+echo -n -n -n nenie_iri
+echo "-n" nenie_iri
+echo -n"-n" nenie_iri
+echo "-nnnn" nenie_iri
+echo "-n -n -n"-n nenie_iri
+echo "-n -n" nenie_iri
+echo "-n '-n'" nenie_iri
+echo $USER
+echo "$USER"
+echo '$USER'
+echo "'$USER'"
+echo " '$USER' "
+echo nenie_iri"$USER"
+echo nenie_iri"'$USER'" ' $USER '
+echo "nenie_iri"   "$USER"    "$USER"
+echo '              $USER          '
+echo               nenie_iri "$USER"            "$USER"nenie_iri
+echo ''''''''''$USER''''''''''
+echo """"""""$USER""""""""
+echo $USER'$USER'text oui oui     oui  oui $USER oui      $USER ''
+echo $USER '' $USER $USER '' $USER '' $USER -n $USER
+echo ' \' ' \'
+echo "$USER""$USER""$USER"
+echo nenie"$USER"iri
+echo '$USER' "$USER" "nenie \' iri"
+echo $USER " "
+echo "$USER""Users/$USER/file""'$USER'"'$USER'
+echo "$USER$USER$USER"
+echo '$USER'"$USER"'$USER'
+echo '"$USER"''$USER'"""$USER"
+echo " $USER  "'$PWD'
+echo $USER=4
+echo $?
+echo $USER213
+echo "$USER=12$USER"
+echo $PWD
+echo $PWD/file
+echo "$PWD/file"
+echo "nenie_iri" "nenie_iri$USER" ... "$USER"
+echo test      tout
+```
+### __exit__ (try with __echo $?__):
+``` sh
+exit 0 0
+exit 42 42
+exit -42 -24
+exit 42
+exit 42 53 68
+exit 259
+exit -12030
+exit --1239312
+exit ++++1203020103
+exit +0
+exit ++++++0
+exit -----0
+exit wrong
+exit a
+exit 1
+exit "1"
+exit "+102"
+exit "1230"
+exit "+++1230"
+exit "1"23
+exit "2"32"32"
+exit "'42'"
+exit '42'"42"42
+exit +'42'"42"42
+exit -'42'"42"42
+exit 9223372
+exit -9223372
+exit 9223372036854775807
+exit 9223372036854775808
+exit 9223372036854775807135813514351
+exit -9223372036854775807135813514351
+exit 9223372036854775807135813514351 1351351531
+exit -4
+exit -1
+exit 0
+exit --000
+exit "something"
+exit export
+exit echo
+exit cd ..
+exit something somethingv2
+exit 42 42 42 42 42
+exit echo something
+exit exit
+```
+### __export__:
+``` sh
+env | grep "_="
+export | grep "SHLVL"
+export | grep "OLDPWD"
+export | grep "PWD"
+export $?
+export TEST
+export TEST=
+export TEST=123
+export ___TEST=123
+export ""=""
+export ''=''
+export "="="="
+export '='='='
+export TE-ST=100
+export TEST-=100
+export _TEST=100
+export _TEST=100
+export ==========
+export 1TEST=
+export TES=T=""
+export TE+S=T=""
+export TES.T=123
+export TES+T=123
+export TES}T=123
+export TES_T=123
+export TE*ST=123
+export TES#T=123
+export TES@T=123
+export TES$?T=123
+export =============123
+export +++++++=123
+export ________=123
+export export
+export echo
+export pwd
+export unset
+export TES^T=123
+export TEST+=100
+```
+### __unset__:
+``` sh
+unset
+unset doesntexist
+unset PWD
+unset PWD
+unset OLDPWD
+unset PATH
+unset PATH
+unset PATH
+unset TES.T
+unset TES+T
+unset TES=T
+unset TES}T
+unset TES-T
+unset _TEST
+unset TES_T
+unset TEST_
+unset TE*ST
+unset TES#T
+unset TES@T
+unset TES$?T
+unset ============
+unset +++++++
+unset ________
+unset export
+unset echo
+unset unset
+unset TES^T
+```
+### __errors__ (try with __echo $?__):
+``` sh
+test
+echo > <
+<
+hello world
+cat wouaf wouaf
+>
+> > > >
+>> >> >> >>
+<<
+EechoE
+.echo.
+>echo>
+<echo<
+>>echo>>
+rm -f something
+cat something
+your minishell is perfect
+cat < ls
+cat < ls > ls
+```
+### __pipes__:
+``` sh
+env | grep "SHLVL"
+echo oui | cat -e
+echo oui | echo non | echo something | grep oui
+echo oui | echo non | echo something | grep non
+echo oui | echo non | echo something | grep something
+cd .. | echo "something"
+cd .. | pwd
+ifconfig | grep ":"
+ifconfig | grep nothing
+whoami | grep $USER
+cat Makefile | grep "FLAGS"
+cat Makefile | cat -e | cat -e
+cat Makefile | grep "FLAGS" | grep "FLAGS" | cat -e
+export TEST=123 | cat -e | cat -e
+unset TEST | cat -e
+echo test | cat -e | cat -e | cat -e
+whereis ls | cat -e | cat -e > test
+echo test | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e
+ls -la | grep "."
+cat tests/lorem.txt | grep arcu | cat -e
+cat /dev/random | head -c 100 | wc -c
+ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls
+env | sort | grep -v SHLVL | grep -v _=
+export | sort | grep -v SHLVL | grep -v _= | grep -v OLDPWD
+```
 
 ### Additional information
 In my implementation I don't use any global variable and the project doesn't have any memory leak.
