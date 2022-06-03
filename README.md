@@ -6,7 +6,6 @@ __42 project__ about creating a simple shell. MiniShell will introduce you to th
 ## Introduction
 The existence of shells is linked to the very existence of IT. At the time, all developers agreed that communicating with a computer using aligned 1/0 switches was seriously irritating. It was only logical that they came up with the idea of creating a software to communicate with a computer using interactive lines of commands in a language somewhat close to the human language. Thanks to Minishell, you’ll be able to travel through time and come back to problems people faced when Windows didn’t exist.
 
-___
 ## Prerequisites
 The shell needs to do a bunch of stuff, so just make sure you don’t do the following stuff:
 
@@ -15,7 +14,6 @@ The shell needs to do a bunch of stuff, so just make sure you don’t do the fol
 - Do not leak memory and leak file descriptors (also not in your child processes on command execution);
 - The shell must not crash in any scenario, its a shell, the only possible interaction you have with your OS, dont let it crash as then you shall be doomed.
 
-___
 ## About the project
 The behavior of the minishell is heavily based on the bash behavior. For every point, take bash as a reference. It is implemented with the rules described below.
 
@@ -48,7 +46,6 @@ Implement the following ___functions___:
     - `ctrl-D` exits the shell.
     - `ctrl-\` does nothing.
 
-___
 ## Installation
 > ⚠️ **Warning**: Don't copy/paste code you don't understand: it's bad for you, and for the school.
 
@@ -67,11 +64,10 @@ After that you will see the executable minishell. Lastly you should run the exec
 ```
 You will be provided with a prompt and can use it as a shell.
 
-___
 ## Test cases
 
-___
 ### Additional information
 In my implementation I don't use any global variable and the project doesn't have any memory leak.
 These are big plus.
+
 ![Minishell and 42Yerevan](./Minishell.jpg)
