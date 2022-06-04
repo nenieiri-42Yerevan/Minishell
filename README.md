@@ -54,7 +54,13 @@ If you don't have gcc or GNU make do this commands:
 sudo apt update
 sudo apt install build-essential
 ```
-
+The program work both on MacOS and on Linux. <br>
+For Linux you need to do this additional command:
+``` sh
+sudo apt-get install lib32readline8 lib32readline-dev
+```
+The rest of the commands are the same for both MacOS and Linux (Ubuntu)
+___
 First of all for this project you need to install GNU readline library. For that do this commands:
 ```sh
 wget ftp://ftp.gnu.org/gnu/readline/readline-8.1.tar.gz
