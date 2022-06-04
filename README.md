@@ -49,6 +49,12 @@ Implement the following ___functions___:
 ## Installation
 > ⚠️ **Warning**: Don't copy/paste code you don't understand: it's bad for you, and for the school.
 
+If you don't have gcc or GNU make do this commands:
+``` sh
+sudo apt update
+sudo apt install build-essential
+```
+
 First of all for this project you need to install GNU readline library. For that do this commands:
 ```sh
 wget ftp://ftp.gnu.org/gnu/readline/readline-8.1.tar.gz
@@ -57,6 +63,8 @@ cd readline-8.1
 ./configure --prefix=/$HOME/readline
 make
 make install
+cd ..
+rm -rf readline-8.1 readline-8.1.tar.gz
 ```
 
 Now, to use this project you need to clone this repository, by running the following command:
