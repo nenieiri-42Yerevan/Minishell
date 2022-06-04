@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 20:07:23 by vismaily          #+#    #+#             */
-/*   Updated: 2022/04/19 15:48:41 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/06/04 13:16:36 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,14 @@ static int	split_ifs(t_token *tmp, char *ifs, int *i)
 	while (ft_strchr(ifs, tmp->value[++j]) != 0 && tmp->value[j] != '\0')
 		;
 	new_elem = lst_new_elem_token('w', ft_strdup(&(tmp->value[j])));
-	new_elem->quote = ft_strdup(&(tmp->value[j]));
+	new_elem->quote = ft_strdup(&(tmp->quote[j]));
 	new_elem->next = tmp->next;
 	tmp->next = new_elem;
 	new_str = ft_strdup(tmp->value);
 	free(tmp->value);
 	tmp->value = new_str;
 	new_str = ft_strdup(tmp->quote);
+	free(tmp->quote);
 	tmp->quote = new_str;
 	return (1);
 }
@@ -55,7 +56,7 @@ static void	search_ifs(t_token **tokens, char *ifs)
 					while (!(tmp->value[++i] == '\"' && tmp->quote[i] == '1'))
 						;
 				else if (ft_strchr(ifs, tmp->value[i]) != 0 && \
-						split_ifs(tmp, ifs, &i))
+						tmp->quote[i] == '2' && split_ifs(tmp, ifs, &i))
 					break ;
 			}
 		}

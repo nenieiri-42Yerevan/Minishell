@@ -6,7 +6,7 @@
 /*   By: vismaily <nenie_iri@mail.ru>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 17:00:36 by vismaily          #+#    #+#             */
-/*   Updated: 2022/05/03 12:49:50 by vismaily         ###   ########.fr       */
+/*   Updated: 2022/06/04 12:57:29 by vismaily         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	my_replace(t_token *tokens, int i, int j, t_var *env_lst)
 	if (new_blank == 0)
 		return (-1);
 	new_blank[ft_strlen(env_lst->value)] = '\0';
-	ft_memset(new_blank, '0', ft_strlen(env_lst->value));
+	ft_memset(new_blank, '2', ft_strlen(env_lst->value));
 	tokens->quote[i] = '\0';
 	new_str = ft_strjoin(tokens->quote, new_blank);
 	free(new_blank);
