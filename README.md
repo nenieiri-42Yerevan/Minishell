@@ -95,6 +95,9 @@ eCho
 eChO
 eCHO
 ECHO
+echo $
+echo "$"
+echo '$'
 echo rhobebou
 echo stop barking
 echo nenie_iri
@@ -324,6 +327,17 @@ cd a/b
 rm -rf ../../a
 cd ../
 ```
+
+``` sh
+export a="nenie'iri"
+echo $a
+```
+
+``` sh
+cat /dev/urandom | head -10
+```
+```Check leaks when interrupt from heredoc (CTRL-C)```
+```Check SHLVL```
 ___
 ### Additional information
 In my implementation I don't use any global variable and the project doesn't have any memory leak.
