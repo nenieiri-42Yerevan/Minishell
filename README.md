@@ -61,11 +61,12 @@ sudo apt-get install lib32readline8 lib32readline-dev
 ```
 The rest of the commands are the same for both MacOS and Linux (Ubuntu)
 ___
-First of all for this project you need to install GNU readline library. For that do this commands:
+First of all for this project you need to install GNU readline library. For that do this command:
 ```sh
 wget ftp://ftp.gnu.org/gnu/readline/readline-8.1.tar.gz
 ```
-(Or you can download readline-8.1.tar.gz from [__HERE__](https://ftp.gnu.org/gnu/readline/))
+(Or you can download readline-8.1.tar.gz from [__HERE__](https://ftp.gnu.org/gnu/readline/)) <br>
+After that do this commands:
 ``` sh
 tar xvfz readline-8.1.tar.gz
 cd readline-8.1
