@@ -311,7 +311,20 @@ ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls
 env | sort | grep -v SHLVL | grep -v _=
 export | sort | grep -v SHLVL | grep -v _= | grep -v OLDPWD
 ```
+### 😈 Extra cases 😈:
+``` sh
+export IFS=_
+export a=nenie_iri
+touch $a
+```
 
+``` sh
+mkdir -p a/b
+cd a/b
+rm -rf ../../a
+cd ../
+```
+___
 ### Additional information
 In my implementation I don't use any global variable and the project doesn't have any memory leak.
 These are big plus.
