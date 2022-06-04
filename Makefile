@@ -22,7 +22,7 @@ else ifeq ($(UNIX_NAME),Linux)
 LINKERS		= -lft -L$(LIBFT) -lreadline -ltinfo -L $(HOME)/readline/lib
 endif
 
-INCLUDES	= -I ./includes -I $(HOME)/include
+INCLUDES	= -I ./includes -I $(HOME)/readline/include
 
 RM			= rm -rf
 
