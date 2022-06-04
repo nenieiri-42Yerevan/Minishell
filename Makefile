@@ -14,7 +14,13 @@ LIB			= ./libs
 
 LIBFT		= $(LIB)/libft
 
+UNIX_NAME	= $(shell uname -s)
+
+ifeq ($(UNIX_NAME),Darwin)
 LINKERS		= -lft -L$(LIBFT) -lreadline -L $(HOME)/lib
+else ifeq ($(UNIX_NAME),Linux)
+LINKERS		= -lft -L$(LIBFT) -lreadline -ltinfo -L $(HOME)/lib
+endif
 
 INCLUDES	= -I ./includes -I $(HOME)/include
 
