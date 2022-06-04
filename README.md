@@ -58,6 +58,9 @@ sudo apt install build-essential
 First of all for this project you need to install GNU readline library. For that do this commands:
 ```sh
 wget ftp://ftp.gnu.org/gnu/readline/readline-8.1.tar.gz
+```
+(Or you can download readline-8.1.tar.gz from [__HERE__](https://ftp.gnu.org/gnu/readline/))
+``` sh
 tar xvfz readline-8.1.tar.gz
 cd readline-8.1
 ./configure --prefix=/$HOME/readline
