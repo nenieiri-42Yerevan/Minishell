@@ -336,7 +336,7 @@ echo $a
 ``` sh
 cat /dev/urandom | head -10
 ```
-```Check leaks when interrupt from heredoc (CTRL-C)```
+```Check leaks when interrupt from heredoc (CTRL-C)``` <br>
 ```Check SHLVL```
 ___
 ### Additional information
