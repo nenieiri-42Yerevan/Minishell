@@ -366,6 +366,9 @@ cat /dev/urandom | head -10
 ```
 ```Check leaks when interrupt from heredoc (CTRL-C)``` <br>
 ```Check SHLVL```
+### Useful links
+[Udemy - bash-mastery course](https://www.udemy.com/course/bash-mastery/)
+[Unix Processes in C](https://www.youtube.com/watch?v=cex9XrZCU14&list=PLfqABt5AS4FkW5mOn2Tn9ZZLLDwA3kZUY)
 ___
 ### Additional information
 In my implementation I don't use any global variable and the project doesn't have any memory leak.
