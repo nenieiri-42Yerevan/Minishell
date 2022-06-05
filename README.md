@@ -115,6 +115,7 @@ cd _
 cd woof
 cd bark bark
 ```
+___
 ### __echo__:
 ``` sh
 echo
@@ -175,6 +176,7 @@ echo "$PWD/file"
 echo "nenie_iri" "nenie_iri$USER" ... "$USER"
 echo test      tout
 ```
+___
 ### __exit__ (try with __echo $?__):
 ``` sh
 exit 0 0
@@ -222,6 +224,7 @@ exit 42 42 42 42 42
 exit echo something
 exit exit
 ```
+___
 ### __export__:
 ``` sh
 env | grep "_="
@@ -263,6 +266,7 @@ export unset
 export TES^T=123
 export TEST+=100
 ```
+___
 ### __unset__:
 ``` sh
 unset
@@ -293,6 +297,7 @@ unset echo
 unset unset
 unset TES^T
 ```
+___
 ### __errors__ (try with __echo $?__):
 ``` sh
 test
@@ -315,6 +320,7 @@ your minishell is perfect
 cat < ls
 cat < ls > ls
 ```
+___
 ### __pipes__:
 ``` sh
 env | grep "SHLVL"
@@ -342,6 +348,7 @@ ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls
 env | sort | grep -v SHLVL | grep -v _=
 export | sort | grep -v SHLVL | grep -v _= | grep -v OLDPWD
 ```
+___
 ### 😈 Extra cases 😈:
 ``` sh
 export IFS=_
@@ -366,6 +373,7 @@ cat /dev/urandom | head -10
 ```
 ```Check leaks when interrupt from heredoc (CTRL-C)``` <br>
 ```Check SHLVL```
+___
 ### Useful links
 [Udemy - bash-mastery course](https://www.udemy.com/course/bash-mastery/) <br>
 [Unix Processes in C](https://www.youtube.com/watch?v=cex9XrZCU14&list=PLfqABt5AS4FkW5mOn2Tn9ZZLLDwA3kZUY)
