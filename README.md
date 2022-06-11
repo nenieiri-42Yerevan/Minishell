@@ -127,9 +127,8 @@ ECHO
 echo $
 echo "$"
 echo '$'
-echo rhobebou
-echo stop barking
 echo nenie_iri
+echo nenie iri
 echo 'nenie_iri'
 echo "nenie_iri"
 echo -n
@@ -380,6 +379,6 @@ ___
 ___
 ### Additional information
 In my implementation I don't use any global variable and the project doesn't have any memory leak.
-These are big plus.
+These are big pluses.
 
 ![Minishell and 42Yerevan](./Minishell.jpg)
