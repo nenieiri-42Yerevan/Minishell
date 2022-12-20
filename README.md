@@ -379,6 +379,5 @@ ___
 ___
 ### Additional information
 In my implementation I don't use any global variable and the project doesn't have any memory leak.
-These are big pluses.
 
 ![Minishell and 42Yerevan](./Minishell.jpg)
