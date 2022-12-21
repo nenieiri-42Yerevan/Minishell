@@ -214,13 +214,13 @@ exit -4
 exit -1
 exit 0
 exit --000
-exit "something"
+exit "nenie_iri"
 exit export
 exit echo
 exit cd ..
-exit something somethingv2
+exit nenie iri
 exit 42 42 42 42 42
-exit echo something
+exit echo nenie_iri
 exit exit
 ```
 ___
