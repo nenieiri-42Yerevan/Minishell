@@ -348,7 +348,7 @@ env | sort | grep -v SHLVL | grep -v _=
 export | sort | grep -v SHLVL | grep -v _= | grep -v OLDPWD
 ```
 ___
-### 😈 Other cases 😈:
+### __Other cases__:
 ``` sh
 export a="nenie'iri"
 echo $a
