@@ -348,6 +348,17 @@ env | sort | grep -v SHLVL | grep -v _=
 export | sort | grep -v SHLVL | grep -v _= | grep -v OLDPWD
 ```
 ___
+### 😈 Other cases 😈:
+``` sh
+export a="nenie'iri"
+echo $a
+```
+``` sh
+cat /dev/urandom | head -10
+```
+```Check leaks when interrupt from heredoc (CTRL-C)``` <br>
+```Check SHLVL```
+___
 ### 😈 Extra cases 😈:
 ``` sh
 export IFS=_
@@ -361,17 +372,6 @@ cd a/b
 rm -rf ../../a
 cd ../
 ```
-
-``` sh
-export a="nenie'iri"
-echo $a
-```
-
-``` sh
-cat /dev/urandom | head -10
-```
-```Check leaks when interrupt from heredoc (CTRL-C)``` <br>
-```Check SHLVL```
 ___
 ### Useful links
 [Udemy - bash-mastery course](https://www.udemy.com/course/bash-mastery/) <br>
