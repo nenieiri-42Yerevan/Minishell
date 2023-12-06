@@ -79,11 +79,11 @@ rm -rf readline-8.1 readline-8.1.tar.gz
 
 Now, to use this project you need to clone this repository, by running the following command:
 ``` sh
-git clone https://github.com/nenieiri-42Yerevan/42_Minishell.git
+git clone https://github.com/nenieiri-42Yerevan/Minishell.git
 ```
 Then you should go to the cloned repo and run the make command:
 ``` sh
-cd 42_Minishell
+cd Minishell
 make
 ```
 After that you will see the executable minishell. Lastly you should run the executable:
