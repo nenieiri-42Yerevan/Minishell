@@ -55,7 +55,7 @@ sudo apt update
 sudo apt install build-essential
 ```
 The program work both on MacOS and on Linux. <br>
-For Linux you need to do this additional command:
+For Linux you need to run this additional command:
 ``` sh
 sudo apt-get install lib32readline8 lib32readline-dev
 ```
